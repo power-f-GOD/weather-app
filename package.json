@@ -1,0 +1,48 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "A Weather App created for the GADS 2020 Practice Project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'No tests found'",
+    "start": "webpack-dev-server --open",
+    "tsc:w": "tsc --watch",
+    "sass": "node-sass -w --output-style=compressed src/styles/index.scss src/styles/index.min.css",
+    "webpack": "npx webpack --config webpack.config.js",
+    "build:w": "webpack --watch --mode=production",
+    "build": "webpack --mode=production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/power-f-GOD/weather-app.git"
+  },
+  "keywords": [
+    "Weather",
+    "App",
+    "GADS",
+    "2020",
+    "Mobile",
+    "Web",
+    "Specialist"
+  ],
+  "author": "Power'f-GOD",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/power-f-GOD/weather-app/issues"
+  },
+  "homepage": "https://github.com/power-f-GOD/weather-app#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^4.2.2",
+    "file-loader": "^6.1.0",
+    "html-loader": "^1.3.0",
+    "html-webpack-plugin": "^4.4.1",
+    "node-sass": "^4.14.1",
+    "style-loader": "^1.2.1",
+    "ts-loader": "^8.0.3",
+    "typescript": "^4.0.2",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
