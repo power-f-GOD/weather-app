@@ -1,11 +1,22 @@
-<nav>
+<nav class="Nav hide">
   <div class="container">
-    <div class="nav-side-bar-wrapper"></div>
-    <div class="nav-search-wrapper">
-      <form method="GET">
-        <input type="search" id="search-input" placeholder="Search..." />
-        <button id="search">Search</button>
-      </form>
+    <button class="menu-button icon-button">
+      <span class="1"></span><span class="2"></span><span class="3"></span>
+    </button>
+    <div class='emblem'>
+      <span class='image'></span>
+      <div>
+        <span>Weather</span>
+        <span>App</span>
+      </div>
     </div>
+
+    <form method="GET" class="search-form d-flex justify-content-end align-content-center">
+      <input type="search" class="search-input" placeholder="Search location..." />
+      <button class="search-button icon-button"></button>
+    </form>
   </div>
 </nav>
+<div class="search-results-overlay">
+  <div class="container"></div>
+</div>

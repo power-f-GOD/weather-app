@@ -5,10 +5,13 @@ import Home from '../components/Home.html';
 
 import nav from './nav';
 import home from './home';
+
 import { render } from './utils';
 
 const App = () => {
-  return Nav + `<section class='View'>${Home}</section>`;
+  return `
+  ${Nav}
+  <main class='View'>${Home}</main>`;
 };
 
 render(App(), document.querySelector('#app'));

@@ -1,0 +1,75 @@
+@import 'constants.scss';
+
+.Main {
+  animation: mainSlideIn 0.5s;
+  background-color: white;
+
+  .container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // @include debugger();
+  }
+
+  .tab-links-container {
+    display: inline-flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 18rem;
+    margin-top: 0.25rem;
+    padding: 0 0 0.5rem;
+
+    
+  }
+
+  .tab-link {
+    color: $theme-primary-v4;
+    font-size: 0.8rem;
+    font-weight: bolder;
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    transition: 0.35s;
+
+    &.active {
+      color: $theme-primary-v5;
+      background-color: rgba($prim-r + 50, $prim-g + 50, $prim-b + 50, 0.15);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: rgba($prim-r + 25, $prim-g + 25, $prim-b + 25, 0.25);
+    }
+  }
+
+  h2 {
+    font-size: 0.9rem;
+    font-weight: bolder;
+    text-align: left;
+    margin: 1.75rem 1rem 0.75rem;
+    width: calc(100% - 2rem);
+  }
+
+  .scroll-section {
+    border-radius: 1rem;
+    max-height: 25vh;
+    width: calc(100% - 2rem);
+    height: 12rem;
+    margin: 0.25rem 1rem 1rem;
+    display: flex;
+    overflow-x: auto;
+    text-align: left;
+    // @include debugger($color: grey);
+  }
+}
+
+@keyframes mainSlideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+

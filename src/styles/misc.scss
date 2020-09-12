@@ -1,20 +1,141 @@
-html,body {
+@import 'constants';
+
+html,
+body {
   margin: 0;
   height: 100%;
+}
 
- 
+* {
+  box-sizing: border-box;
+  font-family: 'Comfortaa', 'Trebuchet MS', 'Lucida Sans Unicode',
+    'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 #app {
   height: 100%;
+  // padding: 1rem;
+}
+
+.View {
+  display: flex;
+
+  & > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+a,
+button {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button {
+  min-height: 3rem;
+  min-width: 3rem;
+
+  &.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 50%;
+    border: none;
+    background: {
+      color: transparent;
+      repeat: no-repeat;
+      size: 1.75rem;
+    }
+    transition: background-color 0.35s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    &:focus {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0.25rem 0;
+}
+
+h1 {
+  font-size: 3.1rem;
+}
+
+h2 {
+  font-size: 2.4rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.6rem;
+}
+
+h5 {
+  font-size: 1.3rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+.container {
+  max-width: 55rem;
+  margin: auto;
 }
 
 .d-flex {
   display: flex;
 }
 
-.container {
-  max-width: 40rem;
-  margin: auto;
-  background-color: green;
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.align-content-center {
+  align-content: center;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

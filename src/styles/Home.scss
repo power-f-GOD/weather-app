@@ -1,10 +1,67 @@
+@import 'constants';
+
 .Home {
   height: 100vh;
   width: 100vw;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: {
-    image: url('../images/rocks.jpg');
+    image: linear-gradient(to top, $theme-primary-v3, $theme-primary-v8);
     size: cover;
     position: center;
     repeat: no-repeat;
+  }
+  transform: translateX(0);
+  transition: transform 0.35s;
+  animation: fadeIn 0.75s;
+
+  &.hide {
+    transform: translateX(-100%);
+  }
+
+  .cloud-image {
+    $size: 10rem;
+
+    height: $size;
+    width: $size;
+    overflow: hidden;
+    background: {
+      image: url('../images/cloudy-sun.png');
+      size: contain;
+      position: center 2rem;
+      repeat: no-repeat;
+    }
+  }
+
+  h1 {
+    color: white;
+    text-align: center;
+    margin: 1rem 0 0.5rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: $theme-primary-v8;
+  }
+
+  button {
+    margin-top: 15vh;
+    padding: 1.1rem 4rem;
+    border-radius: 3rem;
+    border: 0.125rem solid #ddd;
+    color: #eee;
+    background-color: transparent;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.35s;
+
+    &:hover,
+    &:focus {
+      background-color: #ddd;
+      color: $theme-primary-v5;
+    }
   }
 }

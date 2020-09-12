@@ -1,0 +1,37 @@
+@media screen and (max-width: 767px) {
+  .card {
+    &.type-a {
+      h1 {
+        font-size: 14vh;
+      }
+    }
+
+    &.type-b {
+      margin-right: 1rem;
+      min-width: 8.5rem;
+    }
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .card {
+    &.type-a {
+      max-height: 40vh;
+      padding-left: 1.15rem;
+
+      h1 {
+        font-size: 12vh;
+      }
+
+      .weather-image {
+        width: 8rem;
+        bottom: -2rem;
+        right: 0.25rem;
+      }
+    }
+
+    &.type-b {
+      min-width: 7.5rem;
+    }
+  }
+}
