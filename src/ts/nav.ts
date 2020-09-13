@@ -1,10 +1,9 @@
 import { Q, getData, render, addEventListenerOnce } from './utils';
 import { CitiesResponse } from './types';
 
-
-
 export default function nav() {
   // const Nav = Q('nav');
+  const CityLocation = Q('.Nav .location') as HTMLElement;
   const SearchButton = Q('.search-button') as HTMLElement;
   const SearchInput = Q('.search-input') as HTMLInputElement;
   const SearchResultsWrapper = Q('.search-results-overlay') as
@@ -97,14 +96,17 @@ export default function nav() {
     callTransitionEndListener();
   };
 
-  SearchButton.onclick = handleSearch;
+  SearchButton.onclick = () => SearchInput.focus();
   SearchInput.onkeyup = handleSearch;
   SearchInput.onfocus = (e: any) => {
     if (e.target.value.trim()) {
       SearchResultsWrapper.classList.add('show');
       callTransitionEndListener();
     }
+
+    CityLocation.classList.add('hide');
   };
+  SearchInput.onblur = () => CityLocation.classList.remove('hide');
   SearchResultsWrapper.setAttribute('inert', true);
   SearchResultsWrapper.onclick = (e: any) => {
     if (/-overlay/.test(e.target.className)) {

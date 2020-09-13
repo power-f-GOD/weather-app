@@ -8,8 +8,20 @@ export const Card = (props: CardDataProps) => {
     case 'A':
       return `
       <div class="card type-a condition--${weatherImage}--0">
+        <div class='top'>
+          <p class='feels-like-container'>
+            <span>feels like<span>
+            <br />
+            <span class='feels-like'>30&deg;<span>
+          </p>
+          <p class='wind-speed-container'>
+            <span>wind speed<span>
+            <br />
+            <span class='wind-speed'>1.5m/s<span>
+          </p>
+        </div>
         <h1>${degree}&deg;</h1>
-        <div class="text-left">
+        <div class="desc-wrapper text-left">
           <p class="desc">${desc}</p>
           <p class="humidity">Humidity</p>
           <p class="humidity-deg">${humidityDeg}&deg;</p>
@@ -28,17 +40,33 @@ export const Card = (props: CardDataProps) => {
 };
 
 export function updateCard(props: CardDataProps) {
-  const { type, degree, desc, humidityDeg, weatherImage, day, index } = props;
+  const {
+    type,
+    degree,
+    desc,
+    humidityDeg,
+    weatherImage,
+    feelsLike,
+    windSpeed,
+    day,
+    index,
+    weatherForToday,
+    isNightTime
+  } = props;
 
   switch (type) {
     case 'A':
       {
         const Card = Q('.card.type-a') as HTMLElement;
+        const FeelsLike = Q('.card.type-a .feels-like') as HTMLElement;
+        const WindSpeed = Q('.card.type-a .wind-speed') as HTMLElement;
         const Degree = Q('.card.type-a h1');
         const Desc = Q('.card.type-a .desc');
         const HumidityDeg = Q('.card.type-a .humidity-deg');
 
-        if (Card && Degree && Desc && HumidityDeg) {
+        if (Card && Degree && Desc && HumidityDeg && FeelsLike && WindSpeed) {
+          FeelsLike.textContent = feelsLike + '°';
+          WindSpeed.textContent = windSpeed + ' m/s';
           Degree.textContent = degree + '°';
           Desc.textContent = desc as string;
           HumidityDeg.textContent = humidityDeg + '°';
@@ -50,6 +78,10 @@ export function updateCard(props: CardDataProps) {
             );
           } else {
             Card.classList.add(`condition--${weatherImage}--0`);
+          }
+
+          if (weatherForToday && isNightTime) {
+            Card.classList.add('night-time');
           }
         }
       }

@@ -1,16 +1,23 @@
 @media screen and (max-width: 767px) {
+  .Home {
+    h1 {
+      font-size: 2.5rem;
+    }
+  }
+
   .card {
     &.type-a {
-      max-width: calc(100% - 2rem);
-
       h1 {
-        font-size: 14vh;
+        font-size: 12vh;
       }
-    }
 
-    &.type-b {
-      margin-right: 1rem;
-      min-width: 8.5rem;
+      .desc {
+        font-size: 0.95rem;
+      }
+
+      .weather-image {
+        width: 9rem;
+      }
     }
   }
 }
@@ -18,22 +25,33 @@
 @media screen and (max-width: 360px) {
   .card {
     &.type-a {
-      max-height: 44vh;
-      padding-left: 1.15rem;
+      min-height: 14rem;
+      padding: {
+        left: 1rem;
+        right: 1rem;
+      };
 
       h1 {
-        font-size: 12vh;
+        font-size: 10vh;
+      }
+
+      .top {
+        width: calc(100% - 2rem);
+      }
+
+      .desc-wrapper {
+        bottom: 0.75rem;
+      }
+
+      .desc {
+        font-size: 0.85rem;
       }
 
       .weather-image {
-        width: 8rem;
+        width: 7rem;
         bottom: -2rem;
-        right: 0.25rem;
+        right: -1rem;
       }
-    }
-
-    &.type-b {
-      min-width: 7.5rem;
     }
   }
 }

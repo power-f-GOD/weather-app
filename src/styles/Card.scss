@@ -1,0 +1,277 @@
+@import 'constants';
+
+.card {
+  display: inline-flex;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+
+  .weather-image {
+    display: inline-block;
+    min-height: 4rem;
+    background: {
+      size: contain;
+      position: center;
+      repeat: no-repeat;
+      image: url('../images/cloudy-sun.png');
+    }
+    transition: background-image 0.35s;
+  }
+
+  &.type-a {
+    position: relative;
+    overflow: hidden;
+    margin: 2vh 1rem;
+    padding: 0 1.5rem 1.75rem 1.5rem;
+    width: calc(100% - 2rem);
+    height: 36vh;
+    min-height: 16.5rem;
+    max-width: 27rem;
+    border-radius: 1.5rem;
+    background: {
+      color: white;
+      image: linear-gradient(to top, $theme-primary-v5, $theme-primary-v7);
+    }
+
+    .top {
+      // @include debugger();
+      display: flex;
+      position: absolute;
+      width: calc(100% - 3rem);
+      top: 0.75rem;
+      justify-content: space-between;
+    }
+
+    .feels-like-container {
+      text-align: left;
+      font-size: 0.65rem;
+    }
+
+    .wind-speed-container {
+      text-align: right;
+      font-size: 0.65rem;
+    }
+
+    .feels-like,
+    .wind-speed {
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    h1 {
+      font-size: 14vh;
+      font-weight: lighter;
+      margin: -2rem 0 0 0.5rem;
+    }
+
+    .desc-wrapper {
+      position: absolute;
+      bottom: 1rem;
+      width: calc(100% - 2.75rem);
+    }
+
+    .desc {
+      opacity: 0.65;
+      font-size: 0.95rem;
+      max-width: calc(100% - 6rem);
+      z-index: 1;
+      position: relative;
+    }
+
+    .humidity {
+      margin: 1rem 0 0;
+      font-size: 0.8rem;
+      font-weight: bolder;
+    }
+
+    .humidity-deg {
+      font-weight: 900;
+      opacity: 0.45;
+      margin: 0;
+    }
+
+    .weather-image {
+      $size: 10rem;
+
+      width: $size;
+      height: $size;
+      position: absolute;
+      bottom: -1.65rem;
+      right: -0.45rem;
+      // background-image: url('');
+    }
+  }
+
+  &.type-b {
+    // max-width: 35vw;
+    margin-right: 1rem;
+    min-width: 8.25rem;
+    width: 8rem;
+    height: 11rem;
+    align-items: center;
+    justify-content: space-around;
+    background-image: linear-gradient(
+      to top,
+      $theme-tertiary-v3,
+      $theme-tertiary-v6
+    );
+    padding: 0.25rem;
+    border-radius: 1rem;
+
+    h3 {
+      font-size: 0.85rem;
+    }
+
+    .weather-image {
+      $size: 4.75rem;
+
+      width: $size;
+      height: $size;
+      background-size: contain;
+    }
+
+    p {
+      font-size: 1.25rem;
+      font-weight: bolder;
+    }
+  }
+
+  &.condition--cloudy-sun--0,
+  &.condition--clouds-sun-rain--0 {
+    background-image: linear-gradient(
+      to top,
+      $theme-primary-v6,
+      $theme-secondary-v7
+    );
+  }
+
+  &.condition--cloudy-sun--0 {
+    .weather-image {
+      background-image: url('../images/cloudy-sun.png');
+    }
+  }
+
+  &.condition--cloud-storm--0 {
+    .weather-image {
+      background-image: url('../images/cloud-storm.png');
+    }
+  }
+
+  &.condition--clouds-sun-rain--0 {
+    .weather-image {
+      background-image: url('../images/clouds-sun-rain.png');
+    }
+  }
+
+  &.condition--cloudy--0 {
+    background-image: linear-gradient(
+      to top,
+      $theme-primary-v5,
+      $theme-primary-v8
+    );
+
+    .weather-image {
+      bottom: -1.5rem !important;
+      background-image: url('../images/cloudy.png');
+    }
+  }
+
+  &.condition--atmosphere--0 {
+    background-image: linear-gradient(
+      to bottom,
+      $theme-tertiary-v6,
+      $theme-tertiary-v7
+    );
+
+    .weather-image {
+      bottom: 0 !important;
+      background-image: url('../images/atmosphere.png');
+    }
+  }
+
+  &.condition--rainy-cloud--0 {
+    background-image: linear-gradient(to top, $theme-primary, $theme-tertiary);
+
+    .weather-image {
+      background-image: url('../images/rainy-cloud.png');
+    }
+  }
+
+  &.condition--snowy-cloud--0 {
+    background-image: linear-gradient(
+      to bottom,
+      $theme-primary-v5,
+      $theme-primary-v8
+    );
+
+    .weather-image {
+      background-image: url('../images/snowy-cloud.png');
+    }
+  }
+
+  &.condition--sunny--0 {
+    background-image: linear-gradient(
+      to top,
+      $theme-secondary-v5,
+      $theme-secondary-v8
+    );
+
+    .weather-image {
+      bottom: -0.5rem !important;
+      background-image: url('../images/sunny.png');
+    }
+  }
+
+  &.condition--cloud-storm--0,
+  &.condition--thunder-cloud--0,
+  &.condition--thunder-storm--0 {
+    background-image: linear-gradient(
+      to top,
+      $theme-tertiary-v4,
+      $theme-tertiary-v7
+    );
+  }
+
+  &.condition--thunder-storm--0,
+  &.condition--thunder-cloud--0 {
+    background-image: linear-gradient(
+      to bottom,
+      $theme-tertiary-v6,
+      $theme-tertiary-v7
+    );
+  }
+
+  &.condition--thunder-cloud--0 {
+    .weather-image {
+      background-image: url('../images/thunder-cloud.png');
+    }
+  }
+
+  &.condition--thunder-storm--0 {
+    .weather-image {
+      background-image: url('../images/thunder-storm.png');
+    }
+  }
+
+  &.night-time {
+    background-image: linear-gradient(
+      to bottom,
+      $theme-primary-v2,
+      $theme-tertiary-v1
+    ) !important;
+
+    &.condition--cloudy-sun--0,
+    &.condition--sunny--0 {
+      .weather-image {
+        bottom: -1.75rem !important;
+        background-image: url('../images/cloudy.png');
+      }
+    }
+
+    &.condition--clouds-sun-rain--0 {
+      .weather-image {
+        background-image: url('../images/rainy-cloud.png');
+      }
+    }
+  }
+}

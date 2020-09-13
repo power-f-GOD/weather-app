@@ -17,10 +17,8 @@
     justify-content: space-around;
     width: 100%;
     max-width: 18rem;
-    margin-top: 0.25rem;
+    margin-top: 0.8vh;
     padding: 0 0 0.5rem;
-
-    
   }
 
   .tab-link {
@@ -48,20 +46,16 @@
     font-size: 0.9rem;
     font-weight: bolder;
     text-align: left;
-    margin: 1.75rem 1rem 0.75rem;
+    margin: 3vh 1rem 0.75rem;
     width: calc(100% - 2rem);
   }
 
   .scroll-section {
     border-radius: 1rem;
-    max-height: 25vh;
     width: calc(100% - 2rem);
-    height: 12rem;
     margin: 0.25rem 1rem 1rem;
     display: flex;
     overflow-x: auto;
-    text-align: left;
-    // @include debugger($color: grey);
   }
 }
 
@@ -73,5 +67,3 @@
     transform: translateX(0);
   }
 }
-
-

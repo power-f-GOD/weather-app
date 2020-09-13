@@ -1,4 +1,4 @@
-export type MainCardImageClassName =
+export type WeatherImageClassName =
   | 'cloud-storm'
   | 'clouds-sun-rain'
   | 'cloudy'
@@ -8,16 +8,31 @@ export type MainCardImageClassName =
   | 'snowy-cloud'
   | 'sunny'
   | 'thunder-cloud'
-  | 'thunder-storm';
+  | 'thunder-storm'
+  | 'atmosphere';
+
+export type WeatherResponseMain =
+  | 'clouds'
+  | 'thunderstorm'
+  | 'clear'
+  | 'drizzle'
+  | 'rainy'
+  | 'snow'
+  | 'tornado'
+  | 'fog';
 
 export interface CardDataProps {
   type: 'A' | 'B';
   degree: number;
   desc?: string;
   humidityDeg?: number;
-  weatherImage: MainCardImageClassName;
+  weatherImage: WeatherImageClassName;
   day?: string;
   index?: number;
+  weatherForToday?: boolean;
+  isNightTime?: boolean;
+  feelsLike?: number;
+  windSpeed?: number;
 }
 
 export interface ProcessorProps {
@@ -55,7 +70,7 @@ export interface WeatherInfoProps {
   temp: number | TempDaily;
   uvi: number;
   visibility: number;
-  weather: { description: string; main: string }[];
+  weather: { description: string; main: WeatherResponseMain }[];
   wind_deg: number;
   wind_speed: number;
 }

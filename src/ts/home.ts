@@ -4,13 +4,15 @@ import {
   Processor,
   render,
   getData,
-  delay
+  delay,
+  formatDate,
+  getMappedImageString
 } from './utils';
 
 import Main from '../components/Main.html';
 
 import main from './main';
-import { Card, updateCard } from './crumbs';
+import { Card, updateCard } from './card';
 import { WeatherResponseProps, TempDaily } from './types';
 
 const CardTypeB = Card({
@@ -56,44 +58,58 @@ export default function home() {
     exclude=daily&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
     ).then((data: WeatherResponseProps) => {
       const { current, daily } = data ?? {};
-      let { temp: degree, weather, humidity: humidityDeg } = current ?? {};
-      const desc = weather[0].description;
+      let {
+        temp: degree,
+        weather,
+        humidity: humidityDeg,
+        dt,
+        feels_like,
+        wind_speed
+      } = current ?? {};
+      const { description: desc, main: _main } = weather[0];
 
-      Button.textContent = 'Done!';
+      Button.textContent = 'All set!';
       delay(800).then(() => {
+        const currentHr = new Date(Date.now()).getHours();
         // console.log(longitude, latitude, location, 'data......', data);
         location;
         render(processMain, View, { adjacency: 'beforeend' });
-
         Home.classList.add('hide');
         addEventListenerOnce(Home, () => {
           View?.removeChild(Home as any);
           Nav.classList.remove('hide');
           Nav.inert = false;
         });
-        main();
+
         updateCard({
           degree: degree as number,
           desc: desc[0].toUpperCase() + desc.slice(1),
           humidityDeg,
+          windSpeed: wind_speed,
+          feelsLike: Number(feels_like.toFixed(1)),
           type: 'A',
-          weatherImage: 'thunder-cloud'
+          weatherForToday:
+            new Date(Number(`${dt}000`)).toDateString() ===
+            new Date().toDateString(),
+          isNightTime: currentHr >= 19 || currentHr < 7,
+          weatherImage: getMappedImageString(_main, desc)
         });
-        daily.slice(1).map(({ temp, dt }, index) => {
+
+        daily.slice(1).map(({ temp, dt, weather }, index) => {
           temp = temp as TempDaily;
 
+          const { description: desc, main: _main } = weather[0];
           const degree = Number(((temp.max + temp.min) / 2).toFixed(1));
 
           updateCard({
             degree,
             index,
-            day: new Date(Number(`${dt}000`))
-              .toDateString()
-              .replace(/(\w+)\s(\w+\s\d{1,2}).*/, '$1, $2'),
+            day: formatDate(dt),
             type: 'B',
-            weatherImage: 'sunny'
+            weatherImage: getMappedImageString(_main, desc)
           });
         });
+        main();
       });
     });
   };
@@ -112,7 +128,7 @@ export default function home() {
 
   const handleButtonClick = () => {
     Button.disabled = true;
-    Button.textContent = 'Getting weather info...';
+    Button.textContent = 'Please, wait...';
     navigator.geolocation.getCurrentPosition(
       (position: Position) => {
         const { latitude, longitude } = position.coords;

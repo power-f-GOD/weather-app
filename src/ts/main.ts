@@ -5,7 +5,6 @@ export default function main() {
 
   const handleLinkClick = (e: any) => {
     e.preventDefault();
-    console.log('should prevent...');
     TabLinks.forEach((TabLink) => {
       if (TabLink === e.target) {
         TabLink.classList.add('active');
@@ -14,7 +13,7 @@ export default function main() {
       }
     });
   };
-  
+
   if (TabLinks.length) {
     TabLinks.forEach((TabLink) =>
       TabLink.addEventListener('click', handleLinkClick)
