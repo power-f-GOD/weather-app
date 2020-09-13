@@ -3,6 +3,7 @@
 .Nav {
   position: fixed;
   top: 0;
+  max-width: 100vw;
   height: 3.75rem;
   width: 100%;
   z-index: 5;
@@ -10,7 +11,6 @@
   background-color: white;
   border-bottom: 1px solid #eee;
   transition: opacity 0.35s, transform 0.35s;
-  transition-delay: 0.3s;
 
   &.hide {
     opacity: 0;
@@ -28,7 +28,7 @@
   .emblem {
     display: inline-flex;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: bolder;
     color: #999;
 
@@ -63,7 +63,8 @@
 
   form {
     width: 100%;
-    margin-left: 0.5rem;
+    max-width: calc(100% - 7.75rem);
+    margin-left: 0.25rem;
   }
 
   & + *,
@@ -78,6 +79,7 @@
   padding: 0.75rem;
   background-color: rgba(0, 0, 0, 0.05);
   width: 10rem;
+  max-width: calc(100% - 3.5rem);
   border: none;
   transition: background-color 0.35s, width 0.35s;
 

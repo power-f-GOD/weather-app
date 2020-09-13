@@ -1,26 +1,5 @@
 import { Q, QAll } from './utils';
-
-export type MainCardImageClassName =
-  | 'cloud-storm'
-  | 'clouds-sun-rain'
-  | 'cloudy'
-  | 'cloudy-sun'
-  | 'rainbow-cloud'
-  | 'rainy-cloud'
-  | 'snowy-cloud'
-  | 'sunny'
-  | 'thunder-cloud'
-  | 'thunder-storm';
-
-interface CardDataProps {
-  type: 'A' | 'B';
-  degree: number;
-  desc?: string;
-  humidityDeg?: number;
-  weatherImage: MainCardImageClassName;
-  day?: string;
-  index?: number;
-}
+import { CardDataProps } from './types';
 
 export const Card = (props: CardDataProps) => {
   const { type, degree, desc, humidityDeg, weatherImage, day } = props;

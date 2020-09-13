@@ -1,27 +1,32 @@
-import { Q, QAll, getData, render, addEventListenerOnce } from './utils';
+import { Q, getData, render, addEventListenerOnce } from './utils';
+import { CitiesResponse } from './types';
 
-export interface CitiesResponse {
-  latt: string;
-  longt: string;
-  match: { latt: string; longt: string; matchtype: string; location: string }[];
-  matches: string;
-  error: any;
-  success: boolean;
-}
+
 
 export default function nav() {
   // const Nav = Q('nav');
-  const SearchInput = Q('.search-input') as HTMLElement;
+  const SearchButton = Q('.search-button') as HTMLElement;
+  const SearchInput = Q('.search-input') as HTMLInputElement;
   const SearchResultsWrapper = Q('.search-results-overlay') as
     | HTMLElement
     | any;
   const SearchResultsContainer = Q(
     '.search-results-overlay .container'
   ) as HTMLElement;
-  const NavLinks = QAll('.Nav .nav-link') as NodeListOf<HTMLElement>;
   const View = Q('.View') as HTMLElement | any;
 
   let inputTimeout: any | undefined;
+
+  const searchMessage = (message: string) => {
+    render(
+      `<span class='search-result text-center'>${message}<span />`,
+      SearchResultsContainer
+    );
+  };
+
+  const callTransitionEndListener = () => {
+    addEventListenerOnce(SearchResultsWrapper, handleTransitionEnd);
+  };
 
   const handleTransitionEnd = () => {
     const isHidden = !SearchResultsWrapper.classList.contains('show');
@@ -36,66 +41,54 @@ export default function nav() {
     }
   };
 
-  const callTransitionEndListener = () => {
-    addEventListenerOnce(SearchResultsWrapper, handleTransitionEnd);
-  };
-
-  const handleLinkClick = (e: any) => {
-    e.preventDefault();
-    console.log(e.target.textContent, ' clicked!');
-  };
-
   const handleSearch = (e: any) => {
     clearTimeout(inputTimeout);
-    
+
     if (/Tab|Arrow|Shift|Meta|Control|Alt/i.test(e.key)) {
       return;
     }
 
-    if (e.target.value.trim()) {
+    if (SearchInput.value.trim()) {
       SearchResultsWrapper.classList.add('show');
-      render(
-        `<span class='search-result text-center'>Getting ready...<span />`,
-        SearchResultsContainer
-      );
+      searchMessage('Getting ready...');
       inputTimeout = setTimeout(() => {
-        render(
-          `<span class='search-result text-center'>Getting matching cities...<span />`,
-          SearchResultsContainer
-        );
+        searchMessage('Getting matching cities...');
         getData(
           'https://geocode.xyz/',
-          `scantext=${e.target.value}&geoit=json`
-        ).then((data: CitiesResponse) => {
-          const { match, matches, error } = data;
+          `scantext=${SearchInput.value}&geoit=json`
+        )
+          .then((data: CitiesResponse) => {
+            const { match, matches, error } = data;
 
-          if (matches) {
-            render(
-              match.map(({ latt, longt, location, matchtype }) =>
-                SearchResult({
-                  longitude: Number(longt),
-                  latitude: Number(latt),
-                  location,
-                  type: matchtype
-                })
-              ),
-              SearchResultsContainer
-            );
-          } else {
-            render(
-              `<span class='search-result text-center'>${
-                error
-                  ? 'Something went wrong. Please try again after some time.'
-                  : `Sorry, could not find any matching cities for '${e.target.value.replace(
-                      /<\/?script>/,
-                      ''
-                    )}'. Try typing full city keyword.`
-              }<span/>`,
-              SearchResultsContainer
-            );
-          }
-          console.log(data, e.target.value as any);
-        });
+            if (matches) {
+              render(
+                match.map(({ latt, longt, location, matchtype }) =>
+                  SearchResult({
+                    longitude: Number(longt),
+                    latitude: Number(latt),
+                    location,
+                    type: matchtype
+                  })
+                ),
+                SearchResultsContainer
+              );
+            } else {
+              searchMessage(
+                `${
+                  error
+                    ? 'Something went wrong. Please try again after some time.'
+                    : `Sorry, could not find any matching cities for '${SearchInput.value.replace(
+                        /<\/?script>/,
+                        ''
+                      )}'. Try typing full city keyword.`
+                }`
+              );
+            }
+            console.log(data, SearchInput.value as any);
+          })
+          .catch(() => {
+            searchMessage('An error occurred. Failed to get.');
+          });
       }, 2000);
     } else {
       SearchResultsWrapper.classList.remove('show');
@@ -104,6 +97,7 @@ export default function nav() {
     callTransitionEndListener();
   };
 
+  SearchButton.onclick = handleSearch;
   SearchInput.onkeyup = handleSearch;
   SearchInput.onfocus = (e: any) => {
     if (e.target.value.trim()) {
@@ -118,12 +112,6 @@ export default function nav() {
       callTransitionEndListener();
     }
   };
-
-  if (NavLinks.length) {
-    NavLinks.forEach((NavLink) =>
-      NavLink.addEventListener('click', handleLinkClick)
-    );
-  }
 
   (Q('.search-form') as HTMLElement).onsubmit = (e: any) => {
     e.preventDefault();

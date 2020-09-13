@@ -1,7 +1,4 @@
-export interface ProcessorProps {
-  entry: string;
-  helper: { match: string; value: string | any }[];
-}
+import { ProcessorProps } from './types';
 
 export const Q = document.querySelector.bind(document);
 export const QAll = document.querySelectorAll.bind(document);

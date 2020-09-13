@@ -22,9 +22,9 @@
     position: relative;
     overflow: hidden;
     margin: 0.75rem 1rem;
-    padding: 3rem 1.5rem 1.75rem 1.5rem;
+    padding: 2.5rem 1.5rem 1.75rem 1.5rem;
     width: calc(100% - 2rem);
-    max-width: 26rem;
+    max-width: 28rem;
     border-radius: 1.5rem;
     background: {
       color: white;
@@ -32,11 +32,13 @@
     }
 
     h1 {
-      font-size: 16vh;
+      font-size: 14vh;
+      margin-left: 1rem;
     }
 
     div.text-left p:first-child {
       opacity: 0.6;
+      max-width: calc(100% - 7rem);
     }
 
     .humidity {
@@ -56,7 +58,7 @@
       width: $size;
       height: $size;
       position: absolute;
-      bottom: -1rem;
+      bottom: -1.25rem;
       right: 0.5rem;
       // background-image: url('');
     }
@@ -69,7 +71,7 @@
     max-height: 100%;
     align-items: center;
     justify-content: space-around;
-    background-color: black;
+    background-image: linear-gradient(to top, $theme-tertiary-v3, $theme-tertiary-v6);
     padding: 0.25rem;
     border-radius: 1rem;
 
@@ -78,7 +80,7 @@
     }
 
     .weather-image {
-      width: 5rem;
+      width: 6rem;
     }
 
     p {
@@ -95,12 +97,14 @@
 
   &.condition--cloud-storm--0 {
     .weather-image {
+      bottom: -0.75rem !important;
       background-image: url('../images/cloud-storm.png');
     }
   }
 
   &.condition--clouds-sun-rain--0 {
     .weather-image {
+      bottom: -1.25rem !important;
       background-image: url('../images/clouds-sun-rain.png');
     }
   }
@@ -113,36 +117,46 @@
 
   &.condition--rainbow-cloud--0 {
     .weather-image {
+      $size: 12rem;
+      
+      width: $size !important;
+      height: $size;
+      bottom: -2.75rem !important;
       background-image: url('../images/rainbow-cloud.png');
     }
   }
 
   &.condition--rainy-cloud--0 {
     .weather-image {
+      bottom: -1.25rem !important;
       background-image: url('../images/rainy-cloud.png');
     }
   }
 
   &.condition--snowy-cloud--0 {
     .weather-image {
+      bottom: -1.25rem !important;
       background-image: url('../images/snowy-cloud.png');
     }
   }
 
   &.condition--sunny--0 {
     .weather-image {
+      bottom: -1rem !important;
       background-image: url('../images/sunny.png');
     }
   }
 
   &.condition--thunder-cloud--0 {
     .weather-image {
+      bottom: -1.25rem !important;
       background-image: url('../images/thunder-cloud.png');
     }
   }
 
   &.condition--thunder-storm--0 {
     .weather-image {
+      bottom: -1.25rem !important;
       background-image: url('../images/thunder-storm.png');
     }
   }

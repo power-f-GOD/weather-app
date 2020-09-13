@@ -30,6 +30,8 @@
     border-radius: 2rem;
     padding: 0.5rem 1rem;
     transition: 0.35s;
+    display: inline-flex;
+    align-items: center;
 
     &.active {
       color: $theme-primary-v5;

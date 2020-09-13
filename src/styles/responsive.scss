@@ -1,6 +1,8 @@
 @media screen and (max-width: 767px) {
   .card {
     &.type-a {
+      max-width: calc(100% - 2rem);
+
       h1 {
         font-size: 14vh;
       }
@@ -16,7 +18,7 @@
 @media screen and (max-width: 360px) {
   .card {
     &.type-a {
-      max-height: 40vh;
+      max-height: 44vh;
       padding-left: 1.15rem;
 
       h1 {
