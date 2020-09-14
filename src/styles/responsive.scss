@@ -2,6 +2,11 @@
   .Nav {
     .location {
       padding-right: 0;
+      font-size: 0.85rem;
+
+      &.error {
+        font-size: 0.75rem;
+      }
     }
   }
 
@@ -22,7 +27,7 @@
       }
 
       .weather-image {
-        width: 9rem;
+        width: 8rem;
       }
     }
   }
@@ -57,6 +62,16 @@
         width: 7rem;
         bottom: -2rem;
         right: -1rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-height: 830px) {
+  .card {
+    &.type-a {
+      h1 {
+        font-size: 6.15rem;
       }
     }
   }

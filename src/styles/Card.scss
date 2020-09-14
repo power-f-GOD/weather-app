@@ -26,8 +26,9 @@
     width: calc(100% - 2rem);
     height: 36vh;
     min-height: 16.5rem;
-    max-width: 27rem;
-    border-radius: 1.5rem;
+    max-height: 19rem;
+    max-width: 29rem;
+    border-radius: 1.6rem;
     background: {
       color: white;
       image: linear-gradient(to top, $theme-primary-v5, $theme-primary-v7);
@@ -222,7 +223,8 @@
     );
 
     .weather-image {
-      bottom: -0.5rem !important;
+      width: 8rem;
+      bottom: -1.5em !important;
       background-image: url('../images/sunny.png');
     }
   }
@@ -258,11 +260,37 @@
     }
   }
 
+  &[class*='-cloud'] {
+    &.animate {
+      .weather-image {
+        animation: animateX 8s infinite;
+      }
+    }
+  }
+
+  &[class*='-sun'],
+  &[class*='-rain'] {
+    &.animate {
+      .weather-image {
+        animation: animateScale 2s infinite;
+      }
+    }
+  }
+
+  &[class*='-thunder'],
+  &[class*='-storm'] {
+    &.animate {
+      .weather-image {
+        animation: animateScale 1.1s infinite;
+      }
+    }
+  }
+
   &.night-time {
     background-image: linear-gradient(
       to bottom,
-      $theme-primary-v2,
-      $theme-tertiary-v1
+      $theme-primary-v3,
+      $theme-tertiary-v2
     ) !important;
 
     &.condition--cloudy-sun--0,
@@ -286,32 +314,6 @@
         $theme-tertiary-v3,
         $theme-tertiary-v1
       );
-    }
-  }
-
-  &[class*='-cloud'] {
-    &.animate {
-      .weather-image {
-        animation: animateX 8s infinite;
-      }
-    }
-  }
-
-  &[class*='-sun'],
-  &[class*='-rain'] {
-    &.animate {
-      .weather-image {
-        animation: animateScale 2.25s infinite;
-      }
-    }
-  }
-
-  &[class*='-thunder'],
-  &[class*='-storm'] {
-    &.animate {
-      .weather-image {
-        animation: animateScale 1.1s infinite;
-      }
     }
   }
 }

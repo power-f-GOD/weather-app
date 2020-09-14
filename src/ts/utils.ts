@@ -9,6 +9,28 @@ export const QAll = document.querySelectorAll.bind(document);
 export const getByClass = document.getElementsByClassName.bind(document);
 export const getById = document.getElementsByClassName.bind(document);
 
+export const task: {
+  task: Function;
+  add(process: Function): void;
+  execute(reset?: boolean): void;
+  erase: Function;
+} = {
+  task: () => {},
+  add(_task: Function | any) {
+    task.task = _task;
+  },
+  erase() {
+    task.task = () => {};
+  },
+  execute(reset?: boolean) {
+    task.task();
+
+    if (reset) {
+      task.erase();
+    }
+  }
+};
+
 export const getMappedImageString = (
   main: WeatherResponseMain,
   desc: string

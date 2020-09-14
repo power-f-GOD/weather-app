@@ -54,6 +54,10 @@ export function updateCard(props: CardDataProps) {
     isNightTime
   } = props;
 
+  const round = (num?: number) => {
+    return Number(num?.toFixed(1));
+  };
+
   switch (type) {
     case 'A':
       {
@@ -65,11 +69,12 @@ export function updateCard(props: CardDataProps) {
         const HumidityDeg = Q('.card.type-a .humidity-deg');
 
         if (Card && Degree && Desc && HumidityDeg && FeelsLike && WindSpeed) {
-          FeelsLike.textContent = feelsLike + '°';
-          WindSpeed.textContent = windSpeed + ' m/s';
-          Degree.textContent = degree + '°';
-          Desc.textContent = desc as string;
-          HumidityDeg.textContent = humidityDeg + '%';
+          FeelsLike.textContent = round(feelsLike) + '°';
+          WindSpeed.textContent = round(windSpeed) + ' m/s';
+          Degree.textContent = round(degree) + '°';
+          Desc.textContent = (desc![0].toUpperCase() +
+            desc!.slice(1)) as string;
+          HumidityDeg.textContent = round(humidityDeg) + '%';
           Card.classList.add('animate');
 
           if (/condition--/.test(Card.className)) {
@@ -97,7 +102,7 @@ export function updateCard(props: CardDataProps) {
 
         if (Card && Day && Degree) {
           Day.textContent = day ?? 'Monday';
-          Degree.textContent = degree + '°';
+          Degree.textContent = round(degree) + '°';
 
           if (/condition--/.test(Card.className)) {
             Card.className = Card.className.replace(

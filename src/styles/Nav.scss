@@ -66,16 +66,17 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     height: 100%;
     position: absolute;
     left: 8.25rem;
     padding-right: 5rem;
+    border-radius: 0.25rem;
     background-color: white;
     max-width: calc(100% - 12rem);
     width: 100%;
     color: $theme-tertiary-v3;
-    font-size: 0.95rem;
-    transition: 0.35s;
+    transition: 0.3s;
     font-weight: bolder;
 
     span {
@@ -88,6 +89,11 @@
     &.hide {
       opacity: 0;
       z-index: -1;
+    }
+
+    &.error {
+      font-size: 0.9rem;
+      cursor: pointer;
     }
   }
 
@@ -171,8 +177,6 @@
 
   .location {
     word-break: break-word;
-
-    
   }
 
   .type {

@@ -16,9 +16,11 @@ export default function nav() {
 
   let inputTimeout: any | undefined;
 
-  const searchMessage = (message: string) => {
+  const searchMessage = (message: string, err?: boolean) => {
     render(
-      `<span class='search-result text-center'>${message}<span />`,
+      `<span class='search-result text-center ${
+        err ? 'error' : ''
+      }'>${message}<span />`,
       SearchResultsContainer
     );
   };
@@ -33,7 +35,7 @@ export default function nav() {
     if (isHidden) {
       View.inert = false;
       SearchResultsWrapper.inert = true;
-      render('', SearchResultsContainer);
+      // render('', SearchResultsContainer);
     } else {
       View.inert = true;
       SearchResultsWrapper.inert = false;
@@ -41,11 +43,11 @@ export default function nav() {
   };
 
   const handleSearch = (e: any) => {
-    clearTimeout(inputTimeout);
-
     if (/Tab|Arrow|Shift|Meta|Control|Alt/i.test(e.key)) {
       return;
     }
+
+    clearTimeout(inputTimeout);
 
     if (SearchInput.value.trim()) {
       SearchResultsWrapper.classList.add('show');
@@ -77,16 +79,16 @@ export default function nav() {
                   error
                     ? 'Something went wrong. Please try again after some time.'
                     : `Sorry, could not find any matching cities for '${SearchInput.value.replace(
-                        /<\/?script>/,
+                        /<\/?.>/,
                         ''
-                      )}'. Try typing full city keyword.`
+                      )}'. You may try typing full city keyword.`
                 }`
               );
             }
-            console.log(data, SearchInput.value as any);
+            // console.log(data, SearchInput.value as any);
           })
           .catch(() => {
-            searchMessage('An error occurred. Failed to get.');
+            searchMessage('An error occurred. Failed to get.', true);
           });
       }, 2000);
     } else {
