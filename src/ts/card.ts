@@ -12,19 +12,19 @@ export const Card = (props: CardDataProps) => {
           <p class='feels-like-container'>
             <span>feels like<span>
             <br />
-            <span class='feels-like'>30&deg;<span>
+            <span class='feels-like'>0&deg;<span>
           </p>
           <p class='wind-speed-container'>
             <span>wind speed<span>
             <br />
-            <span class='wind-speed'>1.5m/s<span>
+            <span class='wind-speed'>0 m/s<span>
           </p>
         </div>
         <h1>${degree}&deg;</h1>
         <div class="desc-wrapper text-left">
           <p class="desc">${desc}</p>
           <p class="humidity">Humidity</p>
-          <p class="humidity-deg">${humidityDeg}&deg;</p>
+          <p class="humidity-deg">${humidityDeg}%</p>
           <div class="weather-image"></div>
         </div>
       </div>
@@ -69,7 +69,8 @@ export function updateCard(props: CardDataProps) {
           WindSpeed.textContent = windSpeed + ' m/s';
           Degree.textContent = degree + '°';
           Desc.textContent = desc as string;
-          HumidityDeg.textContent = humidityDeg + '°';
+          HumidityDeg.textContent = humidityDeg + '%';
+          Card.classList.add('animate');
 
           if (/condition--/.test(Card.className)) {
             Card.className = Card.className.replace(

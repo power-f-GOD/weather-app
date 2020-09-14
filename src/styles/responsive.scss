@@ -1,4 +1,10 @@
 @media screen and (max-width: 767px) {
+  .Nav {
+    .location {
+      padding-right: 0;
+    }
+  }
+
   .Home {
     h1 {
       font-size: 2.5rem;
@@ -29,7 +35,7 @@
       padding: {
         left: 1rem;
         right: 1rem;
-      };
+      }
 
       h1 {
         font-size: 10vh;

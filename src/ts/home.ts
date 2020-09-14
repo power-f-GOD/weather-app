@@ -13,7 +13,7 @@ import Main from '../components/Main.html';
 
 import main from './main';
 import { Card, updateCard } from './card';
-import { WeatherResponseProps, TempDaily } from './types';
+import { WeatherResponseProps, TempDaily, CitiesResponse } from './types';
 
 const CardTypeB = Card({
   type: 'B',
@@ -44,13 +44,25 @@ export default function home() {
   const Home = Q('.Home') as HTMLElement;
   const Button = Q('.Home button') as HTMLButtonElement;
   const Nav = Q('.Nav') as HTMLElement | any;
+  const CityLocation = Q('.Nav .location') as HTMLElement;
 
   Nav.setAttribute('inert', true);
+
+  const mountMain = () => {
+    render(processMain, View, { adjacency: 'beforeend' });
+    Home.classList.add('hide');
+    addEventListenerOnce(Home, () => {
+      View?.removeChild(Home as any);
+      Nav.classList.remove('hide');
+      Nav.inert = false;
+    });
+    main();
+  };
 
   const getWeatherInfoThenPopulateUI = (
     latitude: number,
     longitude: number,
-    location?: string
+    location: string
   ) => {
     return getData(
       'https://api.openweathermap.org/data/2.5/onecall',
@@ -68,48 +80,38 @@ export default function home() {
       } = current ?? {};
       const { description: desc, main: _main } = weather[0];
 
-      Button.textContent = 'All set!';
-      delay(800).then(() => {
-        const currentHr = new Date(Date.now()).getHours();
-        // console.log(longitude, latitude, location, 'data......', data);
-        location;
-        render(processMain, View, { adjacency: 'beforeend' });
-        Home.classList.add('hide');
-        addEventListenerOnce(Home, () => {
-          View?.removeChild(Home as any);
-          Nav.classList.remove('hide');
-          Nav.inert = false;
-        });
+      const currentHr = new Date(Date.now()).getHours();
+      // console.log(longitude, latitude, location, 'data......', data);
+      location;
+
+      CityLocation.innerHTML = location;
+      updateCard({
+        humidityDeg,
+        windSpeed: wind_speed,
+        degree: degree as number,
+        desc: desc[0].toUpperCase() + desc.slice(1),
+        feelsLike: Number(feels_like.toFixed(1)),
+        type: 'A',
+        weatherForToday:
+          new Date(Number(`${dt}000`)).toDateString() ===
+          new Date().toDateString(),
+        isNightTime: currentHr >= 19 || currentHr < 7,
+        weatherImage: getMappedImageString(_main, desc)
+      });
+
+      daily.slice(1).map(({ temp, dt, weather }, index) => {
+        temp = temp as TempDaily;
+
+        const { description: desc, main: _main } = weather[0];
+        const degree = Number(((temp.max + temp.min) / 2).toFixed(1));
 
         updateCard({
-          degree: degree as number,
-          desc: desc[0].toUpperCase() + desc.slice(1),
-          humidityDeg,
-          windSpeed: wind_speed,
-          feelsLike: Number(feels_like.toFixed(1)),
-          type: 'A',
-          weatherForToday:
-            new Date(Number(`${dt}000`)).toDateString() ===
-            new Date().toDateString(),
-          isNightTime: currentHr >= 19 || currentHr < 7,
+          degree,
+          index,
+          day: formatDate(dt),
+          type: 'B',
           weatherImage: getMappedImageString(_main, desc)
         });
-
-        daily.slice(1).map(({ temp, dt, weather }, index) => {
-          temp = temp as TempDaily;
-
-          const { description: desc, main: _main } = weather[0];
-          const degree = Number(((temp.max + temp.min) / 2).toFixed(1));
-
-          updateCard({
-            degree,
-            index,
-            day: formatDate(dt),
-            type: 'B',
-            weatherImage: getMappedImageString(_main, desc)
-          });
-        });
-        main();
       });
     });
   };
@@ -122,25 +124,42 @@ export default function home() {
           : "A network error occurred. Sure you're connected?"
       } `
     );
+    CityLocation.textContent = 'An error occurred.';
     Button.disabled = false;
-    Button.textContent = 'EXPLORE';
   };
 
   const handleButtonClick = () => {
     Button.disabled = true;
-    Button.textContent = 'Please, wait...';
+    Button.textContent = 'Starting...';
     navigator.geolocation.getCurrentPosition(
       (position: Position) => {
         const { latitude, longitude } = position.coords;
+        delay(700).then(() => {
+          mountMain();
 
-        getWeatherInfoThenPopulateUI(latitude, longitude).catch(
-          catchGetRequest
-        );
+          getWeatherInfoThenPopulateUI(
+            latitude,
+            longitude,
+            `Getting city name...`
+          ).catch(catchGetRequest);
+
+          delay(2000).then(() => {
+            getData(
+              'https://geocode.xyz/',
+              `locate=${latitude},${longitude}&geoit=json`
+            ).then((data: CitiesResponse) => {
+              CityLocation.textContent = `${data.city}, ${data.prov}`;
+            });
+          });
+        });
       },
       () => {
-        getWeatherInfoThenPopulateUI(40.69, -73.96, 'New York, US').catch(
-          catchGetRequest
-        );
+        delay(700).then(() => {
+          mountMain();
+          getWeatherInfoThenPopulateUI(40.69, -73.96, 'New York, US').catch(
+            catchGetRequest
+          );
+        });
       }
     );
   };

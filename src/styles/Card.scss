@@ -96,7 +96,7 @@
       width: $size;
       height: $size;
       position: absolute;
-      bottom: -1.65rem;
+      bottom: -1.45rem;
       right: -0.45rem;
       // background-image: url('');
     }
@@ -119,6 +119,7 @@
     border-radius: 1rem;
 
     h3 {
+      margin-top: 0.65rem;
       font-size: 0.85rem;
     }
 
@@ -167,7 +168,7 @@
     background-image: linear-gradient(
       to top,
       $theme-primary-v5,
-      $theme-primary-v8
+      $theme-primary-v7
     );
 
     .weather-image {
@@ -190,7 +191,11 @@
   }
 
   &.condition--rainy-cloud--0 {
-    background-image: linear-gradient(to top, $theme-primary, $theme-tertiary);
+    background-image: linear-gradient(
+      to top,
+      $theme-primary-v5,
+      $theme-tertiary-v6
+    );
 
     .weather-image {
       background-image: url('../images/rainy-cloud.png');
@@ -271,6 +276,41 @@
     &.condition--clouds-sun-rain--0 {
       .weather-image {
         background-image: url('../images/rainy-cloud.png');
+      }
+    }
+
+    &.condition--thunder-storm--0,
+    &.condition--thunder-cloud--0 {
+      background-image: linear-gradient(
+        to bottom,
+        $theme-tertiary-v3,
+        $theme-tertiary-v1
+      );
+    }
+  }
+
+  &[class*='-cloud'] {
+    &.animate {
+      .weather-image {
+        animation: animateX 8s infinite;
+      }
+    }
+  }
+
+  &[class*='-sun'],
+  &[class*='-rain'] {
+    &.animate {
+      .weather-image {
+        animation: animateScale 2.25s infinite;
+      }
+    }
+  }
+
+  &[class*='-thunder'],
+  &[class*='-storm'] {
+    &.animate {
+      .weather-image {
+        animation: animateScale 1.1s infinite;
       }
     }
   }

@@ -103,7 +103,7 @@ h6 {
 }
 
 .container {
-  max-width: 55rem;
+  max-width: 70rem;
   margin: auto;
 }
 
@@ -133,13 +133,4 @@ h6 {
 
 .text-left {
   text-align: left;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }

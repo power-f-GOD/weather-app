@@ -47,6 +47,10 @@ export interface CitiesResponse {
   matches: string;
   error: any;
   success: boolean;
+  city: string;
+  country: string;
+  timezone: string;
+  prov: string;
 }
 
 export interface WeatherResponseProps {
