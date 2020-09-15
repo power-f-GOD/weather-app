@@ -175,6 +175,12 @@
     animation: resultSlideUp 0.5s;
   }
 
+  &:hover,
+  &:focus {
+    background-color: #fff;
+    transform: scale(1.02);
+  }
+
   .location {
     word-break: break-word;
   }
@@ -185,10 +191,8 @@
     padding-left: 0.5rem;
   }
 
-  &:hover,
-  &:focus {
-    background-color: #fff;
-    transform: scale(1.02);
+  & * {
+    pointer-events: none;
   }
 }
 

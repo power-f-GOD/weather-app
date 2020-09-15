@@ -1,13 +1,13 @@
-import { Q, QAll } from './utils';
-import { CardDataProps } from './types';
+import { Q, QAll, formatDate, getMappedImageString } from './utils';
+import { CardDataProps, TempDaily, WeatherResponseMain } from './types';
 
 export const Card = (props: CardDataProps) => {
-  const { type, degree, desc, humidityDeg, weatherImage, day } = props;
+  const { type, temp, description, humidity } = props;
 
   switch (type) {
     case 'A':
       return `
-      <div class="card type-a condition--${weatherImage}--0">
+      <div class="card type-a condition--cloudy-sun--0">
         <div class='top'>
           <p class='feels-like-container'>
             <span>feels like<span>
@@ -20,39 +20,35 @@ export const Card = (props: CardDataProps) => {
             <span class='wind-speed'>0 m/s<span>
           </p>
         </div>
-        <h1>${degree}&deg;</h1>
+        <h1>${temp}&deg;</h1>
         <div class="desc-wrapper text-left">
-          <p class="desc">${desc}</p>
+          <p class="desc">${description}</p>
           <p class="humidity">Humidity</p>
-          <p class="humidity-deg">${humidityDeg}%</p>
+          <p class="humidity-deg">${humidity}%</p>
           <div class="weather-image"></div>
         </div>
       </div>
     `;
     case 'B':
       return `
-      <div class="card type-b condition--${weatherImage}--0">
-        <h3>${day}</h3>
+      <div class="card type-b condition--cloudy-sun--0 animate">
+        <h3>...</h3>
         <div class="weather-image"></div>
-        <p>${degree}&deg;</p>
+        <p>${temp}&deg;</p>
       </div>`;
   }
 };
 
 export function updateCard(props: CardDataProps) {
-  const {
-    type,
-    degree,
-    desc,
-    humidityDeg,
-    weatherImage,
-    feelsLike,
-    windSpeed,
-    day,
-    index,
-    weatherForToday,
-    isNightTime
-  } = props;
+  const { type, current, index } = props ?? {};
+  let { temp, weather, humidity, dt, feels_like, wind_speed } =
+    current ?? props ?? {};
+  const { description, main } = weather?.slice(-1)[0] ?? {};
+
+  const weatherImage = getMappedImageString(
+    main as WeatherResponseMain,
+    description as string
+  );
 
   const round = (num?: number) => {
     return Number(num?.toFixed(1));
@@ -68,13 +64,19 @@ export function updateCard(props: CardDataProps) {
         const Desc = Q('.card.type-a .desc');
         const HumidityDeg = Q('.card.type-a .humidity-deg');
 
+        const weatherForToday =
+          new Date(Number(`${dt}000`)).toDateString() ===
+          new Date().toDateString();
+        const currentHr = new Date(Date.now()).getHours();
+        const isNightTime = currentHr >= 19 || currentHr < 7;
+
         if (Card && Degree && Desc && HumidityDeg && FeelsLike && WindSpeed) {
-          FeelsLike.textContent = round(feelsLike) + '°';
-          WindSpeed.textContent = round(windSpeed) + ' m/s';
-          Degree.textContent = round(degree) + '°';
-          Desc.textContent = (desc![0].toUpperCase() +
-            desc!.slice(1)) as string;
-          HumidityDeg.textContent = round(humidityDeg) + '%';
+          FeelsLike.textContent = round(feels_like as number) + '°';
+          WindSpeed.textContent = round(wind_speed) + ' m/s';
+          Degree.textContent = round(temp as number) + '°';
+          Desc.textContent = (description![0].toUpperCase() +
+            description!.slice(1)) as string;
+          HumidityDeg.textContent = round(humidity) + '%';
           Card.classList.add('animate');
 
           if (/condition--/.test(Card.className)) {
@@ -97,12 +99,15 @@ export function updateCard(props: CardDataProps) {
         const Card = QAll('.card.type-b')[index ?? 0];
         const Day = QAll('.card.type-b h3')[index ?? 0];
         const Degree = QAll('.card.type-b p')[index ?? 0];
-        // const Desc = QAll('.card.type-a .desc');
-        // const HumidityDeg = QAll('.card.type-a .humidity-deg');
+
+        temp = temp as TempDaily;
+
+        const _temp = (temp.max + temp.min) / 2;
+        const date = formatDate(dt as number);
 
         if (Card && Day && Degree) {
-          Day.textContent = day ?? 'Monday';
-          Degree.textContent = round(degree) + '°';
+          Day.textContent = date ?? 'Monday';
+          Degree.textContent = round(_temp) + '°';
 
           if (/condition--/.test(Card.className)) {
             Card.className = Card.className.replace(

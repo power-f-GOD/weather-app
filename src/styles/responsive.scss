@@ -38,12 +38,13 @@
     &.type-a {
       min-height: 14rem;
       padding: {
+        top: 0.5rem;
         left: 1rem;
         right: 1rem;
       }
 
       h1 {
-        font-size: 10vh;
+        font-size: 11vh;
       }
 
       .top {

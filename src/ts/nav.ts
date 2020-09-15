@@ -1,8 +1,16 @@
-import { Q, getData, render, addEventListenerOnce } from './utils';
+import {
+  Q,
+  getData,
+  render,
+  addEventListenerOnce,
+  QAll,
+  delay,
+  task
+} from './utils';
 import { CitiesResponse } from './types';
+import { getWeatherAndCityDataThenSetState } from './main';
 
 export default function nav() {
-  // const Nav = Q('nav');
   const CityLocation = Q('.Nav .location') as HTMLElement;
   const SearchButton = Q('.search-button') as HTMLElement;
   const SearchInput = Q('.search-input') as HTMLInputElement;
@@ -35,15 +43,54 @@ export default function nav() {
     if (isHidden) {
       View.inert = false;
       SearchResultsWrapper.inert = true;
-      // render('', SearchResultsContainer);
+      (SearchInput as any).onblur();
     } else {
       View.inert = true;
       SearchResultsWrapper.inert = false;
     }
   };
 
+  let _task = () => {};
+  let searchIsLoading = false;
+  const handleSearchResultClick = (e: any) => {
+    const Result = e.target as HTMLAnchorElement;
+    const Type = Result.children[1] as HTMLElement;
+    const { latitude, longitude, location, type } = Result.dataset ?? {};
+
+    if (searchIsLoading) {
+      Type.textContent = 'busy!🙂';
+      delay(1000).then(() => {
+        Type.textContent = type as string;
+      });
+      return;
+    } else {
+      Type.textContent = 'fetching data...🏃🏽‍♂️';
+    }
+
+    _task = () => {
+      searchIsLoading = true;
+      getWeatherAndCityDataThenSetState(
+        Number(latitude),
+        Number(longitude),
+        location
+      ).then(() => {
+        searchIsLoading = false;
+        Type.textContent = 'done!😎';
+        delay(850).then(() => {
+          SearchResultsWrapper.classList.remove('show');
+          Type.textContent = type as string;
+        });
+      });
+    };
+
+    task.assign(_task);
+    task.execute();
+
+    console.log(e.target.dataset);
+  };
+
   const handleSearch = (e: any) => {
-    if (/Tab|Arrow|Shift|Meta|Control|Alt/i.test(e.key)) {
+    if (/Tab|Arrow|Shift|Meta|Control|Alt/i.test(e?.key)) {
       return;
     }
 
@@ -51,9 +98,9 @@ export default function nav() {
 
     if (SearchInput.value.trim()) {
       SearchResultsWrapper.classList.add('show');
-      searchMessage('Getting ready...');
+      searchMessage('Getting ready...😊');
       inputTimeout = setTimeout(() => {
-        searchMessage('Getting matching cities...');
+        searchMessage('Getting matching cities...😉');
         getData(
           'https://geocode.xyz/',
           `scantext=${SearchInput.value}&geoit=json`
@@ -73,11 +120,14 @@ export default function nav() {
                 ),
                 SearchResultsContainer
               );
+              QAll('.search-result').forEach((result) => {
+                result.addEventListener('click', handleSearchResultClick, true);
+              });
             } else {
               searchMessage(
                 `${
                   error
-                    ? 'Something went wrong. Please try again after some time.'
+                    ? 'Something went wrong. Please try again after some time.😕'
                     : `Sorry, could not find any matching cities for '${SearchInput.value.replace(
                         /<\/?.>/,
                         ''
@@ -92,23 +142,50 @@ export default function nav() {
           });
       }, 2000);
     } else {
-      SearchResultsWrapper.classList.remove('show');
+      searchMessage("Ok, I'm waiting... 🙂");
     }
 
     callTransitionEndListener();
   };
 
-  SearchButton.onclick = () => SearchInput.focus();
-  SearchInput.onkeyup = handleSearch;
+  SearchInput.onkeyup = (e: any) => {
+    CityLocation.classList.add('hide');
+    handleSearch(e);
+  };
   SearchInput.onfocus = (e: any) => {
     if (e.target.value.trim()) {
       SearchResultsWrapper.classList.add('show');
       callTransitionEndListener();
     }
 
+    SearchInput.classList.add('focused');
     CityLocation.classList.add('hide');
   };
-  SearchInput.onblur = () => CityLocation.classList.remove('hide');
+  SearchInput.onblur = () => {
+    if (SearchResultsWrapper.classList.contains('show')) {
+      return;
+    }
+
+    CityLocation.classList.remove('hide');
+    setTimeout(() => {
+      SearchInput.classList.remove('focused');
+    }, 10);
+  };
+
+  SearchButton.onclick = () => {
+    const hasFocus = SearchInput.classList.contains('focused');
+
+    if (hasFocus) {
+      if (SearchInput.value.trim()) {
+        (SearchInput as any).onkeyup();
+        SearchInput.focus();
+      } else {
+        SearchInput.blur();
+      }
+    } else {
+      SearchInput.focus();
+    }
+  };
   SearchResultsWrapper.setAttribute('inert', true);
   SearchResultsWrapper.onclick = (e: any) => {
     if (/-overlay/.test(e.target.className)) {
@@ -121,6 +198,13 @@ export default function nav() {
     e.preventDefault();
   };
 }
+
+export const updateLocation = (text: string, err?: boolean) => {
+  const CityLocation = Q('.Nav .location') as HTMLElement;
+
+  CityLocation.classList[err ? 'add' : 'remove']('error');
+  CityLocation.textContent = text;
+};
 
 export const SearchResult = (props: {
   longitude: number;
@@ -138,9 +222,10 @@ export const SearchResult = (props: {
   return `
   <a href="#!" 
     class="search-result fulfilled"
-    data-longitute='${longitude}' 
+    data-longitude='${longitude}' 
     data-latitude='${latitude}'
-    data-location='${location}'>
+    data-location='${location}'
+    data-type='${type}'>
     <p class="location">${location}</p>
     <p class="type">${type}</p>
   </a>`;

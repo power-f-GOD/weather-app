@@ -21,4 +21,4 @@ home();
 
 window.ononline = () => {
   task.execute();
-}
+};

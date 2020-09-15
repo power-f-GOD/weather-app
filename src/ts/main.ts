@@ -1,12 +1,5 @@
-import {
-  QAll,
-  Q,
-  getMappedImageString,
-  formatDate,
-  getData
-} from './utils';
-import { WeatherResponseProps, TempDaily } from './types';
-import { updateCard } from './card';
+import { QAll, getData, setState, task } from './utils';
+import { WeatherResponseProps, CitiesResponse } from './types';
 
 export default function main() {
   const TabLinks = QAll('.Main .tab-link');
@@ -29,76 +22,101 @@ export default function main() {
   }
 }
 
-export const getWeatherInfoThenPopulateUI = (
+export const getWeatherAndCityDataThenSetState = (
   latitude: number,
   longitude: number,
-  location: string
+  location?: string | null
 ) => {
-  const CityLocation = Q('.Nav .location') as HTMLElement;
-
-  CityLocation.classList.remove('error');
-  CityLocation.textContent = 'Getting weather data...';
-  return getData(
-    'https://api.openweathermap.org/data/2.5/onecall',
-    `lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
-  ).then((data: WeatherResponseProps) => {
-    const { current, daily } = data ?? {};
-    let {
-      temp: degree,
-      weather,
-      humidity: humidityDeg,
-      dt,
-      feels_like,
-      wind_speed
-    } = current ?? {};
-    const { description: desc, main: _main } = weather[0];
-
-    const currentHr = new Date(Date.now()).getHours();
-    // console.log(longitude, latitude, location, 'data......', data);
-
-    CityLocation.textContent = location;
-    CityLocation.classList.remove('error');
-    updateCard({
-      desc,
-      humidityDeg,
-      windSpeed: wind_speed,
-      degree: degree as number,
-      feelsLike: feels_like,
-      type: 'A',
-      weatherForToday:
-        new Date(Number(`${dt}000`)).toDateString() ===
-        new Date().toDateString(),
-      isNightTime: currentHr >= 19 || currentHr < 7,
-      weatherImage: getMappedImageString(_main, desc)
-    });
-
-    daily.slice(1).map(({ temp, dt, weather }, index) => {
-      temp = temp as TempDaily;
-
-      const { description: desc, main: _main } = weather[0];
-      const degree = (temp.max + temp.min) / 2;
-
-      updateCard({
-        degree,
-        index,
-        day: formatDate(dt),
-        type: 'B',
-        weatherImage: getMappedImageString(_main, desc)
-      });
-    });
+  setState({
+    latitude,
+    longitude,
+    location: { text: 'Getting weather data...' },
+    err: false
   });
+
+  let _task = async () => {
+    try {
+      const data: WeatherResponseProps = await getData(
+        'https://api.openweathermap.org/data/2.5/onecall',
+        `lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
+      );
+      const { current, daily } = data ?? {};
+      console.log(longitude, latitude, location, 'data......', data);
+
+      setState({
+        current,
+        daily,
+        location: {
+          text:
+            location === undefined
+              ? 'New York, US'
+              : location === null
+              ? 'Getting city name...'
+              : location,
+          err: false
+        }
+      });
+
+      if (!location && location === null) {
+        _task = async () => {
+          setState({
+            location: {
+              text: 'Getting city name...',
+              err: false
+            }
+          });
+
+          try {
+          } catch (e) {}
+          const locationData: CitiesResponse = await getData(
+            'https://geocode.xyz/',
+            `locate=${latitude},${longitude}&geoit=json`
+          ).catch(catchGetRequest);
+          const { city, prov } = locationData ?? {};
+
+          setState({
+            location: {
+              text: city
+                ? `${city}, ${prov}`
+                : "Couldn't get city name. Tap here to retry.",
+              err: !city
+            }
+          });
+
+          if (city) {
+            task.erase();
+          }
+        };
+
+        task.assign(_task);
+        task.execute();
+      } else if (daily.length) {
+        task.erase();
+      }
+    } catch (e) {
+      catchGetRequest(e);
+    }
+  };
+
+  task.assign(_task);
+  return _task();
 };
 
-export const catchGetRequest = () => {
-  const CityLocation = Q('.Nav .location') as HTMLElement;
+export const catchGetRequest = (e?: any) => {
+  const err = String(e);
 
-  alert(
-    `${
-      !navigator.onLine
-        ? "Couldn't fetch. You're offline."
-        : "A network error occurred. Sure you're connected?"
-    } `
-  );
-  CityLocation.classList.add('error');
-  CityLocation.textContent = '⚠ An error occurred. Tap here to retry.';
+  if (/fetch|network|promise/i.test(err)) {
+    alert(
+      `${
+        !navigator.onLine
+          ? "Couldn't fetch. You're offline."
+          : "A network error occurred. Sure you're connected?"
+      } `
+    );
+  }
+
+  console.log('eeeee:', e);
+  setState({
+    location: { text: '⚠ An error occurred. Tap here to retry.', err: true }
+  });
 };

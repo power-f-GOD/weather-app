@@ -1,35 +1,26 @@
-import {
-  Q,
-  addEventListenerOnce,
-  Processor,
-  render,
-  getData,
-  delay
-} from './utils';
+import { Q, addEventListenerOnce, Processor, render, delay } from './utils';
 
 import Main from '../components/Main.html';
 
-import main, { catchGetRequest, getWeatherInfoThenPopulateUI } from './main';
+import main, {
+  getWeatherAndCityDataThenSetState
+} from './main';
 import { Card } from './card';
-import { CitiesResponse } from './types';
 import { task } from './utils';
 
 const CardTypeB = Card({
   type: 'B',
-  day: '...',
-  degree: 0.0,
-  weatherImage: 'cloudy-sun'
+  temp: 0.0
 });
 
-const processMain: string = new Processor(Main, [
+const processedMain: string = new Processor(Main, [
   {
     match: '%CardTypeA%',
     value: Card({
       type: 'A',
-      degree: 0.0,
-      desc: '...',
-      humidityDeg: 0.0,
-      weatherImage: 'cloudy-sun'
+      temp: 0.0,
+      description: '...',
+      humidity: 0.0
     })
   },
   {
@@ -43,12 +34,12 @@ export default function home() {
   const Home = Q('.Home') as HTMLElement;
   const Button = Q('.Home button') as HTMLButtonElement;
   const Nav = Q('.Nav') as HTMLElement | any;
-  const CityLocation = Q('.Nav .location') as HTMLElement;
 
+  //add inert (polyfill) attribute for accessibility reasons
   Nav.setAttribute('inert', true);
 
   const mountMain = () => {
-    render(processMain, View, { adjacency: 'beforeend' });
+    render(processedMain, View, { adjacency: 'beforeend' });
     Home.classList.add('hide');
     addEventListenerOnce(Home, () => {
       View?.removeChild(Home as any);
@@ -59,62 +50,26 @@ export default function home() {
   };
 
   const handleButtonClick = () => {
-    let _task = () => {};
-
     Button.disabled = true;
     Button.textContent = 'Starting...';
 
     const locationSuccess = (position: Position) => {
       const { latitude, longitude } = position.coords;
 
-      _task = () => {
-        getWeatherInfoThenPopulateUI(
-          latitude,
-          longitude,
-          `Getting city name...`
-        )
-          .then(() => {
-            getData(
-              'https://geocode.xyz/',
-              `locate=${latitude},${longitude}&geoit=json`
-            ).then((data: CitiesResponse) => {
-              const { city, prov } = data ?? {};
-
-              CityLocation.classList[city ? 'remove' : 'add']('error');
-              CityLocation.textContent = city
-                ? `${city}, ${prov}`
-                : "Couldn't get city name. Tap here to retry.";
-
-              if (city) {
-                task.erase();
-              }
-            });
-          })
-          .catch(() => {
-            catchGetRequest();
-            Button.disabled = false;
-          });
-      };
-
       delay(700).then(() => {
         mountMain();
-        task.execute();
+        delay(700).then(() => {
+          getWeatherAndCityDataThenSetState(latitude, longitude, null);
+        });
       });
-      task.add(_task);
     };
 
     const locationFailure = () => {
       delay(700).then(() => {
         mountMain();
-        _task = () =>
-          getWeatherInfoThenPopulateUI(40.69, -73.96, 'New York, US')
-            .then(() => task.erase())
-            .catch(() => {
-              catchGetRequest();
-              Button.disabled = false;
-            });
-        task.add(_task);
-        task.execute();
+        delay(700).then(() => {
+          getWeatherAndCityDataThenSetState(40.69, -73.96);
+        });
       });
     };
 
@@ -131,8 +86,8 @@ export default function home() {
     );
   };
 
-  if (Button && CityLocation) {
+  if (Button) {
     Button?.addEventListener('click', handleButtonClick);
-    CityLocation.addEventListener('click', () => task.execute());
+    Q('.Nav .location')!.addEventListener('click', () => task.execute());
   }
 }

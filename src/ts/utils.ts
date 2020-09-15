@@ -1,22 +1,80 @@
 import {
   ProcessorProps,
   WeatherImageClassName,
-  WeatherResponseMain
+  WeatherResponseMain,
+  State,
+  WeatherResponseProps
 } from './types';
+import { updateCard } from './card';
+import { updateLocation } from './nav';
 
 export const Q = document.querySelector.bind(document);
 export const QAll = document.querySelectorAll.bind(document);
 export const getByClass = document.getElementsByClassName.bind(document);
 export const getById = document.getElementsByClassName.bind(document);
 
+export const state: State = {
+  latitude: 40.69,
+  longitute: -73.96,
+  location: { text: 'New York, US', err: false },
+  setState(val: Omit<State, 'setState'>) {
+    return new Promise((resolve) => {
+      const { location: _location, current, daily } = val;
+
+      if (_location) {
+        updateLocation(_location.text || state.location.text, _location.err);
+      }
+
+      if (current) {
+        updateCard({
+          ...current,
+          type: 'A'
+        });
+      }
+
+      if (daily) {
+        daily
+          ?.slice(1)
+          .map((data: WeatherResponseProps['daily'], index: number) => {
+            updateCard({
+              ...data,
+              index,
+              type: 'B'
+            });
+          });
+      }
+
+      Object.keys(val).map((key: any) => {
+        console.log('VALLLLLL', val, key)
+        return (state[key] =
+          val[key].length !== undefined
+            ? val[key]
+            : { ...state[key], ...val[key] });
+      });
+      
+      //do the next few lines so setState is not resolved with state
+      const _state = { ...state } as any;
+
+      delete _state.setState;
+      resolve(_state);
+
+      if (navigator.cookieEnabled) {
+        localStorage.appState = _state;
+      }
+    });
+  }
+};
+
+export const setState: State['setState'] = state.setState;
+
 export const task: {
   task: Function;
-  add(process: Function): void;
+  assign(process: Function): void;
   execute(reset?: boolean): void;
   erase: Function;
 } = {
   task: () => {},
-  add(_task: Function | any) {
+  assign(_task: Function | any) {
     task.task = _task;
   },
   erase() {

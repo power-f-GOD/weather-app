@@ -27,7 +27,7 @@
     height: 36vh;
     min-height: 16.5rem;
     max-height: 19rem;
-    max-width: 29rem;
+    max-width: 28rem;
     border-radius: 1.6rem;
     background: {
       color: white;
@@ -130,11 +130,20 @@
       width: $size;
       height: $size;
       background-size: contain;
+      animation-delay: 1.85s !important;
     }
 
     p {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       font-weight: bolder;
+    }
+  }
+
+  &:nth-child(even) {
+    &.type-b {
+      .weather-image {
+        animation-delay: 0.9s !important;
+      }
     }
   }
 
@@ -186,7 +195,6 @@
     );
 
     .weather-image {
-      bottom: 0 !important;
       background-image: url('../images/atmosphere.png');
     }
   }
@@ -243,8 +251,8 @@
   &.condition--thunder-cloud--0 {
     background-image: linear-gradient(
       to bottom,
-      $theme-tertiary-v6,
-      $theme-tertiary-v7
+      $theme-tertiary-v4,
+      $theme-tertiary-v6
     );
   }
 
@@ -281,7 +289,7 @@
   &[class*='-storm'] {
     &.animate {
       .weather-image {
-        animation: animateScale 1.1s infinite;
+        animation: animateScale 1s infinite;
       }
     }
   }

@@ -1,3 +1,11 @@
+export interface State extends Partial<WeatherResponseProps & CitiesResponse> {
+  latitude: number;
+  longitute: number;
+  location: { text: string; err: boolean };
+  setState(val: Omit<State, 'setState'>): Promise<Omit<State, 'setState'>>;
+  [key: string]: any;
+}
+
 export type WeatherImageClassName =
   | 'cloud-storm'
   | 'clouds-sun-rain'
@@ -21,18 +29,11 @@ export type WeatherResponseMain =
   | 'tornado'
   | 'fog';
 
-export interface CardDataProps {
+export interface CardDataProps
+  extends Partial<WeatherInfoProps & WeatherResponseProps> {
   type: 'A' | 'B';
-  degree: number;
-  desc?: string;
-  humidityDeg?: number;
-  weatherImage: WeatherImageClassName;
-  day?: string;
+  description?: string;
   index?: number;
-  weatherForToday?: boolean;
-  isNightTime?: boolean;
-  feelsLike?: number;
-  windSpeed?: number;
 }
 
 export interface ProcessorProps {
@@ -66,7 +67,7 @@ export interface WeatherInfoProps {
   clouds: number;
   dew_point: number;
   dt: number;
-  feels_like: number;
+  feels_like: number | FeelsLikeDaily;
   humidity: number;
   pressure: number;
   sunrise: number;
@@ -84,6 +85,13 @@ export interface TempDaily {
   eve: number;
   max: number;
   min: number;
+  morn: number;
+  night: number;
+}
+
+export interface FeelsLikeDaily {
+  day: number;
+  eve: number;
   morn: number;
   night: number;
 }
