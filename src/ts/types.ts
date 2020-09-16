@@ -1,4 +1,6 @@
 export interface State extends Partial<WeatherResponseProps & CitiesResponse> {
+  tomorrow?: WeatherResponseProps['current'];
+  other?: WeatherResponseProps['current'];
   latitude: number;
   longitute: number;
   location: { text: string; err: boolean };
@@ -41,6 +43,13 @@ export interface ProcessorProps {
   helper: { match: string; value: string | any }[];
 }
 
+export interface Task {
+  task: Function;
+  assign(process: Function): Task;
+  execute(reset?: boolean): void;
+  erase: Function;
+}
+
 export interface CitiesResponse {
   latt: string;
   longt: string;
@@ -60,7 +69,7 @@ export interface WeatherResponseProps {
   hourly: WeatherInfoProps[];
   lat: number;
   lon: number;
-  timezone: string;
+  // timezone: string;
 }
 
 export interface WeatherInfoProps {
@@ -78,6 +87,7 @@ export interface WeatherInfoProps {
   weather: { description: string; main: WeatherResponseMain }[];
   wind_deg: number;
   wind_speed: number;
+  date_string: string;
 }
 
 export interface TempDaily {

@@ -41,7 +41,7 @@ export const getWeatherAndCityDataThenSetState = (
         `lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
       );
       const { current, daily } = data ?? {};
-      console.log(longitude, latitude, location, 'data......', data);
+      // console.log(longitude, latitude, location, 'data......', data);
 
       setState({
         current,
@@ -88,8 +88,7 @@ export const getWeatherAndCityDataThenSetState = (
           }
         };
 
-        task.assign(_task);
-        task.execute();
+        task.assign(_task).execute();
       } else if (daily.length) {
         task.erase();
       }

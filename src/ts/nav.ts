@@ -80,13 +80,12 @@ export default function nav() {
           SearchResultsWrapper.classList.remove('show');
           Type.textContent = type as string;
         });
+        callTransitionEndListener();
       });
     };
 
-    task.assign(_task);
-    task.execute();
-
-    console.log(e.target.dataset);
+    task.assign(_task).execute();
+    // console.log(e.target.dataset);
   };
 
   const handleSearch = (e: any) => {
@@ -98,7 +97,7 @@ export default function nav() {
 
     if (SearchInput.value.trim()) {
       SearchResultsWrapper.classList.add('show');
-      searchMessage('Getting ready...😊');
+      searchMessage('Getting set...😊');
       inputTimeout = setTimeout(() => {
         searchMessage('Getting matching cities...😉');
         getData(

@@ -3,7 +3,8 @@ import {
   WeatherImageClassName,
   WeatherResponseMain,
   State,
-  WeatherResponseProps
+  WeatherResponseProps,
+  Task
 } from './types';
 import { updateCard } from './card';
 import { updateLocation } from './nav';
@@ -19,7 +20,7 @@ export const state: State = {
   location: { text: 'New York, US', err: false },
   setState(val: Omit<State, 'setState'>) {
     return new Promise((resolve) => {
-      const { location: _location, current, daily } = val;
+      const { location: _location, current, daily, tomorrow, other } = val;
 
       if (_location) {
         updateLocation(_location.text || state.location.text, _location.err);
@@ -30,6 +31,12 @@ export const state: State = {
           ...current,
           type: 'A'
         });
+      }
+
+      if (tomorrow) {
+      }
+
+      if (other) {
       }
 
       if (daily) {
@@ -45,37 +52,33 @@ export const state: State = {
       }
 
       Object.keys(val).map((key: any) => {
-        console.log('VALLLLLL', val, key)
         return (state[key] =
           val[key].length !== undefined
             ? val[key]
             : { ...state[key], ...val[key] });
       });
-      
-      //do the next few lines so setState is not resolved with state
+
+      //do the next few lines so the setState function is not resolved with state
       const _state = { ...state } as any;
 
       delete _state.setState;
-      resolve(_state);
 
       if (navigator.cookieEnabled) {
         localStorage.appState = _state;
       }
+
+      resolve(_state);
     });
   }
 };
 
 export const setState: State['setState'] = state.setState;
 
-export const task: {
-  task: Function;
-  assign(process: Function): void;
-  execute(reset?: boolean): void;
-  erase: Function;
-} = {
+export const task: Task = {
   task: () => {},
   assign(_task: Function | any) {
     task.task = _task;
+    return task;
   },
   erase() {
     task.task = () => {};
@@ -230,36 +233,36 @@ export function delay(
   });
 }
 
-// export function interval(
-//   callback: Function,
-//   _interval: number,
-//   clearCallback?: Function
-// ): Promise<number> {
-//   if (isNaN(_interval))
-//     throw Error(
-//       "'interval' expects a time [number] in milliseconds as parameter."
-//     );
+export function interval(
+  callback: Function,
+  _interval: number,
+  clearCallback?: Function
+): Promise<number> {
+  if (isNaN(_interval))
+    throw Error(
+      "'interval' expects a time [number] in milliseconds as parameter."
+    );
 
-//   return new Promise((resolve: Function) => {
-//     let start = 0;
-//     let id = _requestAnimationFrame(animate);
-//     let clear = false;
+  return new Promise((resolve: Function) => {
+    let start = 0;
+    let id = _requestAnimationFrame(animate);
+    let clear = false;
 
-//     function animate(timestamp: number) {
-//       if (!start) start = timestamp;
+    function animate(timestamp: number) {
+      if (!start) start = timestamp;
 
-//       let timeElapsed = timestamp - start;
+      let timeElapsed = timestamp - start;
 
-//       if (!clear) id = _requestAnimationFrame(animate);
-//       else resolve(id);
+      if (!clear) id = _requestAnimationFrame(animate);
+      else resolve(id);
 
-//       if (timeElapsed % _interval < 17 && timeElapsed > _interval) {
-//         callback();
-//         clear = clearCallback ? clearCallback() : false;
-//       }
-//     }
-//   });
-// }
+      if (timeElapsed % _interval < 17 && timeElapsed > _interval) {
+        callback();
+        clear = clearCallback ? clearCallback() : false;
+      }
+    }
+  });
+}
 
 function _requestAnimationFrameWrapper() {
   let previousTime = 0;

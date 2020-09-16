@@ -60,7 +60,7 @@
     }
 
     h1 {
-      font-size: 14vh;
+      font-size: 6.25rem;
       font-weight: lighter;
       margin: -2rem 0 0 0.5rem;
     }
@@ -92,23 +92,22 @@
     }
 
     .weather-image {
-      $size: 10rem;
+      $size: 9.5rem;
 
       width: $size;
       height: $size;
       position: absolute;
-      bottom: -1.45rem;
+      bottom: -0.75rem;
       right: -0.45rem;
       // background-image: url('');
     }
   }
 
   &.type-b {
-    // max-width: 35vw;
     margin-right: 1rem;
-    min-width: 8.25rem;
-    width: 8rem;
-    height: 11rem;
+    margin-left: -0.1rem;
+    min-width: 8.65rem;
+    height: 11.25rem;
     align-items: center;
     justify-content: space-around;
     background-image: linear-gradient(
@@ -116,8 +115,17 @@
       $theme-tertiary-v3,
       $theme-tertiary-v6
     );
+    cursor: pointer;
     padding: 0.25rem;
     border-radius: 1rem;
+    border: 0.15rem solid #eee;
+    background-clip: padding-box;
+    transition: border-color 0.2s;
+
+    &:hover,
+    &:focus {
+      border-color: $theme-tertiary-v3;
+    }
 
     h3 {
       margin-top: 0.65rem;
@@ -142,7 +150,7 @@
   &:nth-child(even) {
     &.type-b {
       .weather-image {
-        animation-delay: 0.9s !important;
+        animation-delay: 1s !important;
       }
     }
   }
@@ -232,7 +240,7 @@
 
     .weather-image {
       width: 8rem;
-      bottom: -1.5em !important;
+      bottom: -1.25em !important;
       background-image: url('../images/sunny.png');
     }
   }

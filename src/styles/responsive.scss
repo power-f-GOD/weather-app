@@ -19,7 +19,7 @@
   .card {
     &.type-a {
       h1 {
-        font-size: 12vh;
+        font-size: 5rem;
       }
 
       .desc {
@@ -27,6 +27,7 @@
       }
 
       .weather-image {
+        bottom: -1.25rem;
         width: 8rem;
       }
     }

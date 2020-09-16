@@ -8,8 +8,8 @@
   width: 100%;
   z-index: 5;
   opacity: 1;
-  background-color: white;
-  border-bottom: 1px solid #eee;
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
   transition: opacity 0.35s, transform 0.35s;
 
   &.hide {
@@ -31,7 +31,7 @@
     align-items: center;
     font-size: 0.75rem;
     font-weight: bolder;
-    color: #999;
+    color: #888;
 
     .image {
       $size: 2.5rem;
@@ -72,7 +72,7 @@
     left: 8.25rem;
     padding-right: 5rem;
     border-radius: 0.25rem;
-    background-color: white;
+    background-color: #eee;
     max-width: calc(100% - 12rem);
     width: 100%;
     color: $theme-tertiary-v3;
@@ -114,14 +114,9 @@
   border-radius: 2rem;
   padding: 0.75rem;
   background-color: rgba(0, 0, 0, 0.05);
-  width: 10rem;
   max-width: calc(100% - 3.5rem);
+  width: calc(100% - 3.5rem);
   border: none;
-  transition: background-color 0.35s, width 0.35s;
-
-  &:focus {
-    width: calc(100% - 3.5rem);
-  }
 
   &:focus,
   &:hover {
