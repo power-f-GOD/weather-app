@@ -32,7 +32,8 @@ export async function updateCard(props: CardDataProps) {
         const HumidityDeg = Q('.card.type-a .humidity-deg');
 
         if (Card.classList.contains('animate-cover')) {
-          await delay(1000);
+          await delay(600);
+          Card.classList.remove('animate-cover')
         }
 
         const weatherForToday =

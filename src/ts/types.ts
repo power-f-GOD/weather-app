@@ -65,6 +65,11 @@ export interface CitiesResponse {
   country: string;
   timezone: string;
   prov: string;
+  region: string;
+  standard: {
+    city: string;
+    prov: string;
+  };
 }
 
 export interface WeatherResponseProps {
