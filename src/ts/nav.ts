@@ -99,49 +99,50 @@ export default function nav() {
       SearchResultsWrapper.classList.add('show');
       searchMessage('Getting set...😊');
 
-      inputTimeout = setTimeout(() => {
+      inputTimeout = setTimeout(async () => {
         searchMessage('Getting matching cities...😉');
-        getData(
+
+        const data: CitiesResponse = await getData(
           'https://geocode.xyz/',
           `scantext=${SearchInput.value}&geoit=json`
-        )
-          .then((data: CitiesResponse) => {
-            const { match, matches, error } = data;
+        ).catch(() => {
+          searchMessage('An error occurred. Failed to get.', true);
+        });
 
-            if (matches) {
-              render(
-                match.map(({ latt, longt, location, matchtype }) =>
-                  SearchResult({
-                    longitude: Number(longt),
-                    latitude: Number(latt),
-                    location,
-                    type: matchtype
-                  })
-                ),
-                SearchResultsContainer
-              );
-              QAll('.search-result').forEach((result) => {
-                result.addEventListener('click', handleSearchResultClick, true);
-              });
-            } else {
-              searchMessage(
-                `${
-                  error
-                    ? 'Something went wrong. Please try again after some time.😕'
-                    : `Sorry, could not find any matching cities for '${SearchInput.value.replace(
-                        /<\/?.>/,
-                        ''
-                      )}'. You may try typing full city keyword.`
-                }`
-              );
-            }
-          })
-          .catch(() => {
-            searchMessage('An error occurred. Failed to get.', true);
+        const { match, matches, error } = data;
+
+        if (matches) {
+          render(
+            match.map(({ latt, longt, location, matchtype }) =>
+              SearchResult({
+                longitude: Number(longt),
+                latitude: Number(latt),
+                location,
+                type: matchtype
+              })
+            ),
+            SearchResultsContainer
+          );
+          QAll('.search-result').forEach((result) => {
+            result.addEventListener('click', handleSearchResultClick, true);
           });
+        } else {
+          searchMessage(
+            `${
+              error
+                ? 'Something went wrong. Please try again after some time.😕'
+                : `Sorry, could not find any matching cities for '${SearchInput.value.replace(
+                    /<\/?.>/,
+                    ''
+                  )}'. You may try typing full city keyword.`
+            }`
+          );
+        }
       }, 2000);
     } else {
-      searchMessage("Ok, I'm waiting... 🙂");
+      searchMessage(
+        "Ok, I'm waiting... 🙂 <br /><br />PS. You can enter location name or (comma-separated) coordinates [e.g. 7.1, 5.3].✌🏼"
+      );
     }
 
     callTransitionEndListener();

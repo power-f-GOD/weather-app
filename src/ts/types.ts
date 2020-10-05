@@ -4,6 +4,7 @@ export interface State extends Partial<WeatherResponseProps & CitiesResponse> {
   latitude: number;
   longitute: number;
   location: { text: string; err: boolean };
+  activeTabLinkIndex?: number;
   setState(val: Omit<State, 'setState'>): Promise<Omit<State, 'setState'>>;
   [key: string]: any;
 }

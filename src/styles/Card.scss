@@ -34,6 +34,29 @@
       image: linear-gradient(to top, $theme-primary-v5, $theme-primary-v7);
     }
 
+    &.animate-cover {
+      &::before {
+        animation: coverCardAnimate 1.3s cubic-bezier(0.47, 0.5, 0.745, 0.715);
+      }
+    }
+
+    &::before {
+      @include before-or-after($zi: 2, $br: 50%, $w: 5rem, $h: 5rem, $bg: #eee);
+      transform: translate(-5rem, -5rem);
+    }
+
+    @keyframes coverCardAnimate {
+      0% {
+        transform: scale(1) translate(-4rem, -4rem);
+      }
+      90% {
+        transform: scale(20) translate(9rem, 8rem);
+      }
+      100% {
+        transform: scale(5) translate(20rem, 10rem);
+      }
+    }
+
     .top {
       // @include debugger();
       display: flex;
@@ -99,7 +122,7 @@
       position: absolute;
       bottom: -0.75rem;
       right: -0.45rem;
-      // background-image: url('');
+      transition-duration: 0.25s !important;
     }
   }
 

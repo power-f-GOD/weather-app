@@ -1,7 +1,16 @@
-import { Q, QAll, getMappedImageString, setState, state, round } from './utils';
+import {
+  Q,
+  QAll,
+  getMappedImageString,
+  setState,
+  state,
+  round,
+  delay,
+  addEventListenerOnce
+} from './utils';
 import { CardDataProps, WeatherResponseMain } from './types';
 
-export function updateCard(props: CardDataProps) {
+export async function updateCard(props: CardDataProps) {
   const { type, current, tomorrow, other, index } = props ?? {};
   let { temp, weather, humidity, dt, feels_like, wind_speed, date_string } =
     current || tomorrow || other || props || {};
@@ -22,6 +31,10 @@ export function updateCard(props: CardDataProps) {
         const Desc = Q('.card.type-a .desc');
         const HumidityDeg = Q('.card.type-a .humidity-deg');
 
+        if (Card.classList.contains('animate-cover')) {
+          await delay(1000);
+        }
+
         const weatherForToday =
           new Date(Number(`${dt}000`)).toDateString() ===
           new Date().toDateString();
@@ -29,6 +42,15 @@ export function updateCard(props: CardDataProps) {
         const isNightTime = currentHr >= 19 || currentHr < 7;
 
         if (Card && Degree && Desc && HumidityDeg && FeelsLike && WindSpeed) {
+          addEventListenerOnce(
+            Card,
+            () => Card.classList.remove('animate-cover'),
+            'animationend'
+          );
+          await delay(20);
+          Card.classList.add('animate-cover');
+          await delay(450);
+
           FeelsLike.textContent = round(feels_like as number) + '°';
           WindSpeed.textContent = round(wind_speed) + ' m/s';
           Degree.textContent = round(temp as number) + '°';
@@ -77,10 +99,12 @@ export function updateCard(props: CardDataProps) {
         Card.onclick = () => {
           if (index! > 0) {
             setState({
-              other: { ...state.daily![index as number] }
+              other: { ...state.daily![index as number] },
+              activeTabLinkIndex: 2
             });
           } else {
             updateCard({ ...state.tomorrow, type: 'A' });
+            setState({ activeTabLinkIndex: 1 });
           }
         };
       }

@@ -22,7 +22,14 @@ export const state: State = {
   location: { text: 'New York, US', err: false },
   setState(val: Omit<State, 'setState'>) {
     return new Promise((resolve) => {
-      const { location: _location, current, daily, tomorrow, other } = val;
+      const {
+        location: _location,
+        current,
+        daily,
+        tomorrow,
+        other,
+        activeTabLinkIndex
+      } = val;
 
       if (_location) {
         updateLocation(_location.text || state.location.text, _location.err);
@@ -33,7 +40,10 @@ export const state: State = {
           ...(current || tomorrow || other),
           type: 'A'
         });
-        updateTabLink(other.date_string, tomorrow ? 1 : other ? 2 : 0);
+      }
+
+      if (activeTabLinkIndex !== undefined) {
+        updateTabLink(activeTabLinkIndex, (other || state.other).date_string);
       }
 
       if (daily) {
@@ -167,6 +177,7 @@ export const getWeatherAndCityDataThenSetState = (
         tomorrow: daily[0],
         other: daily[1],
         daily,
+        activeTabLinkIndex: 0,
         location: {
           text:
             location === undefined
@@ -297,6 +308,13 @@ export class Processor {
     return this.processed;
   }
 }
+
+export const transform = (el: any, val: string) => {
+  el.style.WebkitTransform = val;
+  el.style.MozTransform = val;
+  el.style.OTransform = val;
+  el.style.transform = val;
+};
 
 export const render = (
   _content: string | string[] | any,

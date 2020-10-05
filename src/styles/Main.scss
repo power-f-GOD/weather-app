@@ -13,10 +13,25 @@
 
   .tab-links-container {
     display: inline-flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
+    padding: 0 0.75rem;
     max-width: 18rem;
     margin: 0.8vh 0;
+    position: relative;
+    // @include debugger();
+  }
+
+  .tab-indicator {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 5.6rem;
+    z-index: 0;
+    border-radius: 2rem;
+    display: inline-block;
+    transition: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: rgba($prim-r + 50, $prim-g + 50, $prim-b + 50, 0.2);
   }
 
   .tab-link {
@@ -24,19 +39,21 @@
     font-size: 0.8rem;
     font-weight: bolder;
     border-radius: 2rem;
+    border-bottom: 0.125rem solid transparent;
     padding: 0.5rem 1rem;
     transition: 0.35s;
     display: inline-flex;
     align-items: center;
+    position: static;
+    z-index: 1;
 
     &.active {
       color: $theme-primary-v4;
-      background-color: rgba($prim-r + 50, $prim-g + 50, $prim-b + 50, 0.2);
     }
 
     &:hover,
     &:focus {
-      background-color: rgba($prim-r + 25, $prim-g + 25, $prim-b + 25, 0.25);
+      border-bottom-color: rgba($prim-r + 25, $prim-g + 25, $prim-b + 25, 0.35);
     }
   }
 
