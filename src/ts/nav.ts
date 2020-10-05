@@ -8,7 +8,8 @@ import {
   task
 } from './utils';
 import { CitiesResponse } from './types';
-import { getWeatherAndCityDataThenSetState } from './main';
+import { getWeatherAndCityDataThenSetState } from './utils';
+import { SearchResult } from './templates';
 
 export default function nav() {
   const CityLocation = Q('.Nav .location') as HTMLElement;
@@ -85,7 +86,6 @@ export default function nav() {
     };
 
     task.assign(_task).execute();
-    // console.log(e.target.dataset);
   };
 
   const handleSearch = (e: any) => {
@@ -98,6 +98,7 @@ export default function nav() {
     if (SearchInput.value.trim()) {
       SearchResultsWrapper.classList.add('show');
       searchMessage('Getting set...😊');
+
       inputTimeout = setTimeout(() => {
         searchMessage('Getting matching cities...😉');
         getData(
@@ -134,7 +135,6 @@ export default function nav() {
                 }`
               );
             }
-            // console.log(data, SearchInput.value as any);
           })
           .catch(() => {
             searchMessage('An error occurred. Failed to get.', true);
@@ -203,29 +203,4 @@ export const updateLocation = (text: string, err?: boolean) => {
 
   CityLocation.classList[err ? 'add' : 'remove']('error');
   CityLocation.textContent = text;
-};
-
-export const SearchResult = (props: {
-  longitude: number;
-  latitude: number;
-  location: string;
-  type: string;
-}) => {
-  let { longitude, latitude, location, type } = props;
-
-  location = location
-    .split(',')
-    .map((word) => word.trim())
-    .join(', ');
-
-  return `
-  <a href="#!" 
-    class="search-result fulfilled"
-    data-longitude='${longitude}' 
-    data-latitude='${latitude}'
-    data-location='${location}'
-    data-type='${type}'>
-    <p class="location">${location}</p>
-    <p class="type">${type}</p>
-  </a>`;
 };

@@ -35,6 +35,9 @@ export interface CardDataProps
   extends Partial<WeatherInfoProps & WeatherResponseProps> {
   type: 'A' | 'B';
   description?: string;
+  main?: string;
+  tomorrow?: WeatherInfoProps;
+  other?: WeatherInfoProps;
   index?: number;
 }
 

@@ -11,13 +11,15 @@ import { render, task } from './utils';
 const App = () => {
   return `
   ${Nav}
-  <main class='View'>${Home}</main>`;
+  <div class='View'>
+    ${Home}
+  </div>`;
 };
 
-render(App(), document.querySelector('#app'));
-
-nav();
-home();
+render(App(), document.querySelector('#app')!, null, () => {
+  nav();
+  home();
+});
 
 window.ononline = () => {
   task.execute();

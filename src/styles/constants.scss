@@ -45,7 +45,7 @@ $theme-primary-v9: rgb(
   $prim-g + (25 * 4),
   $prim-b + (25 * 4)
 );
-//70,93,0
+
 $theme-secondary: rgb(154, 138, 0); //yellow-like
 $sec-r: 154;
 $sec-g: 138;
@@ -137,12 +137,6 @@ $theme-tertiary-v9: rgb(
   $tert-g + (25 * 4),
   $tert-b + (25 * 4)
 );
-
-$success: rgb(27, 136, 27);
-$error: rgb(255, 34, 34);
-$info: #222;
-
-$app-max-width: 74rem;
 
 @mixin debugger($color: red) {
   &,

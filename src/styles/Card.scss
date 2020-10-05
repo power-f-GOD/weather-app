@@ -24,9 +24,9 @@
     margin: 2vh 1rem;
     padding: 0 1.5rem 1.75rem 1.5rem;
     width: calc(100% - 2rem);
-    height: 36vh;
+    height: 40vh;
     min-height: 16.5rem;
-    max-height: 19rem;
+    max-height: 19.25rem;
     max-width: 28rem;
     border-radius: 1.6rem;
     background: {
@@ -74,7 +74,7 @@
     .desc {
       opacity: 0.65;
       font-size: 0.95rem;
-      max-width: calc(100% - 6rem);
+      width: 70%;
       z-index: 1;
       position: relative;
     }
@@ -105,8 +105,7 @@
 
   &.type-b {
     margin-right: 1rem;
-    margin-left: -0.1rem;
-    min-width: 8.65rem;
+    min-width: 8.5rem;
     height: 11.25rem;
     align-items: center;
     justify-content: space-around;
@@ -118,13 +117,31 @@
     cursor: pointer;
     padding: 0.25rem;
     border-radius: 1rem;
-    border: 0.15rem solid #eee;
-    background-clip: padding-box;
-    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+    background-clip: border-box;
+    background-size: 150%;
+    background-position: 10rem;
+    transition: 0.3s;
+
+    > * {
+      position: relative;
+      z-index: 1;
+    }
 
     &:hover,
     &:focus {
-      border-color: $theme-tertiary-v3;
+      color: $theme-tertiary-v2;
+
+      &::before {
+        transform: translateY(0);
+        opacity: 0.55;
+      }
+    }
+
+    &::before {
+      transform: translateY(100%);
+      @include before-or-after($zi: 0, $bg: #fff, $br: inherit, $tr: 0.3s);
     }
 
     h3 {
@@ -189,8 +206,13 @@
       $theme-primary-v7
     );
 
+    &.type-a {
+      .weather-image {
+        bottom: -1.5rem !important;
+      }
+    }
+
     .weather-image {
-      bottom: -1.5rem !important;
       background-image: url('../images/cloudy.png');
     }
   }
@@ -238,9 +260,14 @@
       $theme-secondary-v8
     );
 
+    &.type-a {
+      .weather-image {
+        bottom: -1.25em !important;
+      }
+    }
+
     .weather-image {
       width: 8rem;
-      bottom: -1.25em !important;
       background-image: url('../images/sunny.png');
     }
   }
@@ -311,8 +338,13 @@
 
     &.condition--cloudy-sun--0,
     &.condition--sunny--0 {
+      &.type-a {
+        .weather-image {
+          bottom: -1.75rem !important;
+        }
+      }
+
       .weather-image {
-        bottom: -1.75rem !important;
         background-image: url('../images/cloudy.png');
       }
     }

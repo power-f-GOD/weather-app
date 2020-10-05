@@ -8,6 +8,7 @@
   width: 100%;
   z-index: 5;
   opacity: 1;
+  overflow: hidden;
   background-color: #eee;
   border-bottom: 1px solid #ddd;
   transition: opacity 0.35s, transform 0.35s;
@@ -117,9 +118,13 @@
   max-width: calc(100% - 3.5rem);
   width: calc(100% - 3.5rem);
   border: none;
+  transform: translateY(-150%);
+  transition: transform 0.25s;
 
   &:focus,
-  &:hover {
+  &:hover,
+  &.focused {
+    transform: translateY(0);
     background-color: rgba(0, 0, 0, 0.1);
   }
 }

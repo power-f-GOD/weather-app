@@ -7,7 +7,9 @@ body {
   background-color: #eee;
 }
 
-* {
+*,
+::before,
+::after {
   box-sizing: border-box;
   font-family: 'Comfortaa', 'Trebuchet MS', 'Lucida Sans Unicode',
     'Lucida Grande', 'Lucida Sans', Arial, sans-serif;

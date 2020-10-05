@@ -1,58 +1,16 @@
-import { Q, QAll, formatDate, getMappedImageString } from './utils';
-import { CardDataProps, TempDaily, WeatherResponseMain } from './types';
-
-export const Card = (props: CardDataProps) => {
-  const { type, temp, description, humidity } = props;
-
-  switch (type) {
-    case 'A':
-      return `
-      <div class="card type-a condition--cloudy-sun--0">
-        <div class='top'>
-          <p class='feels-like-container'>
-            <span>feels like<span>
-            <br />
-            <span class='feels-like'>0&deg;<span>
-          </p>
-          <p class='wind-speed-container'>
-            <span>wind speed<span>
-            <br />
-            <span class='wind-speed'>0 m/s<span>
-          </p>
-        </div>
-        <h1>${temp}&deg;</h1>
-        <div class="desc-wrapper text-left">
-          <p class="desc">${description}</p>
-          <p class="humidity">Humidity</p>
-          <p class="humidity-deg">${humidity}%</p>
-          <div class="weather-image"></div>
-        </div>
-      </div>
-    `;
-    case 'B':
-      return `
-      <div class="card type-b condition--cloudy-sun--0 animate">
-        <h3>...</h3>
-        <div class="weather-image"></div>
-        <p>${temp}&deg;</p>
-      </div>`;
-  }
-};
+import { Q, QAll, getMappedImageString, setState, state, round } from './utils';
+import { CardDataProps, WeatherResponseMain } from './types';
 
 export function updateCard(props: CardDataProps) {
-  const { type, current, index } = props ?? {};
-  let { temp, weather, humidity, dt, feels_like, wind_speed } =
-    current ?? props ?? {};
-  const { description, main } = weather?.slice(-1)[0] ?? {};
+  const { type, current, tomorrow, other, index } = props ?? {};
+  let { temp, weather, humidity, dt, feels_like, wind_speed, date_string } =
+    current || tomorrow || other || props || {};
+  const { description, main } = weather?.slice(-1)[0] ?? props;
 
   const weatherImage = getMappedImageString(
     main as WeatherResponseMain,
     description as string
   );
-
-  const round = (num?: number) => {
-    return Number(num?.toFixed(1));
-  };
 
   switch (type) {
     case 'A':
@@ -90,24 +48,21 @@ export function updateCard(props: CardDataProps) {
 
           if (weatherForToday && isNightTime) {
             Card.classList.add('night-time');
+          } else {
+            Card.classList.remove('night-time');
           }
         }
       }
       break;
     case 'B':
       {
-        const Card = QAll('.card.type-b')[index ?? 0];
+        const Card = QAll('.card.type-b')[index ?? 0] as HTMLElement;
         const Day = QAll('.card.type-b h3')[index ?? 0];
         const Degree = QAll('.card.type-b p')[index ?? 0];
 
-        temp = temp as TempDaily;
-
-        const _temp = (temp.max + temp.min) / 2;
-        const date = formatDate(dt as number);
-
         if (Card && Day && Degree) {
-          Day.textContent = date ?? 'Monday';
-          Degree.textContent = round(_temp) + '°';
+          Day.textContent = date_string ?? 'Monday';
+          Degree.textContent = round(temp as number) + '°';
 
           if (/condition--/.test(Card.className)) {
             Card.className = Card.className.replace(
@@ -118,6 +73,16 @@ export function updateCard(props: CardDataProps) {
             Card.classList.add(`condition--${weatherImage}--0`);
           }
         }
+
+        Card.onclick = () => {
+          if (index! > 0) {
+            setState({
+              other: { ...state.daily![index as number] }
+            });
+          } else {
+            updateCard({ ...state.tomorrow, type: 'A' });
+          }
+        };
       }
       break;
   }

@@ -30,8 +30,8 @@
     align-items: center;
 
     &.active {
-      color: $theme-primary-v5;
-      background-color: rgba($prim-r + 50, $prim-g + 50, $prim-b + 50, 0.15);
+      color: $theme-primary-v4;
+      background-color: rgba($prim-r + 50, $prim-g + 50, $prim-b + 50, 0.2);
     }
 
     &:hover,
@@ -50,10 +50,9 @@
 
   .scroll-section {
     border-radius: 1rem;
-    width: calc(100% - 1.7rem);
+    width: calc(100% - 2rem);
     margin: 0.25rem 1rem 1rem;
     display: flex;
-    padding: 0 0.15rem;
     overflow-x: auto;
     // @include debugger();
   }

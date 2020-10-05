@@ -4,10 +4,12 @@ import {
   WeatherResponseMain,
   State,
   WeatherResponseProps,
-  Task
+  Task,
+  CitiesResponse
 } from './types';
 import { updateCard } from './card';
 import { updateLocation } from './nav';
+import { updateTabLink } from './main';
 
 export const Q = document.querySelector.bind(document);
 export const QAll = document.querySelectorAll.bind(document);
@@ -26,29 +28,22 @@ export const state: State = {
         updateLocation(_location.text || state.location.text, _location.err);
       }
 
-      if (current) {
+      if (current || tomorrow || other) {
         updateCard({
-          ...current,
+          ...(current || tomorrow || other),
           type: 'A'
         });
-      }
-
-      if (tomorrow) {
-      }
-
-      if (other) {
+        updateTabLink(other.date_string, tomorrow ? 1 : other ? 2 : 0);
       }
 
       if (daily) {
-        daily
-          ?.slice(1)
-          .map((data: WeatherResponseProps['daily'], index: number) => {
-            updateCard({
-              ...data,
-              index,
-              type: 'B'
-            });
+        daily.map((data: WeatherResponseProps['daily'], index: number) => {
+          updateCard({
+            ...data,
+            index,
+            type: 'B'
           });
+        });
       }
 
       Object.keys(val).map((key: any) => {
@@ -92,6 +87,159 @@ export const task: Task = {
   }
 };
 
+export const getWeatherAndCityDataThenSetState = (
+  latitude: number,
+  longitude: number,
+  location?: string | null
+) => {
+  setState({
+    latitude,
+    longitude,
+    location: { text: 'Getting weather data...' },
+    err: false
+  });
+
+  let _task = async () => {
+    try {
+      const data: WeatherResponseProps = await getData(
+        'https://api.openweathermap.org/data/2.5/onecall',
+        `lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
+      );
+      const { current, daily: _daily } = data ?? {};
+      const daily = _daily.slice(1).map((day) => {
+        const dataset = {
+          feels_like: 0,
+          wind_speed: 0,
+          temp: 0,
+          main: '',
+          description: '',
+          date_string: '',
+          dt: 0,
+          humidity: 0
+        } as any;
+
+        let _value: any = 0;
+
+        for (const key in dataset) {
+          const datum = (dataset[key] = (day as any)[key]);
+
+          if (/feels_like|temp/.test(key) && datum) {
+            const data = dataset[key];
+            let value: string | number = 0;
+            let length = 0;
+
+            for (const val in data) {
+              if (datum === 'temp' && /min|max/.test(val)) {
+                continue;
+              }
+
+              value += Number(data[val as any]);
+              length += 1;
+            }
+
+            value /= length;
+            _value = value;
+          } else {
+            let value = datum;
+
+            switch (true) {
+              case /description|main/.test(key):
+                const { description, main } = day.weather?.slice(-1)[0] ?? {};
+
+                value = key === 'main' ? main : description;
+                break;
+              case key === 'date_string':
+                value = formatDate(day.dt).split(',')[1].trim();
+                break;
+            }
+
+            _value = value;
+          }
+
+          dataset[key] = _value;
+        }
+
+        return dataset;
+      });
+
+      setState({
+        current,
+        tomorrow: daily[0],
+        other: daily[1],
+        daily,
+        location: {
+          text:
+            location === undefined
+              ? 'New York, US'
+              : location === null
+              ? 'Getting location name...'
+              : location,
+          err: false
+        }
+      });
+
+      if (!location && location === null) {
+        _task = async () => {
+          setState({
+            location: {
+              text: 'Getting location name...',
+              err: false
+            }
+          });
+
+          const locationData: CitiesResponse = await getData(
+            'https://geocode.xyz/',
+            `locate=${latitude},${longitude}&geoit=json`
+          ).catch(catchGetRequest);
+          const { city, prov } = locationData ?? {};
+
+          setState({
+            location: {
+              text: city
+                ? `${city}, ${prov}`
+                : "Couldn't get location name. Tap here to retry.",
+              err: !city
+            }
+          });
+
+          if (city) {
+            task.erase();
+          }
+        };
+
+        task.assign(_task).execute();
+      } else if (daily.length) {
+        task.erase();
+      }
+    } catch (e) {
+      catchGetRequest(e);
+    }
+  };
+
+  task.assign(_task);
+  return _task();
+};
+
+export const catchGetRequest = (e?: any) => {
+  const err = String(e);
+
+  if (/fetch|network|promise/i.test(err)) {
+    alert(
+      `${
+        !navigator.onLine
+          ? "Couldn't fetch. You're offline."
+          : "A network error occurred. Sure you're connected?"
+      } `
+    );
+  }
+
+  setState({
+    location: { text: '⚠ An error occurred. Tap here to retry.', err: true }
+  });
+
+  console.error(e);
+};
+
 export const getMappedImageString = (
   main: WeatherResponseMain,
   desc: string
@@ -120,8 +268,13 @@ export const formatDate = (dt: number) => {
     .replace(/(\w+)\s(\w+\s\d{1,2}).*/, '$1, $2');
 };
 
-export const getData = (baseUrl: string, query: string) => {
-  return fetch(`${baseUrl}?${query}`).then((response) => response.json());
+export const getData = async (baseUrl: string, query: string) => {
+  const response = await fetch(`${baseUrl}?${query}`);
+  return await response.json();
+};
+
+export const round = (num?: number) => {
+  return Number(Number(num)?.toFixed(1));
 };
 
 export class Processor {
@@ -146,8 +299,8 @@ export class Processor {
 }
 
 export const render = (
-  content: string | string[] | any,
-  target: Element | HTMLElement | null,
+  _content: string | string[] | any,
+  target: Element | HTMLElement,
   options?: {
     adjacency?:
       | 'beforeend'
@@ -155,19 +308,21 @@ export const render = (
       | 'beforebegin'
       | 'afterbegin'
       | 'replace';
-    callback?: Function;
-  }
+  } | null,
+  callback?: Function
 ) => {
-  const { adjacency, callback } = options ?? {};
+  const content = _content.join ? _content.join('') : (_content as any);
+  const { adjacency } = options ?? {};
 
-  content = content.join ? content.join('') : (content as any);
-
-  if (target && adjacency && adjacency !== 'replace') {
-    target.insertAdjacentHTML(adjacency, content as any);
-  } else if (target && (adjacency === 'replace' || !adjacency)) {
-    target.innerHTML = content as any;
-  } else {
-    Q('#app')?.insertAdjacentHTML('beforeend', content as any);
+  switch (true) {
+    case target && adjacency && adjacency !== 'replace':
+      target.insertAdjacentHTML(adjacency as any, content as any);
+      break;
+    case target && (adjacency === 'replace' || !adjacency):
+      target.innerHTML = content as any;
+      break;
+    default:
+      Q('#app')?.insertAdjacentHTML('beforeend', content as any);
   }
 
   if (callback) {
@@ -204,7 +359,7 @@ export const addEventListenerOnce = (
   }
 };
 
-// timers -->
+// (more performant) timers -->
 
 const _requestAnimationFrame = _requestAnimationFrameWrapper();
 
