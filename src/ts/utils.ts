@@ -5,7 +5,8 @@ import {
   State,
   WeatherResponseProps,
   Task,
-  CitiesResponse
+  CitiesResponse,
+  WeatherInfoProps
 } from './types';
 import { updateCard } from './card';
 import { updateLocation } from './nav';
@@ -16,9 +17,10 @@ export const QAll = document.querySelectorAll.bind(document);
 export const getByClass = document.getElementsByClassName.bind(document);
 export const getById = document.getElementsByClassName.bind(document);
 
-export const state: State = {
+export const state: Readonly<Pick<State, 'setState'>> &
+  Omit<State, 'setState'> = {
   latitude: 40.69,
-  longitute: -73.96,
+  longitude: -73.96,
   location: { text: 'New York, US', err: false },
   setState(val: Omit<State, 'setState'>) {
     return new Promise((resolve) => {
@@ -30,24 +32,34 @@ export const state: State = {
         other,
         activeTabLinkIndex
       } = val;
+      let activeTab = current;
 
-      if (_location) {
-        updateLocation(_location.text || state.location.text, _location.err);
+      switch (activeTabLinkIndex || state.activeTabLinkIndex) {
+        case 1:
+          activeTab = tomorrow;
+          break;
+        case 2:
+          activeTab = other;
+          break;
+        default:
+          activeTab = current;
       }
 
-      if (current || tomorrow || other) {
-        updateCard({
-          ...(current || tomorrow || other),
-          type: 'A'
-        });
+      //update UI...
+      if (_location) {
+        updateLocation(_location.text ?? state.location?.text, _location.err);
       }
 
       if (activeTabLinkIndex !== undefined) {
-        updateTabLink(activeTabLinkIndex, (other || state.other).date_string);
+        updateTabLink(activeTabLinkIndex, (other ?? state.other)?.date_string);
+      }
+
+      if (current || tomorrow || other) {
+        updateCard({ ...activeTab, type: 'A' });
       }
 
       if (daily) {
-        daily.map((data: WeatherResponseProps['daily'], index: number) => {
+        daily.map((data: WeatherInfoProps, index: number) => {
           updateCard({
             ...data,
             index,
@@ -56,12 +68,13 @@ export const state: State = {
         });
       }
 
-      Object.keys(val).map((key: any) => {
-        return (state[key] =
-          val[key].length !== undefined
-            ? val[key]
-            : { ...state[key], ...val[key] });
-      });
+      //update state
+      for (const [key, value] of Object.entries(val)) {
+        (state as any)[key] =
+          Array.isArray(value) || /string|number/.test(typeof value)
+            ? value
+            : { ...(state as any)[key], ...value };
+      }
 
       //do the next few lines so the setState function is not resolved with state
       const _state = { ...state } as any;
@@ -69,7 +82,7 @@ export const state: State = {
       delete _state.setState;
 
       if (navigator.cookieEnabled) {
-        localStorage.appState = _state;
+        localStorage.weatherAppState = JSON.stringify(_state);
       }
 
       resolve(_state);
@@ -79,7 +92,8 @@ export const state: State = {
 
 export const setState: State['setState'] = state.setState;
 
-export const task: Task = {
+//mainly used for caching failed tasks so they can be 'retried/re-executed' e.g. when an API call is made and there's no internet connection, the task is cached/stored then executed when internet connection is regained
+export const task: Readonly<Omit<Task, 'task'>> & { task: Function } = {
   task: () => {},
   assign(_task: Function | any) {
     task.task = _task;
@@ -88,13 +102,81 @@ export const task: Task = {
   erase() {
     task.task = () => {};
   },
-  execute(reset?: boolean) {
-    task.task();
-
+  execute<T>(reset?: boolean): T {
     if (reset) {
-      task.erase();
+      delay(50).then(() => task.erase());
     }
+
+    return task.task();
   }
+};
+
+export const getAndReturnWeatherData = async (
+  latitude: number,
+  longitude: number
+) => {
+  const { current, daily: _daily }: WeatherResponseProps =
+    (await getData(
+      'https://api.openweathermap.org/data/2.5/onecall',
+      `lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
+    ).catch(catchGetRequest)) ?? {};
+  const daily = _daily.slice(1).map((day) => {
+    const dataset = {
+      feels_like: 0,
+      wind_speed: 0,
+      temp: 0,
+      main: '',
+      description: '',
+      date_string: '',
+      dt: 0,
+      humidity: 0
+    } as WeatherInfoProps & { [key: string]: any };
+
+    let _value: any = 0;
+
+    for (const key in dataset) {
+      const datum = (dataset[key] = (day as any)[key]);
+
+      if (/feels_like|temp/.test(key) && datum) {
+        const data = dataset[key];
+        let value: string | number = 0;
+        let length = 0;
+
+        for (const val in data) {
+          if (datum === 'temp' && /min|max/.test(val)) {
+            continue;
+          }
+
+          value += Number(data[val as any]);
+          length += 1;
+        }
+
+        value /= length;
+        _value = value;
+      } else {
+        let value = datum;
+
+        switch (true) {
+          case /description|main/.test(key):
+            const { description, main } = day.weather?.slice(-1)[0] ?? {};
+
+            value = key === 'main' ? main : description;
+            break;
+          case key === 'date_string':
+            value = formatDate(day.dt).split(',')[1].trim();
+            break;
+        }
+
+        _value = value;
+      }
+
+      dataset[key] = _value;
+    }
+
+    return dataset;
+  });
+
+  return Promise.resolve({ current, daily });
 };
 
 export const getWeatherAndCityDataThenSetState = (
@@ -105,89 +187,32 @@ export const getWeatherAndCityDataThenSetState = (
   setState({
     latitude,
     longitude,
-    location: { text: 'Getting weather data...' },
-    err: false
+    location: { text: 'Getting weather data...', err: false }
   });
 
   let _task = async () => {
     try {
-      const data: WeatherResponseProps = await getData(
-        'https://api.openweathermap.org/data/2.5/onecall',
-        `lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
-      );
-      const { current, daily: _daily } = data ?? {};
-      const daily = _daily.slice(1).map((day) => {
-        const dataset = {
-          feels_like: 0,
-          wind_speed: 0,
-          temp: 0,
-          main: '',
-          description: '',
-          date_string: '',
-          dt: 0,
-          humidity: 0
-        } as any;
+      const { current, daily } =
+        (await getAndReturnWeatherData(latitude, longitude)) ?? {};
 
-        let _value: any = 0;
-
-        for (const key in dataset) {
-          const datum = (dataset[key] = (day as any)[key]);
-
-          if (/feels_like|temp/.test(key) && datum) {
-            const data = dataset[key];
-            let value: string | number = 0;
-            let length = 0;
-
-            for (const val in data) {
-              if (datum === 'temp' && /min|max/.test(val)) {
-                continue;
-              }
-
-              value += Number(data[val as any]);
-              length += 1;
-            }
-
-            value /= length;
-            _value = value;
-          } else {
-            let value = datum;
-
-            switch (true) {
-              case /description|main/.test(key):
-                const { description, main } = day.weather?.slice(-1)[0] ?? {};
-
-                value = key === 'main' ? main : description;
-                break;
-              case key === 'date_string':
-                value = formatDate(day.dt).split(',')[1].trim();
-                break;
-            }
-
-            _value = value;
+      if (current || daily) {
+        setState({
+          current,
+          tomorrow: daily[0],
+          other: daily[1],
+          daily,
+          activeTabLinkIndex: state.activeTabLinkIndex || 0,
+          location: {
+            text:
+              location === undefined
+                ? 'New York, US'
+                : location === null
+                ? 'Getting location name...'
+                : location,
+            err: false
           }
-
-          dataset[key] = _value;
-        }
-
-        return dataset;
-      });
-
-      setState({
-        current,
-        tomorrow: daily[0],
-        other: daily[1],
-        daily,
-        activeTabLinkIndex: 0,
-        location: {
-          text:
-            location === undefined
-              ? 'New York, US'
-              : location === null
-              ? 'Getting location name...'
-              : location,
-          err: false
-        }
-      });
+        });
+      }
 
       if (!location && location === null) {
         _task = async () => {
@@ -198,11 +223,11 @@ export const getWeatherAndCityDataThenSetState = (
             }
           });
 
-          const locationData: CitiesResponse = await getData(
-            'https://geocode.xyz/',
-            `locate=${latitude},${longitude}&geoit=json`
-          ).catch(catchGetRequest);
-          const { city, prov } = locationData ?? {};
+          const { city, prov }: CitiesResponse =
+            (await getData(
+              'https://geocode.xyz/',
+              `locate=${latitude},${longitude}&geoit=json`
+            ).catch(catchGetRequest)) ?? {};
 
           setState({
             location: {
@@ -227,8 +252,7 @@ export const getWeatherAndCityDataThenSetState = (
     }
   };
 
-  task.assign(_task);
-  return _task();
+  return task.assign(_task).execute<Promise<void>>();
 };
 
 export const catchGetRequest = (e?: any) => {

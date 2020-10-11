@@ -1,15 +1,18 @@
-import { Q, addEventListenerOnce, Processor, render, delay } from './utils';
+import {
+  Q,
+  addEventListenerOnce,
+  Processor,
+  render,
+  delay,
+  setState
+} from './utils';
 
 import Main from '../components/Main.html';
 
 import main from './main';
 import { Card } from './templates';
 import { task, getWeatherAndCityDataThenSetState } from './utils';
-
-const CardTypeB = Card({
-  type: 'B',
-  temp: 0.0
-});
+import { State } from './types';
 
 const processedMain: string = new Processor(Main, [
   {
@@ -23,7 +26,14 @@ const processedMain: string = new Processor(Main, [
   },
   {
     match: '%CardTypeB%',
-    value: Array(7).fill(CardTypeB).join('')
+    value: Array(7)
+      .fill(
+        Card({
+          type: 'B',
+          temp: 0.0
+        })
+      )
+      .join('')
   }
 ]).process();
 
@@ -33,18 +43,17 @@ export default function home() {
   const Button = Q('.Home button') as HTMLButtonElement;
   const Nav = Q('.Nav') as HTMLElement | any;
 
-  //add inert (polyfill) attribute for accessibility reasons
+  //add inert (polyfill) attribute for accessibility purpose(s)
   Nav.setAttribute('inert', true);
 
   const mountMain = () => {
-    render(processedMain, View, { adjacency: 'beforeend' });
+    render(processedMain, View, { adjacency: 'beforeend' }, () => main());
     Home.classList.add('hide');
     addEventListenerOnce(Home, () => {
-      View?.removeChild(Home as any);
+      View.removeChild(Home);
       Nav.classList.remove('hide');
       Nav.inert = false;
     });
-    main();
   };
 
   const handleExploreButtonClick = () => {
@@ -87,5 +96,19 @@ export default function home() {
   if (Button) {
     Button?.addEventListener('click', handleExploreButtonClick);
     Q('.Nav .location')!.addEventListener('click', () => task.execute());
+  }
+
+  //load appState from localStorage if present
+  if (navigator.cookieEnabled) {
+    const weatherAppState: Omit<State, 'setState'> = JSON.parse(
+      localStorage.weatherAppState
+    );
+
+    if (weatherAppState) {
+      delay(1000).then(() => {
+        mountMain();
+        delay(1000).then(() => setState({ ...weatherAppState }));
+      });
+    }
   }
 }

@@ -1,4 +1,11 @@
-import { QAll, state, transform } from './utils';
+import {
+  QAll,
+  state,
+  transform,
+  interval,
+  getAndReturnWeatherData,
+  setState
+} from './utils';
 import { updateCard } from './card';
 
 export default function main() {
@@ -8,11 +15,27 @@ export default function main() {
     TabLinks.forEach((TabLink, index) =>
       TabLink.addEventListener('click', (e) => {
         e.preventDefault();
+        setState({ activeTabLinkIndex: index });
         updateTabLink(index, state.other?.date_string as string);
-        updateCard({ ...state[TabLink.id], type: 'A' });
+        updateCard({ ...(state as any)[TabLink.id], type: 'A' });
       })
     );
   }
+
+  //update app weather data every 2 minutes
+  interval(() => {
+    getAndReturnWeatherData(
+      state.latitude as number,
+      state.longitude as number
+    ).then(({ current, daily }) => {
+      setState({
+        current,
+        daily,
+        tomorrow: daily[1],
+        other: daily.find((day) => day.date_string === state.other?.date_string)
+      });
+    });
+  }, 120000);
 }
 
 export const updateTabLink = (

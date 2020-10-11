@@ -15,7 +15,7 @@ export default function nav() {
   const CityLocation = Q('.Nav .location') as HTMLElement;
   const SearchButton = Q('.search-button') as HTMLElement;
   const SearchInput = Q('.search-input') as HTMLInputElement;
-  const SearchResultsWrapper = Q('.search-results-overlay') as
+  const SearchResultsOverlay = Q('.search-results-overlay') as
     | HTMLElement
     | any;
   const SearchResultsContainer = Q(
@@ -35,19 +35,19 @@ export default function nav() {
   };
 
   const callTransitionEndListener = () => {
-    addEventListenerOnce(SearchResultsWrapper, handleTransitionEnd);
+    addEventListenerOnce(SearchResultsOverlay, handleTransitionEnd);
   };
 
   const handleTransitionEnd = () => {
-    const isHidden = !SearchResultsWrapper.classList.contains('show');
+    const isHidden = !SearchResultsOverlay.classList.contains('show');
 
     if (isHidden) {
       View.inert = false;
-      SearchResultsWrapper.inert = true;
+      SearchResultsOverlay.inert = true;
       (SearchInput as any).onblur();
     } else {
       View.inert = true;
-      SearchResultsWrapper.inert = false;
+      SearchResultsOverlay.inert = false;
     }
   };
 
@@ -81,7 +81,7 @@ export default function nav() {
       Type.textContent = 'done!😎';
       await delay(850);
       Type.textContent = type as string;
-      SearchResultsWrapper.classList.remove('show');
+      SearchResultsOverlay.classList.remove('show');
       callTransitionEndListener();
     };
 
@@ -96,7 +96,7 @@ export default function nav() {
     clearTimeout(inputTimeout);
 
     if (SearchInput.value.trim()) {
-      SearchResultsWrapper.classList.add('show');
+      SearchResultsOverlay.classList.add('show');
       searchMessage('Getting set...😊');
 
       inputTimeout = setTimeout(async () => {
@@ -112,12 +112,6 @@ export default function nav() {
         const queryParam = isCoord
           ? 'json=1'
           : `scantext=${SearchInput.value}&geoit=json`;
-        const data: CitiesResponse = await getData(baseUrl, queryParam).catch(
-          () => {
-            searchMessage('An error occurred. Failed to get.', true);
-          }
-        );
-
         const {
           match,
           matches,
@@ -127,7 +121,9 @@ export default function nav() {
           latt,
           longt,
           error
-        } = data;
+        }: CitiesResponse = await getData(baseUrl, queryParam).catch(() => {
+          searchMessage('An error occurred. Failed to get.', true);
+        }) ?? {};
 
         if (matches || region || typeof standard?.city === 'string') {
           render(
@@ -144,7 +140,7 @@ export default function nav() {
                   latitude: Number(latt),
                   longitude: Number(longt),
                   location: `${region || standard.city}, ${
-                    prov || standard.prov
+                    prov || standard.countryname || standard.prov
                   }`,
                   type: 'city'
                 }),
@@ -183,7 +179,7 @@ export default function nav() {
   };
   SearchInput.onfocus = (e: any) => {
     if (e.target.value.trim()) {
-      SearchResultsWrapper.classList.add('show');
+      SearchResultsOverlay.classList.add('show');
       callTransitionEndListener();
     }
 
@@ -191,7 +187,7 @@ export default function nav() {
     CityLocation.classList.add('hide');
   };
   SearchInput.onblur = () => {
-    if (SearchResultsWrapper.classList.contains('show')) {
+    if (SearchResultsOverlay.classList.contains('show')) {
       return;
     }
 
@@ -215,17 +211,15 @@ export default function nav() {
       SearchInput.focus();
     }
   };
-  SearchResultsWrapper.setAttribute('inert', true);
-  SearchResultsWrapper.onclick = (e: any) => {
+  SearchResultsOverlay.inert = true;//setAttribute('inert', true);
+  SearchResultsOverlay.onclick = (e: any) => {
     if (/-overlay/.test(e.target.className)) {
-      SearchResultsWrapper.classList.remove('show');
+      SearchResultsOverlay.classList.remove('show');
       callTransitionEndListener();
     }
   };
 
-  (Q('.search-form') as HTMLElement).onsubmit = (e: any) => {
-    e.preventDefault();
-  };
+  (Q('.search-form') as HTMLElement).onsubmit = (e: any) => e.preventDefault();
 }
 
 export const updateLocation = (text: string, err?: boolean) => {

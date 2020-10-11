@@ -1,12 +1,11 @@
 export interface State extends Partial<WeatherResponseProps & CitiesResponse> {
   tomorrow?: WeatherResponseProps['current'];
   other?: WeatherResponseProps['current'];
-  latitude: number;
-  longitute: number;
-  location: { text: string; err: boolean };
+  latitude?: number;
+  longitude?: number;
+  location?: { text: string; err?: boolean };
   activeTabLinkIndex?: number;
   setState(val: Omit<State, 'setState'>): Promise<Omit<State, 'setState'>>;
-  [key: string]: any;
 }
 
 export type WeatherImageClassName =
@@ -50,7 +49,7 @@ export interface ProcessorProps {
 export interface Task {
   task: Function;
   assign(process: Function): Task;
-  execute(reset?: boolean): void;
+  execute<T>(reset?: boolean): T;
   erase: Function;
 }
 
@@ -69,6 +68,7 @@ export interface CitiesResponse {
   standard: {
     city: string;
     prov: string;
+    countryname: string;
   };
 }
 
@@ -78,7 +78,6 @@ export interface WeatherResponseProps {
   hourly: WeatherInfoProps[];
   lat: number;
   lon: number;
-  // timezone: string;
 }
 
 export interface WeatherInfoProps {
@@ -97,6 +96,8 @@ export interface WeatherInfoProps {
   wind_deg: number;
   wind_speed: number;
   date_string: string;
+  main?: string;
+  description?: string;
 }
 
 export interface TempDaily {

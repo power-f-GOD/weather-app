@@ -8,8 +8,7 @@
 }
 
 // Search animation(s)
-
-@keyframes resultSlideUp {
+@keyframes resultSlideDown {
   from {
     opacity: 0;
     transform: translateY(-1.5rem);
@@ -21,7 +20,6 @@
 }
 
 // Main animation(s)
-
 @keyframes mainSlideIn {
   from {
     transform: translateX(100%);
@@ -32,7 +30,6 @@
 }
 
 // Card animation(s)
-
 @keyframes animateX {
   0% {
     transform: translateX(0);

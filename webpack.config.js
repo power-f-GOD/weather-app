@@ -16,7 +16,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: true }),
-    new HtmlWebpackPlugin({ template: './src/index.html', minify: false })
+    new HtmlWebpackPlugin({ template: './src/index.html', minify: 'auto' })
   ],
   module: {
     rules: [

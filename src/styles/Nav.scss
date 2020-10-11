@@ -114,18 +114,23 @@
   margin-right: 0.5rem;
   border-radius: 2rem;
   padding: 0.75rem;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.075);
   max-width: calc(100% - 3.5rem);
   width: calc(100% - 3.5rem);
-  border: none;
+  border: 0.125rem solid #eee;
   transform: translateY(-150%);
-  transition: transform 0.25s;
+  transition: 0.25s;
 
   &:focus,
   &:hover,
   &.focused {
     transform: translateY(0);
-    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus,
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.125);
+    border-color: transparent;
   }
 }
 
@@ -165,20 +170,28 @@
   padding: 0.85rem 1rem;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
+  border: 0.125rem solid #555;
   background-color: #eee;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  transition: 0.15s;
+  transition: 0.2s;
 
   &.fulfilled {
-    animation: resultSlideUp 0.5s;
-  }
+    opacity: 0;
+    animation: resultSlideDown 0.5s forwards ease 1.2s;
 
-  &:hover,
-  &:focus {
-    background-color: #fff;
-    transform: scale(1.02);
+    @for $i from 1 through 5 {
+      &:nth-child(#{$i}) {
+        animation-delay: 0s + (($i - 1) * 0.2);
+      }
+    }
+
+    &:hover,
+    &:focus {
+      background-color: #fff;
+      border-color: transparent;
+    }
   }
 
   .location {
@@ -197,6 +210,6 @@
 }
 
 span.search-result {
-  background-color: #fff;
+  background-color: #eee;
   transform: unset !important;
 }
