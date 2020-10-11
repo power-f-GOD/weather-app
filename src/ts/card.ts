@@ -28,12 +28,13 @@ export async function updateCard(props: CardDataProps) {
         const FeelsLike = Q('.card.type-a .feels-like') as HTMLElement;
         const WindSpeed = Q('.card.type-a .wind-speed') as HTMLElement;
         const Degree = Q('.card.type-a h1');
+        const Thermometer = Q('.card.type-a .thermometer') as HTMLElement;
         const Desc = Q('.card.type-a .desc');
         const HumidityDeg = Q('.card.type-a .humidity-deg');
 
         if (Card.classList.contains('animate-cover')) {
           await delay(600);
-          Card.classList.remove('animate-cover')
+          Card.classList.remove('animate-cover');
         }
 
         const weatherForToday =
@@ -41,6 +42,9 @@ export async function updateCard(props: CardDataProps) {
           new Date().toDateString();
         const currentHr = new Date(Date.now()).getHours();
         const isNightTime = currentHr >= 19 || currentHr < 7;
+        const celsiusValue = round(temp as number);
+        const feel =
+          celsiusValue < 20 ? 'cold' : celsiusValue < 40 ? 'warm' : 'hot';
 
         if (Card && Degree && Desc && HumidityDeg && FeelsLike && WindSpeed) {
           addEventListenerOnce(
@@ -54,11 +58,21 @@ export async function updateCard(props: CardDataProps) {
 
           FeelsLike.textContent = round(feels_like as number) + '°';
           WindSpeed.textContent = round(wind_speed) + ' m/s';
-          Degree.textContent = round(temp as number) + '°';
+          Degree.textContent = celsiusValue + '°';
+          Thermometer.style.minHeight = celsiusValue + '%';
           Desc.textContent = (description![0].toUpperCase() +
             description!.slice(1)) as string;
           HumidityDeg.textContent = round(humidity) + '%';
           Card.classList.add('animate');
+
+          if (/therm--/.test(Thermometer.className)) {
+            Thermometer.className = Thermometer.className.replace(
+              /(therm--).*(--0)/,
+              `$1${feel}$2`
+            );
+          } else {
+            Thermometer.classList.add(`therm--${feel}--0`);
+          }
 
           if (/condition--/.test(Card.className)) {
             Card.className = Card.className.replace(

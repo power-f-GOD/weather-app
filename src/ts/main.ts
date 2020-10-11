@@ -4,7 +4,8 @@ import {
   transform,
   interval,
   getAndReturnWeatherData,
-  setState
+  setState,
+  delay
 } from './utils';
 import { updateCard } from './card';
 
@@ -15,26 +16,30 @@ export default function main() {
     TabLinks.forEach((TabLink, index) =>
       TabLink.addEventListener('click', (e) => {
         e.preventDefault();
-        setState({ activeTabLinkIndex: index });
         updateTabLink(index, state.other?.date_string as string);
         updateCard({ ...(state as any)[TabLink.id], type: 'A' });
+        setState({ activeTabLinkIndex: index });
       })
     );
   }
 
   //update app weather data every 2 minutes
   interval(() => {
-    getAndReturnWeatherData(
-      state.latitude as number,
-      state.longitude as number
-    ).then(({ current, daily }) => {
-      setState({
-        current,
-        daily,
-        tomorrow: daily[1],
-        other: daily.find((day) => day.date_string === state.other?.date_string)
+    if (navigator.onLine) {
+      getAndReturnWeatherData(
+        state.latitude as number,
+        state.longitude as number
+      ).then(({ current, daily }) => {
+        setState({
+          current,
+          daily,
+          tomorrow: daily[1],
+          other: daily.find(
+            (day) => day.date_string === state.other?.date_string
+          )
+        });
       });
-    });
+    }
   }, 120000);
 }
 
@@ -52,11 +57,13 @@ export const updateTabLink = (
           TabLink.textContent = textContent;
         }
 
-        const { offsetWidth, offsetLeft } = TabLink;
+        delay(10).then(() => {
+          const { offsetWidth, offsetLeft } = TabLink;
 
-        TabLink.classList.add('active');
-        transform(TabIndicator, `translateX(${offsetLeft}px)`);
-        TabIndicator.style.width = `${offsetWidth}px`;
+          TabLink.classList.add('active');
+          transform(TabIndicator, `translateX(${offsetLeft}px)`);
+          TabIndicator.style.width = `${offsetWidth}px`;
+        });
       } else {
         TabLink.classList.remove('active');
 

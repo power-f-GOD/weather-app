@@ -20,6 +20,10 @@ export const Card = (props: CardDataProps) => {
           </p>
         </div>
         <h1>${temp}&deg;</h1>
+        <div class='thermometer-wrapper'>
+          <div class='thermometer'></div>
+          <span>°C</span>
+        </div>
         <div class="desc-wrapper text-left">
           <p class="desc">${description}</p>
           <p class="humidity">Humidity</p>

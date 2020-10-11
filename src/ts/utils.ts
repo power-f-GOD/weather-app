@@ -119,8 +119,8 @@ export const getAndReturnWeatherData = async (
     (await getData(
       'https://api.openweathermap.org/data/2.5/onecall',
       `lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
-    ).catch(catchGetRequest)) ?? {};
-  const daily = _daily.slice(1).map((day) => {
+    )) ?? {};
+  const daily = _daily?.slice(1).map((day) => {
     const dataset = {
       feels_like: 0,
       wind_speed: 0,
