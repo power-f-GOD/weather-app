@@ -40,13 +40,17 @@ export default function nav() {
 
   const handleTransitionEnd = () => {
     const isHidden = !SearchResultsOverlay.classList.contains('show');
+    // const AnchorElements = Q
+    const Cards = QAll('.card.type-b') as NodeListOf<HTMLElement>;
 
     if (isHidden) {
       View.inert = false;
+      Cards.forEach((Card) => (Card.tabIndex = 0));
       SearchResultsOverlay.inert = true;
       (SearchInput as any).onblur();
     } else {
       View.inert = true;
+      Cards.forEach((Card) => (Card.tabIndex = -1));
       SearchResultsOverlay.inert = false;
     }
   };
@@ -121,9 +125,10 @@ export default function nav() {
           latt,
           longt,
           error
-        }: CitiesResponse = await getData(baseUrl, queryParam).catch(() => {
-          searchMessage('An error occurred. Failed to get.', true);
-        }) ?? {};
+        }: CitiesResponse =
+          (await getData(baseUrl, queryParam).catch(() => {
+            searchMessage('An error occurred. Failed to get.', true);
+          })) ?? {};
 
         if (matches || region || typeof standard?.city === 'string') {
           render(
@@ -153,7 +158,7 @@ export default function nav() {
           searchMessage(
             `${
               error?.code === '006'
-                ? 'Something went wrong. Please try again after some time.😕'
+                ? 'Something went wrong. Please, try again after some time.😕'
                 : `Sorry, could not find any matching cities for '${SearchInput.value.replace(
                     /<\/?.*>/,
                     ''
@@ -211,7 +216,7 @@ export default function nav() {
       SearchInput.focus();
     }
   };
-  SearchResultsOverlay.inert = true;//setAttribute('inert', true);
+  SearchResultsOverlay.inert = true; //setAttribute('inert', true);
   SearchResultsOverlay.onclick = (e: any) => {
     if (/-overlay/.test(e.target.className)) {
       SearchResultsOverlay.classList.remove('show');

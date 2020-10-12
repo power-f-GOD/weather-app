@@ -33,12 +33,13 @@ export type WeatherResponseMain =
 
 export interface CardDataProps
   extends Partial<WeatherInfoProps & WeatherResponseProps> {
-  type: 'A' | 'B';
+  type: 'A' | 'B' | 'C';
   description?: string;
   main?: string;
   tomorrow?: WeatherInfoProps;
   other?: WeatherInfoProps;
   index?: number;
+  hour?: number | string;
 }
 
 export interface ProcessorProps {

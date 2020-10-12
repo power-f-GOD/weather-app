@@ -57,6 +57,153 @@
     }
   }
 
+  .hourlies-wrapper {
+    // @include debugger();
+    height: 2rem;
+    width: 6rem;
+    top: 0;
+    position: absolute;
+    overflow: hidden;
+    background-color: white;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    color: white;
+    flex-direction: column;
+    border-radius: 2rem;
+    box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.25);
+    transform: translateY(26.85rem);
+    transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+    &.open {
+      transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1),
+        width 0.35s ease 0.2s, border-radius 0.5s ease 0.45s;
+      transform: translateY(0) !important;
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+      border-radius: 0;
+
+      .today-hourly,
+      .tomorrow-hourly {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .today-hourly {
+        transition-delay: 0.45s;
+      }
+
+      .tomorrow-hourly {
+        transition-delay: 0.65s;
+      }
+    }
+  }
+
+  .hourlies-toggler {
+    border: 0.125rem solid transparent;
+    border-radius: 2rem;
+    color: $theme-secondary-v2;
+    height: 2rem;
+    display: inline-block;
+    width: 6rem;
+    font-weight: bold;
+    position: absolute;
+    min-height: unset;
+    align-self: flex-start;
+    background-color: white;
+    transform: translate(0);
+    transition: 0.35s ease, font-size 0s;
+
+    &.toggle-close {
+      width: 3.25rem;
+      height: 3.25rem;
+      color: white;
+      position: fixed;
+      z-index: 7;
+      top: 0;
+      left: 0;
+      border-color: white;
+      background-color: transparent;
+      font-size: 1.5rem;
+      transform: translate(calc(100vw - 3.75rem), calc(0.5rem));
+
+      &:hover,
+      &:focus {
+        background-color: white;
+        color: $theme-primary-v3;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $theme-tertiary-v3;
+      color: white;
+      border-color: white;
+    }
+  }
+
+  .legend {
+    padding: 0 0.75rem;
+  }
+
+  .today-hourly,
+  .tomorrow-hourly {
+    transition: transform 0.4s, opacity 0.5s;
+    opacity: 0;
+    transform: translateY(1.5rem);
+
+    h2 {
+      font-size: 1.35rem;
+      text-align: center;
+    }
+  }
+
+  .scroll-view {
+    height: 9.5rem;
+    width: 100%;
+    margin: 1rem 0;
+    display: flex;
+    overflow-x: auto;
+    border: 0.125rem solid white;
+    border-radius: 1rem;
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .hourly-wrapper {
+    border-radius: inherit;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 0.25rem;
+  }
+
+  .weather-image {
+    height: 3rem;
+    width: 3rem;
+    margin: 0.5rem 0;
+    background: {
+      image: url('/src/images/cloudy-sun.png');
+      size: contain;
+      position: center;
+      repeat: no-repeat;
+    }
+  }
+
+  .main {
+    font-size: 0.8rem;
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  .temp {
+    margin-top: 0.35rem;
+  }
+
   h2 {
     font-size: 0.9rem;
     font-weight: bolder;

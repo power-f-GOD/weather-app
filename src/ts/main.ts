@@ -5,12 +5,45 @@ import {
   interval,
   getAndReturnWeatherData,
   setState,
-  delay
+  delay,
+  Q
 } from './utils';
 import { updateCard } from './card';
 
 export default function main() {
   const TabLinks = QAll('.Main .tab-link') as NodeListOf<HTMLAnchorElement>;
+  const HourliesWrapper = Q('.Main .hourlies-wrapper') as HTMLElement;
+  const HourliesToggler = Q('.Main .hourlies-toggler') as HTMLButtonElement;
+
+  HourliesToggler.addEventListener('click', () => {
+    HourliesWrapper.classList.toggle('open');
+    HourliesToggler.classList.toggle('toggle-close');
+    HourliesToggler.textContent = HourliesToggler.classList.contains(
+      'toggle-close'
+    )
+      ? '✕'
+      : 'hourly';
+
+    document.body.style.overflow = HourliesWrapper.classList.contains('open')
+      ? 'hidden'
+      : 'auto';
+  });
+  HourliesWrapper.addEventListener('click', (e: any) => {
+    if (e.target.classList.contains('hourlies-wrapper')) {
+      HourliesToggler.click();
+    }
+  });
+
+  window.onresize = () => {
+    if (!HourliesWrapper.classList.contains('open')) {
+      const Card = Q<HTMLElement>('.card.type-a');
+      const refOffset = Card?.offsetTop! + Card?.offsetHeight!;
+
+      transform(HourliesWrapper, `translateY(${refOffset - 16}px)`);
+    }
+  };
+
+  window.onresize(window as any);
 
   if (TabLinks.length) {
     TabLinks.forEach((TabLink, index) =>
@@ -33,7 +66,7 @@ export default function main() {
         setState({
           current,
           daily,
-          tomorrow: daily[1],
+          tomorrow: daily[0],
           other: daily.find(
             (day) => day.date_string === state.other?.date_string
           )

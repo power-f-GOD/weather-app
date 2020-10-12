@@ -187,7 +187,7 @@ export const getWeatherAndCityDataThenSetState = (
   setState({
     latitude,
     longitude,
-    location: { text: 'Getting weather data...', err: false }
+    location: { text: 'Fetching weather data...', err: false }
   });
 
   let _task = async () => {
@@ -324,7 +324,7 @@ export class Processor {
   process() {
     if (this.helper.length) {
       this.helper.map(({ match, value }) => {
-        this.processed = this.processed.replace(match, value);
+        this.processed = this.processed.replace(new RegExp(match, 'ig'), value);
         return null;
       });
     }

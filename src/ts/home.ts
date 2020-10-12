@@ -34,6 +34,19 @@ const processedMain: string = new Processor(Main, [
         })
       )
       .join('')
+  },
+  {
+    match: '%CardTypeC%',
+    value: Array(24)
+      .fill(
+        Card({
+          type: 'C',
+          temp: 0.0,
+          main: '...',
+          hour: '00'
+        })
+      )
+      .join('')
   }
 ]).process();
 

@@ -1,7 +1,7 @@
 import { CardDataProps } from './types';
 
 export const Card = (props: CardDataProps) => {
-  const { type, temp, description, humidity } = props;
+  const { type, temp, description, main, humidity, hour } = props;
 
   switch (type) {
     case 'A':
@@ -38,6 +38,14 @@ export const Card = (props: CardDataProps) => {
         <h3>...</h3>
         <div class="weather-image"></div>
         <p>${temp}&deg;</p>
+      </div>`;
+    case 'C':
+      return `
+      <div class='hourly-wrapper'>
+        <div class="hour">${hour}:00</div>
+        <div class="weather-image"></div>
+        <p class="main">${main}</p>
+        <div class="temp">${temp}&deg;</div>
       </div>`;
   }
 };
