@@ -103,8 +103,8 @@ export const state: Readonly<Pick<State, 'setState'>> &
 
 export const setState: State['setState'] = state.setState;
 
-//mainly used for caching failed tasks so they can be 'retried/re-executed' e.g. when an API call is made and there's no internet connection, the task is cached/stored then executed when internet connection is regained
-export const task: Readonly<Omit<Task, 'task'>> & { task: Function } = {
+//used for caching failed tasks (mainly failed network requests) so they can be 'retried/re-executed' e.g. when an API call is made and there's no internet connection, the task is cached/stored then executed when internet connection is regained
+export const task: Readonly<Omit<Task, 'task'>> & { task(): any } = {
   task: () => {},
   assign(_task: Function | any) {
     task.task = _task;
@@ -120,6 +120,32 @@ export const task: Readonly<Omit<Task, 'task'>> & { task: Function } = {
 
     return task.task();
   }
+};
+
+export class Processor {
+  helper: ProcessorProps['helper'];
+  processed: string;
+
+  constructor(entry: string, helper: ProcessorProps['helper']) {
+    this.helper = helper;
+    this.processed = entry;
+  }
+
+  process() {
+    if (this.helper.length) {
+      this.helper.map(({ match, value }) => {
+        this.processed = this.processed.replace(new RegExp(match, 'ig'), value);
+        return null;
+      });
+    }
+
+    return this.processed;
+  }
+}
+
+export const getData = async (baseUrl: string, query: string) => {
+  const response = await fetch(`${baseUrl}?${query}`);
+  return await response.json();
 };
 
 export const getAndReturnWeatherData = async (
@@ -174,7 +200,7 @@ export const getAndReturnWeatherData = async (
             value = key === 'main' ? main : description;
             break;
           case key === 'date_string':
-            value = getDateChunk(day.dt).date_string;
+            value = requireDateChunk(day.dt).date_string;
             break;
         }
 
@@ -287,7 +313,7 @@ export const catchGetRequest = (e?: any) => {
   console.error(e);
 };
 
-export const getMappedImageString = (
+export const requireMappedImageString = (
   main: WeatherResponseMain,
   desc: string
 ): WeatherImageClassName => {
@@ -309,7 +335,7 @@ export const getMappedImageString = (
   }
 };
 
-export const getDateChunk = (dt?: number) => {
+export const requireDateChunk = (dt?: number) => {
   const dateString = new Date(dt ? Number(`${dt}000`) : Date.now()).toString();
   const dArr = dateString.split(' ');
   let [day, month, date, hour] = [dArr[0], dArr[1], dArr[2], dArr[4]];
@@ -324,35 +350,9 @@ export const getDateChunk = (dt?: number) => {
   };
 };
 
-export const getData = async (baseUrl: string, query: string) => {
-  const response = await fetch(`${baseUrl}?${query}`);
-  return await response.json();
-};
-
 export const round = (num?: number) => {
   return Number(Number(num)?.toFixed(1));
 };
-
-export class Processor {
-  helper: ProcessorProps['helper'];
-  processed: string;
-
-  constructor(entry: string, helper: ProcessorProps['helper']) {
-    this.helper = helper;
-    this.processed = entry;
-  }
-
-  process() {
-    if (this.helper.length) {
-      this.helper.map(({ match, value }) => {
-        this.processed = this.processed.replace(new RegExp(match, 'ig'), value);
-        return null;
-      });
-    }
-
-    return this.processed;
-  }
-}
 
 //this function is for the purpose of accessibility... basically to make the element or its target inert i.e. hidden from assistive technologies and to remove it from the tab order, and also disable pointer events like mouse clicks or hovers
 export const makeInert = (
