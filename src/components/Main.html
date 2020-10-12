@@ -4,21 +4,21 @@
       <span class="tab-indicator"></span>
       <a href="/today" id="current" class="tab-link active">Today</a>
       <a href="/tomorrow" id="tomorrow" class="tab-link">Tomorrow</a>
-      <a href="/next-week" id="other" class="tab-link">...</a>
+      <a href="/other-day" id="other" class="tab-link">...</a>
     </nav>
     %CardTypeA%
-    <section class="hourlies-wrapper">
+    <section class="hourlies-wrapper" role="presentation">
       <button class='hourlies-toggler'>hourly</button>
       <div class="legend container w-100">
         <div class="today-hourly w-100 text-center">
-          <h2>Today</h2>
+          <h2>Next 0 - 24 hours</h2>
           <small>(24-hour hourly)</small>
           <div class="scroll-view">
             %CardTypeC%
           </div>
         </div>
         <div class="tomorrow-hourly w-100 text-center">
-          <h2>Tomorrow </h2>
+          <h2>Next 24 - 48 hours</h2>
           <small>(24-hour hourly)</small>
           <div class="scroll-view">
             %CardTypeC%

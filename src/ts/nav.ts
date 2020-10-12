@@ -51,6 +51,8 @@ export default function nav() {
   let _task = () => {};
   let searchIsLoading = false;
   const handleSearchResultClick = (e: any) => {
+    e.preventDefault();
+
     const Result = e.target as HTMLAnchorElement;
     const Type = Result.children[1] as HTMLElement;
     const { latitude, longitude, location, type } = Result.dataset ?? {};

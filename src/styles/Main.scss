@@ -65,24 +65,24 @@
     position: absolute;
     overflow: hidden;
     background-color: transparent;
-    z-index: 5;
     display: flex;
+    z-index: 4;
     align-items: center;
     color: white;
     flex-direction: column;
-    border-radius: 2rem;
+    border-radius: 12rem;
     box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.25);
     transform: translateY(26.85rem);
     transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1);
 
     &.open {
+      z-index: 5;
       transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1),
-        width 0.35s ease 0.2s, border-radius 0.5s ease 0.45s;
+        width 0.35s ease 0.2s, border-radius 0.5s ease 0.25s;
       transform: translateY(0) !important;
       height: 100vh;
       width: 100vw;
       position: fixed;
-      overflow: auto;
       background-color: rgba(0, 0, 0, 0.9);
       border-radius: 0;
 
@@ -93,11 +93,11 @@
       }
 
       .today-hourly {
-        transition-delay: 0.5s;
+        transition-delay: 0.55s;
       }
 
       .tomorrow-hourly {
-        transition-delay: 0.7s;
+        transition-delay: 0.75s;
       }
     }
   }
@@ -118,8 +118,9 @@
     transition: 0.35s ease, font-size 0s;
 
     &.toggle-close {
-      width: 3.25rem;
-      height: 3.25rem;
+      transition-delay: 0.15s;
+      width: 3rem;
+      height: 3rem;
       color: white;
       position: fixed;
       z-index: 7;
@@ -146,7 +147,7 @@
   }
 
   .legend {
-    padding: 0 0.75rem;
+    padding: 0 0.5rem;
   }
 
   .today-hourly,
@@ -156,7 +157,7 @@
     transform: translateY(4rem);
 
     h2 {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       text-align: center;
     }
   }
@@ -166,7 +167,7 @@
   }
 
   .scroll-view {
-    height: 9.5rem;
+    max-height: 12rem;
     width: 100%;
     margin: 1rem 0;
     display: flex;
@@ -177,42 +178,59 @@
   }
 
   .hourly-wrapper {
+    background: transparent !important;
     border-radius: inherit;
-    padding: 0.75rem 0.5rem;
+    padding: 0.75rem 0.85rem;
     font-size: 0.9rem;
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
     margin-right: 0.25rem;
-  }
 
-  .weather-image {
-    height: 3rem;
-    width: 3rem;
-    margin: 0.5rem 0;
-    background: {
-      image: url('/src/images/cloudy-sun.png');
-      size: contain;
-      position: center;
-      repeat: no-repeat;
+    &:nth-child(even) {
+      .weather-image {
+        animation-delay: 1s !important;
+      }
     }
-  }
 
-  .main {
-    font-size: 0.8rem;
-    font-weight: bold;
-    font-style: italic;
-  }
+    .weather-image {
+      max-height: 3.25rem;
+      max-width: 3.25rem;
+      margin: 0.25rem 0;
+      background: {
+        image: url('/src/images/cloudy-sun.png');
+        size: contain;
+        position: center;
+        repeat: no-repeat;
+      }
+    }
 
-  .temp {
-    margin-top: 0.35rem;
+    .hour {
+      display: inline-flex;
+      flex-direction: column;
+
+      sup {
+        font-size: 0.7rem;
+        color: #bbb;
+      }
+    }
+
+    .main {
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .temp {
+      margin-top: 0.35rem;
+      color: #ddd;
+    }
   }
 
   h2 {
     font-size: 0.9rem;
     font-weight: bolder;
     text-align: left;
-    margin: 3vh 1rem 0.75rem;
+    margin: 4vh 1rem 0.75rem;
     width: calc(100% - 2rem);
   }
 

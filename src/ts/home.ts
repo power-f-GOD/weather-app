@@ -5,7 +5,9 @@ import {
   render,
   delay,
   setState,
-  makeInert
+  makeInert,
+  getAndReturnWeatherData,
+  state
 } from './utils';
 
 import Main from '../components/Main.html';
@@ -51,7 +53,7 @@ const processedMain: string = new Processor(Main, [
   }
 ]).process();
 
-export default function home() {
+export default async function home() {
   const View = Q('.View') as HTMLElement;
   const Home = Q('.Home') as HTMLElement;
   const Button = Q('.Home button') as HTMLButtonElement;
@@ -67,6 +69,7 @@ export default function home() {
       View.removeChild(Home);
       Nav.classList.remove('hide');
       makeInert(Nav, false, true);
+      document.body.style.overflow = 'unset';
     });
   };
 
@@ -119,10 +122,28 @@ export default function home() {
     );
 
     if (weatherAppState) {
-      delay(1000).then(() => {
-        mountMain();
-        delay(1000).then(() => setState({ ...weatherAppState }));
-      });
+      await delay(1000);
+      mountMain();
+      await delay(1000);
+      setState({ ...weatherAppState });
+      await delay(2000);
+
+      //update weather data on app load/reload as previous data (from localStorage) might be stale
+      if (navigator.onLine) {
+        getAndReturnWeatherData(
+          state.latitude as number,
+          state.longitude as number
+        ).then(({ current, daily }) => {
+          setState({
+            current,
+            daily,
+            tomorrow: daily[0],
+            other: daily.find(
+              (day) => day.date_string === state.other?.date_string
+            )
+          });
+        });
+      }
     }
   }
 }

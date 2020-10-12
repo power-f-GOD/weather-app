@@ -41,7 +41,7 @@ export const Card = (props: CardDataProps) => {
       </a>`;
     case 'C':
       return `
-      <div class='hourly-wrapper'>
+      <div class='hourly-wrapper card animate'>
         <div class="hour">${hour}:00</div>
         <div class="weather-image"></div>
         <p class="main">${main}</p>
@@ -64,7 +64,7 @@ export const SearchResult = (props: {
     .join(', ');
 
   return `
-  <a href="#!" 
+  <a href="/${latitude},${longitude}" 
     class="search-result fulfilled"
     data-longitude='${longitude}' 
     data-latitude='${latitude}'

@@ -7,7 +7,8 @@ import {
   setState,
   delay,
   Q,
-  makeInert
+  makeInert,
+  addEventListenerOnce
 } from './utils';
 import { updateCard } from './card';
 
@@ -19,6 +20,24 @@ export default function main() {
   const TabLinksContainer = Q('.Main nav') as HTMLElement;
   const Next7DaysSection = Q('.Main .scroll-section') as HTMLElement;
 
+  const callGetWeatherData = () => {
+    if (navigator.onLine && document.visibilityState === 'visible') {
+      getAndReturnWeatherData(
+        state.latitude as number,
+        state.longitude as number
+      ).then(({ current, daily }) => {
+        setState({
+          current,
+          daily,
+          tomorrow: daily[0],
+          other: daily.find(
+            (day) => day.date_string === state.other?.date_string
+          )
+        });
+      });
+    }
+  };
+
   HourliesToggler.addEventListener('click', () => {
     HourliesWrapper.classList.toggle('open');
     HourliesToggler.classList.toggle('toggle-close');
@@ -26,10 +45,16 @@ export default function main() {
     const isOpen = HourliesToggler.classList.contains('toggle-close');
 
     HourliesToggler.textContent = isOpen ? '✕' : 'hourly';
+    HourliesWrapper.style.overflow = 'hidden';
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
     makeInert(Next7DaysSection, isOpen, true);
     makeInert(Nav, isOpen, true);
     makeInert(TabLinksContainer, isOpen, true);
+    addEventListenerOnce(HourliesWrapper, () => {
+      delay(400).then(() => {
+        HourliesWrapper.style.overflow = isOpen ? 'auto' : 'hidden';
+      });
+    });
   });
   HourliesWrapper.addEventListener('click', (e: any) => {
     if (e.target.classList.contains('hourlies-wrapper')) {
@@ -61,22 +86,19 @@ export default function main() {
 
   //update app weather data every 2 minutes
   interval(() => {
-    if (navigator.onLine) {
-      getAndReturnWeatherData(
-        state.latitude as number,
-        state.longitude as number
-      ).then(({ current, daily }) => {
-        setState({
-          current,
-          daily,
-          tomorrow: daily[0],
-          other: daily.find(
-            (day) => day.date_string === state.other?.date_string
-          )
-        });
-      });
+    callGetWeatherData();
+  }, 300000);
+
+  let getDataTimeout: any = null;
+  document.addEventListener('visibilitychange', () => {
+    clearTimeout(getDataTimeout);
+
+    if (document.visibilityState === 'visible') {
+      getDataTimeout = setTimeout(() => {
+        callGetWeatherData();
+      }, 4000);
     }
-  }, 120000);
+  });
 }
 
 export const updateTabLink = (

@@ -29,11 +29,11 @@
 
     height: $size;
     width: $size;
-    overflow: hidden;
+    margin-bottom: -2rem;
     background: {
       image: url('../images/cloudy-sun.png');
       size: contain;
-      position: center 2rem;
+      position: center;
       repeat: no-repeat;
     }
   }

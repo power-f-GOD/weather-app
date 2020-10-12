@@ -30,6 +30,7 @@ export const state: Readonly<Pick<State, 'setState'>> &
         daily,
         tomorrow,
         other,
+        hourly,
         activeTabLinkIndex
       } = val;
       let activeTab = current;
@@ -64,6 +65,16 @@ export const state: Readonly<Pick<State, 'setState'>> &
             ...data,
             index,
             type: 'B'
+          });
+        });
+      }
+
+      if (hourly) {
+        hourly.map((data: WeatherInfoProps, index: number) => {
+          updateCard({
+            ...data,
+            index,
+            type: 'C'
           });
         });
       }
@@ -115,10 +126,10 @@ export const getAndReturnWeatherData = async (
   latitude: number,
   longitude: number
 ) => {
-  const { current, daily: _daily }: WeatherResponseProps =
+  const { current, daily: _daily, hourly }: WeatherResponseProps =
     (await getData(
       'https://api.openweathermap.org/data/2.5/onecall',
-      `lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
+      `lat=${latitude}&lon=${longitude}&exclude=minutely&units=metric&appid=cb63632ad608cb4a62e629457f522c6e`
     )) ?? {};
   const daily = _daily?.slice(1).map((day) => {
     const dataset = {
@@ -163,7 +174,7 @@ export const getAndReturnWeatherData = async (
             value = key === 'main' ? main : description;
             break;
           case key === 'date_string':
-            value = formatDate(day.dt).split(',')[1].trim();
+            value = getDateChunk(day.dt).date_string;
             break;
         }
 
@@ -176,7 +187,7 @@ export const getAndReturnWeatherData = async (
     return dataset;
   });
 
-  return Promise.resolve({ current, daily });
+  return Promise.resolve({ current, daily, hourly });
 };
 
 export const getWeatherAndCityDataThenSetState = (
@@ -192,7 +203,7 @@ export const getWeatherAndCityDataThenSetState = (
 
   let _task = async () => {
     try {
-      const { current, daily } =
+      const { current, daily, hourly } =
         (await getAndReturnWeatherData(latitude, longitude)) ?? {};
 
       if (current || daily) {
@@ -201,6 +212,7 @@ export const getWeatherAndCityDataThenSetState = (
           tomorrow: daily[0],
           other: daily[1],
           daily,
+          hourly,
           activeTabLinkIndex: state.activeTabLinkIndex || 0,
           location: {
             text:
@@ -297,10 +309,19 @@ export const getMappedImageString = (
   }
 };
 
-export const formatDate = (dt: number) => {
-  return new Date(Number(`${dt}000`))
-    .toDateString()
-    .replace(/(\w+)\s(\w+\s\d{1,2}).*/, '$1, $2');
+export const getDateChunk = (dt?: number) => {
+  const dateString = new Date(dt ? Number(`${dt}000`) : Date.now()).toString();
+  const dArr = dateString.split(' ');
+  let [day, month, date, hour] = [dArr[0], dArr[1], dArr[2], dArr[4]];
+
+  hour = hour.replace(/(.*):\d\d/, '$1');
+
+  return {
+    hour,
+    day,
+    date_string: `${month} ${date}`,
+    date_time: `${hour}, ${month} ${day}`
+  };
 };
 
 export const getData = async (baseUrl: string, query: string) => {

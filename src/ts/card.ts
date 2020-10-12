@@ -6,7 +6,8 @@ import {
   state,
   round,
   delay,
-  addEventListenerOnce
+  addEventListenerOnce,
+  getDateChunk
 } from './utils';
 import { CardDataProps, WeatherResponseMain } from './types';
 
@@ -25,12 +26,12 @@ export async function updateCard(props: CardDataProps) {
     case 'A':
       {
         const Card = Q('.card.type-a') as HTMLElement;
-        const FeelsLike = Q('.card.type-a .feels-like') as HTMLElement;
-        const WindSpeed = Q('.card.type-a .wind-speed') as HTMLElement;
-        const Degree = Q('.card.type-a h1');
-        const Thermometer = Q('.card.type-a .thermometer') as HTMLElement;
-        const Desc = Q('.card.type-a .desc');
-        const HumidityDeg = Q('.card.type-a .humidity-deg');
+        const FeelsLike = Card.querySelector('.feels-like');
+        const WindSpeed = Card.querySelector('.wind-speed');
+        const Degree = Card.querySelector('h1');
+        const Thermometer = Card.querySelector('.thermometer') as HTMLElement;
+        const Desc = Card.querySelector('.desc');
+        const HumidityDeg = Card.querySelector('.humidity-deg');
 
         if (Card.classList.contains('animate-cover')) {
           await delay(600);
@@ -94,8 +95,8 @@ export async function updateCard(props: CardDataProps) {
     case 'B':
       {
         const Card = QAll('.card.type-b')[index ?? 0] as HTMLElement;
-        const Day = QAll('.card.type-b h3')[index ?? 0];
-        const Degree = QAll('.card.type-b p')[index ?? 0];
+        const Day = Card.querySelector('h3');
+        const Degree = Card.querySelector('p');
 
         if (Card && Day && Degree) {
           Day.textContent = date_string ?? 'Monday';
@@ -124,6 +125,29 @@ export async function updateCard(props: CardDataProps) {
             setState({ activeTabLinkIndex: 1 });
           }
         };
+      }
+      break;
+    case 'C':
+      const Card = QAll('.hourly-wrapper')[index ?? 0] as HTMLElement;
+      const Hour = Card.querySelector('.hour');
+      const Desc = Card.querySelector('.main');
+      const Degree = Card.querySelector('.temp');
+
+      const { hour, day } = getDateChunk(dt);
+
+      if (Card && Hour && Desc && Degree) {
+        Hour.innerHTML = `${hour}<sup>${day}</sup>` ?? '...';
+        Desc.textContent = main ?? '...';
+        Degree.textContent = round(temp as number) + '°';
+
+        if (/condition--/.test(Card.className)) {
+          Card.className = Card.className.replace(
+            /(condition--).*(--0)/,
+            `$1${weatherImage}$2`
+          );
+        } else {
+          Card.classList.add(`condition--${weatherImage}--0`);
+        }
       }
       break;
   }
