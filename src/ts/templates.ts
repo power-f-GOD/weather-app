@@ -34,11 +34,11 @@ export const Card = (props: CardDataProps) => {
     `;
     case 'B':
       return `
-      <div class="card type-b condition--cloudy-sun--0 animate" tabindex='0'>
+      <a href='/other' class="card type-b condition--cloudy-sun--0 animate" tabindex='0'>
         <h3>...</h3>
         <div class="weather-image"></div>
         <p>${temp}&deg;</p>
-      </div>`;
+      </a>`;
     case 'C':
       return `
       <div class='hourly-wrapper'>

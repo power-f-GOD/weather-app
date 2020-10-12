@@ -6,7 +6,8 @@ import {
   getAndReturnWeatherData,
   setState,
   delay,
-  Q
+  Q,
+  makeInert
 } from './utils';
 import { updateCard } from './card';
 
@@ -14,19 +15,21 @@ export default function main() {
   const TabLinks = QAll('.Main .tab-link') as NodeListOf<HTMLAnchorElement>;
   const HourliesWrapper = Q('.Main .hourlies-wrapper') as HTMLElement;
   const HourliesToggler = Q('.Main .hourlies-toggler') as HTMLButtonElement;
+  const Nav = Q('.Nav') as HTMLElement;
+  const TabLinksContainer = Q('.Main nav') as HTMLElement;
+  const Next7DaysSection = Q('.Main .scroll-section') as HTMLElement;
 
   HourliesToggler.addEventListener('click', () => {
     HourliesWrapper.classList.toggle('open');
     HourliesToggler.classList.toggle('toggle-close');
-    HourliesToggler.textContent = HourliesToggler.classList.contains(
-      'toggle-close'
-    )
-      ? '✕'
-      : 'hourly';
 
-    document.body.style.overflow = HourliesWrapper.classList.contains('open')
-      ? 'hidden'
-      : 'auto';
+    const isOpen = HourliesToggler.classList.contains('toggle-close');
+
+    HourliesToggler.textContent = isOpen ? '✕' : 'hourly';
+    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+    makeInert(Next7DaysSection, isOpen, true);
+    makeInert(Nav, isOpen, true);
+    makeInert(TabLinksContainer, isOpen, true);
   });
   HourliesWrapper.addEventListener('click', (e: any) => {
     if (e.target.classList.contains('hourlies-wrapper')) {

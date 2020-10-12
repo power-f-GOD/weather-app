@@ -1,5 +1,4 @@
 import '../styles/index.min.css';
-import '../inert-polyfill.min.js';
 
 import Nav from '../components/Nav.html';
 import Home from '../components/Home.html';

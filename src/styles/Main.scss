@@ -64,7 +64,7 @@
     top: 0;
     position: absolute;
     overflow: hidden;
-    background-color: white;
+    background-color: transparent;
     z-index: 5;
     display: flex;
     align-items: center;
@@ -93,11 +93,11 @@
       }
 
       .today-hourly {
-        transition-delay: 0.45s;
+        transition-delay: 0.5s;
       }
 
       .tomorrow-hourly {
-        transition-delay: 0.65s;
+        transition-delay: 0.7s;
       }
     }
   }
@@ -151,14 +151,18 @@
 
   .today-hourly,
   .tomorrow-hourly {
-    transition: transform 0.4s, opacity 0.5s;
+    transition: transform 0.5s, opacity 0.6s;
     opacity: 0;
-    transform: translateY(1.5rem);
+    transform: translateY(4rem);
 
     h2 {
       font-size: 1.35rem;
       text-align: center;
     }
+  }
+
+  .tomorrow-hourly {
+    transform: translateY(2rem);
   }
 
   .scroll-view {

@@ -5,7 +5,8 @@ import {
   addEventListenerOnce,
   QAll,
   delay,
-  task
+  task,
+  makeInert
 } from './utils';
 import { CitiesResponse } from './types';
 import { getWeatherAndCityDataThenSetState } from './utils';
@@ -40,19 +41,11 @@ export default function nav() {
 
   const handleTransitionEnd = () => {
     const isHidden = !SearchResultsOverlay.classList.contains('show');
-    // const AnchorElements = Q
-    const Cards = QAll('.card.type-b') as NodeListOf<HTMLElement>;
 
-    if (isHidden) {
-      View.inert = false;
-      Cards.forEach((Card) => (Card.tabIndex = 0));
-      SearchResultsOverlay.inert = true;
-      (SearchInput as any).onblur();
-    } else {
-      View.inert = true;
-      Cards.forEach((Card) => (Card.tabIndex = -1));
-      SearchResultsOverlay.inert = false;
-    }
+    makeInert(View, !isHidden, true);
+    makeInert(SearchResultsOverlay, isHidden, true);
+    (SearchInput as any).onblur();
+    document.body.style.overflow = !isHidden ? 'hidden' : 'auto';
   };
 
   let _task = () => {};
@@ -216,13 +209,13 @@ export default function nav() {
       SearchInput.focus();
     }
   };
-  SearchResultsOverlay.inert = true; //setAttribute('inert', true);
   SearchResultsOverlay.onclick = (e: any) => {
     if (/-overlay/.test(e.target.className)) {
       SearchResultsOverlay.classList.remove('show');
       callTransitionEndListener();
     }
   };
+  makeInert(SearchResultsOverlay, true, true);
 
   (Q('.search-form') as HTMLElement).onsubmit = (e: any) => e.preventDefault();
 }

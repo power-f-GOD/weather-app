@@ -111,7 +111,9 @@ export async function updateCard(props: CardDataProps) {
           }
         }
 
-        Card.onclick = () => {
+        Card.onclick = (e: any) => {
+          e.preventDefault();
+
           if (index! > 0) {
             setState({
               other: { ...state.daily![index as number] },

@@ -4,7 +4,8 @@ import {
   Processor,
   render,
   delay,
-  setState
+  setState,
+  makeInert
 } from './utils';
 
 import Main from '../components/Main.html';
@@ -56,8 +57,8 @@ export default function home() {
   const Button = Q('.Home button') as HTMLButtonElement;
   const Nav = Q('.Nav') as HTMLElement | any;
 
-  //add inert (polyfill) attribute for accessibility purpose(s)
-  Nav.setAttribute('inert', true);
+  //make Nav initially inert on load of app for accessibility reason(s) as it would be hidden from the view at the time
+  makeInert(Nav, true, true);
 
   const mountMain = () => {
     render(processedMain, View, { adjacency: 'beforeend' }, () => main());
@@ -65,7 +66,7 @@ export default function home() {
     addEventListenerOnce(Home, () => {
       View.removeChild(Home);
       Nav.classList.remove('hide');
-      Nav.inert = false;
+      makeInert(Nav, false, true);
     });
   };
 

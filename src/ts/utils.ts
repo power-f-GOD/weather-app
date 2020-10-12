@@ -333,6 +333,47 @@ export class Processor {
   }
 }
 
+//this function is for the purpose of accessibility... basically to make the element or its target inert i.e. hidden from assistive technologies and to remove it from the tab order, and also disable pointer events like mouse clicks or hovers
+export const makeInert = (
+  target: HTMLElement,
+  inert: boolean,
+  alsoIncludeChildren?: boolean,
+  targetIsInTabOrder?: boolean
+) => {
+  target.style.pointerEvents = inert ? 'none' : 'unset';
+  target.setAttribute('aria-hidden', inert ? 'true' : 'false');
+
+  if (targetIsInTabOrder) {
+    target.tabIndex = inert ? -1 : 0;
+  }
+
+  if (alsoIncludeChildren) {
+    const childrenAnchorTag = target.querySelectorAll('a') as NodeListOf<
+      HTMLElement
+    >;
+    const childrenButtonTag = target.querySelectorAll('button') as NodeListOf<
+      HTMLElement
+    >;
+    const childrenInputTag = target.querySelectorAll('input') as NodeListOf<
+      HTMLElement
+    >;
+    const childrenWithTabIndex = target.querySelectorAll(
+      '[tabindex]'
+    ) as NodeListOf<HTMLElement>;
+
+    childrenAnchorTag.forEach((tag) => _inert(tag));
+    childrenButtonTag.forEach((tag) => _inert(tag));
+    childrenInputTag.forEach((tag) => _inert(tag));
+    childrenWithTabIndex.forEach((tag) => _inert(tag));
+  }
+
+  function _inert(tag: HTMLElement) {
+    tag.style.pointerEvents = inert ? 'none' : 'unset';
+    tag.setAttribute('aria-hidden', inert ? 'true' : 'false');
+    tag.tabIndex = inert ? -1 : 0;
+  }
+};
+
 export const transform = (el: any, val: string) => {
   el.style.WebkitTransform = val;
   el.style.MozTransform = val;
