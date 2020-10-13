@@ -104,6 +104,7 @@ export default function main() {
 
 export const updateTabLinkContainer = (weatherMain: WeatherResponseMain) => {
   const TabLinksContainer = Q('.Main .tab-links-container') as HTMLElement;
+  const SideBarToggler = Q('.Footer .side-bar-toggler') as HTMLElement;
 
   let className: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
@@ -119,6 +120,10 @@ export const updateTabLinkContainer = (weatherMain: WeatherResponseMain) => {
   }
 
   TabLinksContainer.className = TabLinksContainer.className.replace(
+    /(theme--).*(--0)/,
+    `$1${className}$2`
+  );
+  SideBarToggler.className = SideBarToggler.className.replace(
     /(theme--).*(--0)/,
     `$1${className}$2`
   );

@@ -106,7 +106,7 @@
 
   & + *,
   & ~ .View > * {
-    padding-top: calc(3.75rem + 2vh) !important;
+    padding-top: calc(3.75rem + 2vh);
   }
 }
 

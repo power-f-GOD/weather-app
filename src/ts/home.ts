@@ -11,11 +11,13 @@ import {
 } from './utils';
 
 import Main from '../components/Main.html';
+import Footer from '../components/Footer.html';
 
 import main from './main';
 import { Card } from './templates';
 import { task, getWeatherAndCityDataThenSetState } from './utils';
 import { State } from './types';
+import { footer } from './footer';
 
 const processedMain: string = new Processor(Main, [
   {
@@ -63,7 +65,10 @@ export default async function home() {
   makeInert(Nav, true, true);
 
   const mountMain = () => {
-    render(processedMain, View, { adjacency: 'beforeend' }, () => main());
+    render(processedMain + Footer, View, { adjacency: 'beforeend' }, () => {
+      main();
+      footer();
+    });
     Home.classList.add('hide');
     addEventListenerOnce(Home, () => {
       View.removeChild(Home);

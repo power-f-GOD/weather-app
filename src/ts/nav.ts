@@ -154,11 +154,13 @@ export default function nav() {
             `${
               error?.code === '006'
                 ? 'Something went wrong. Please, try again after some time.😕'
-                : `Sorry, could not find any matching cities for '${SearchInput.value.replace(
+                : ` Sorry, could not find any matching cities for '${SearchInput.value.replace(
                     /<\/?.*>/,
                     ''
                   )}'. ${
-                    isCoord ? '' : 'You may try typing full city keyword.'
+                    isCoord
+                      ? ''
+                      : 'You may try entering full city name/keyword.'
                   }`
             }`
           );
@@ -166,7 +168,7 @@ export default function nav() {
       }, 2000);
     } else {
       searchMessage(
-        "Ok, I'm waiting... 🙂 <br /><br />PS. You can enter location name or (comma-separated) coordinates (latitude, longitude) [e.g. 7.1, 5.3].✌🏼"
+        "Ok, I'm waiting...🙂 <br /><br />PS. You can enter location name or (comma-separated) coordinates (latitude, longitude) [e.g. 7.1, 5.3].✌🏼"
       );
     }
 
@@ -212,7 +214,7 @@ export default function nav() {
     }
   };
   SearchResultsOverlay.onclick = (e: any) => {
-    if (/-overlay/.test(e.target.className)) {
+    if (e.target === SearchResultsOverlay) {
       SearchResultsOverlay.classList.remove('show');
       callTransitionEndListener();
     }

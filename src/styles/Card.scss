@@ -100,6 +100,8 @@
 
       .thermometer {
         min-height: 0;
+        position: relative;
+        z-index: 1;
         min-width: 100%;
         align-self: flex-end;
         background-color: orange;
@@ -117,6 +119,16 @@
         &.therm--cold--0 {
           background-color: skyblue;
         }
+      }
+
+      .danger-zone {
+        height: 50%;
+        position: absolute;
+        left: 0;
+        min-width: 100%;
+        border-radius: 0.25rem 0.25rem 0 0;
+        background-color: $theme-tertiary-v1;
+        opacity: 0.15;
       }
 
       span {

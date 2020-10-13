@@ -1,0 +1,124 @@
+@import 'constants';
+
+.Footer {
+  // @include debugger();
+  height: 0;
+  position: absolute;
+  bottom: 0;
+  padding: 0 !important;
+  left: 0;
+
+  .container {
+    // @include debugger();
+    height: inherit;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 6;
+    max-width: unset;
+    transition: background-color 0.35s;
+
+    &.show {
+      transition-delay: 0s;
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+  }
+
+  .side-bar {
+    height: 100%;
+    width: 70%;
+    z-index: 6;
+    position: relative;
+    max-width: 17.5rem;
+    background: #eee;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
+  .side-bar-toggler {
+    $size: 3.25rem;
+
+    border-radius: 50%;
+    padding: 0.65rem;
+    position: fixed;
+    height: 3.25rem;
+    width: 3.25rem;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 7;
+    overflow: hidden;
+    border: 0.125rem solid transparent;
+    background-color: $theme-primary-v6;
+    display: inline-flex;
+    justify-content: space-evenly;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+    flex-direction: column;
+    transform: translateX(calc(100% + 2rem));
+    animation: sideBarTogglerSlideIn 0.5s forwards ease 0.5s;
+    transition: 0.35s ease;
+
+    &.theme--primary--0 {
+      background-color: $theme-primary-v6;
+    }
+
+    &.theme--secondary--0 {
+      background-color: $theme-secondary-v6;
+    }
+
+    &.theme--tertiary--0 {
+      background-color: $theme-tertiary-v6;
+    }
+
+    &.is-open {
+      span {
+        &:first-child {
+          transform: scaleX(0.75) translate(0, 0.1rem) rotateZ(-30deg);
+        }
+
+        &:nth-child(2) {
+          opacity: 0;
+          transform: scaleX(0);
+        }
+
+        &:last-child {
+          transform: scaleX(0.75) rotateZ(30deg);
+        }
+      }
+    }
+
+    &[tabindex='-1'] {
+      transition-delay: unset;
+      background-color: grey !important;
+      opacity: 0.5;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: white;
+
+      span {
+        background-color: $theme-primary-v6;
+      }
+    }
+
+    span {
+      display: inline-block;
+      border-radius: 2rem;
+      width: 1.65rem;
+      height: 0.15rem;
+      background-color: white;
+      transition: 0.35s;
+
+      &:nth-child(2) {
+        width: 1.15rem;
+      }
+    }
+  }
+}

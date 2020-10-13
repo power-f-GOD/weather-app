@@ -20,8 +20,9 @@ export const Card = (props: CardDataProps) => {
           </p>
         </div>
         <h1>${temp}&deg;</h1>
-        <div class='thermometer-wrapper therm--cold--0'>
-          <div class='thermometer'></div>
+        <div class='thermometer-wrapper'>
+          <div class='thermometer therm--cold--0'></div>
+          <div class='danger-zone'></div>
           <span>°C</span>
         </div>
         <div class="desc-wrapper text-left">

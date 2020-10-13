@@ -53,3 +53,13 @@
     transform: scale(1);
   }
 }
+
+// Footer animation(s)
+@keyframes sideBarTogglerSlideIn {
+  from {
+    transform: translateX(200%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
