@@ -205,7 +205,7 @@ export default function nav() {
         (SearchInput as any).onkeyup();
         SearchInput.focus();
       } else {
-        SearchInput.blur();
+        SearchResultsOverlay.click();
       }
     } else {
       SearchInput.focus();

@@ -45,7 +45,7 @@ const processedMain: string = new Processor(Main, [
         Card({
           type: 'C',
           temp: 0.0,
-          main: '...',
+          main: undefined,
           hour: '00'
         })
       )

@@ -63,25 +63,15 @@ export async function updateCard(props: CardDataProps) {
         Desc.textContent = (description![0].toUpperCase() +
           description!.slice(1)) as string;
         HumidityDeg.textContent = round(humidity) + '%';
+        Thermometer.className = Thermometer.className.replace(
+          /(therm--).*(--0)/,
+          `$1${feel}$2`
+        );
+        Card.className = Card.className.replace(
+          /(condition--).*(--0)/,
+          `$1${weatherImage}$2`
+        );
         Card.classList.add('animate');
-
-        if (/therm--/.test(Thermometer.className)) {
-          Thermometer.className = Thermometer.className.replace(
-            /(therm--).*(--0)/,
-            `$1${feel}$2`
-          );
-        } else {
-          Thermometer.classList.add(`therm--${feel}--0`);
-        }
-
-        if (/condition--/.test(Card.className)) {
-          Card.className = Card.className.replace(
-            /(condition--).*(--0)/,
-            `$1${weatherImage}$2`
-          );
-        } else {
-          Card.classList.add(`condition--${weatherImage}--0`);
-        }
 
         if (weatherForToday && isNightTime) {
           Card.classList.add('night-time');
@@ -100,15 +90,10 @@ export async function updateCard(props: CardDataProps) {
       if (Card && Day && Degree) {
         Day.textContent = date_string ?? 'Monday';
         Degree.textContent = round(temp as number) + '°';
-
-        if (/condition--/.test(Card.className)) {
-          Card.className = Card.className.replace(
-            /(condition--).*(--0)/,
-            `$1${weatherImage}$2`
-          );
-        } else {
-          Card.classList.add(`condition--${weatherImage}--0`);
-        }
+        Card.className = Card.className.replace(
+          /(condition--).*(--0)/,
+          `$1${weatherImage}$2`
+        );
       }
 
       Card.onclick = (e: any) => {
@@ -139,15 +124,10 @@ export async function updateCard(props: CardDataProps) {
         Hour.innerHTML = `${hour}<sup>${day}</sup>` ?? '...';
         Desc.textContent = main ?? '...';
         Degree.textContent = round(temp as number) + '°';
-
-        if (/condition--/.test(Card.className)) {
-          Card.className = Card.className.replace(
-            /(condition--).*(--0)/,
-            `$1${weatherImage}$2`
-          );
-        } else {
-          Card.classList.add(`condition--${weatherImage}--0`);
-        }
+        Card.className = Card.className.replace(
+          /(condition--).*(--0)/,
+          `$1${weatherImage}$2`
+        );
       }
       break;
     }

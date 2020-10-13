@@ -20,7 +20,7 @@ export const Card = (props: CardDataProps) => {
           </p>
         </div>
         <h1>${temp}&deg;</h1>
-        <div class='thermometer-wrapper'>
+        <div class='thermometer-wrapper therm--cold--0'>
           <div class='thermometer'></div>
           <span>°C</span>
         </div>
@@ -41,7 +41,7 @@ export const Card = (props: CardDataProps) => {
       </a>`;
     case 'C':
       return `
-      <div class='hourly-wrapper card animate'>
+      <div class='hourly-wrapper card condition--cloudy-sun--0 animate'>
         <div class="hour">${hour}:00</div>
         <div class="weather-image"></div>
         <p class="main">${main}</p>

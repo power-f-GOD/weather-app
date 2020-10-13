@@ -20,6 +20,105 @@
     margin: 0.8vh 0;
     position: relative;
     // @include debugger();
+
+    //primary
+    &.theme--primary--0 {
+      .tab-link {
+        $diff: 25;
+        color: $theme-primary-v5;
+
+        &.active {
+          color: $theme-primary-v4;
+        }
+
+        &:hover,
+        &:focus {
+          border-bottom-color: rgba(
+            $prim-r + $diff,
+            $prim-g + $diff,
+            $prim-b + $diff,
+            0.4
+          );
+        }
+      }
+
+      .tab-indicator {
+        $diff: 85;
+
+        background-color: rgba(
+          $prim-r + $diff,
+          $prim-g + $diff,
+          $prim-b + $diff,
+          0.35
+        );
+      }
+    }
+
+    //secondary
+    &.theme--secondary--0 {
+      .tab-link {
+        $diff: 25;
+        color: $theme-secondary-v5;
+
+        &.active {
+          color: $theme-secondary-v4;
+        }
+
+        &:hover,
+        &:focus {
+          border-bottom-color: rgba(
+            $sec-r + $diff,
+            $sec-g + $diff,
+            $sec-b + $diff,
+            0.4
+          );
+        }
+      }
+
+      .tab-indicator {
+        $diff: 55;
+
+        background-color: rgba(
+          $sec-r + $diff,
+          $sec-g + $diff,
+          $sec-b + $diff,
+          0.35
+        );
+      }
+    }
+
+    //tertiary
+    &.theme--tertiary--0 {
+      .tab-link {
+        $diff: 25;
+        color: $theme-tertiary-v4;
+
+        &.active {
+          color: $theme-tertiary-v3;
+        }
+
+        &:hover,
+        &:focus {
+          border-bottom-color: rgba(
+            $tert-r + $diff,
+            $tert-g + $diff,
+            $tert-b + $diff,
+            0.35
+          );
+        }
+      }
+
+      .tab-indicator {
+        $diff: 55;
+
+        background-color: rgba(
+          $tert-r + $diff,
+          $tert-g + $diff,
+          $tert-b + $diff,
+          0.35
+        );
+      }
+    }
   }
 
   .tab-indicator {
@@ -30,7 +129,8 @@
     z-index: 0;
     border-radius: 2rem;
     display: inline-block;
-    transition: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      background-color 0.35s ease 0.25s;
     background-color: rgba($prim-r + 50, $prim-g + 50, $prim-b + 50, 0.2);
   }
 
@@ -46,8 +146,10 @@
     align-items: center;
     position: static;
     z-index: 1;
+    transition: 0.35s, color 0.35s ease 0.25s;
 
     &.active {
+      transition: 0.35s ease 0.25s;
       color: $theme-primary-v4;
     }
 
@@ -78,7 +180,7 @@
     &.open {
       z-index: 5;
       transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1),
-        width 0.35s ease 0.2s, border-radius 0.5s ease 0.25s;
+        width 0.35s ease 0.2s, border-radius 0.5s ease 0.2s;
       transform: translateY(0) !important;
       height: 100vh;
       width: 100vw;
@@ -105,7 +207,7 @@
   .hourlies-toggler {
     border: 0.125rem solid transparent;
     border-radius: 2rem;
-    color: $theme-secondary-v2;
+    color: white; // $theme-secondary-v2;
     height: 2rem;
     display: inline-block;
     width: 6rem;
@@ -127,22 +229,21 @@
       top: 0;
       left: 0;
       border-color: white;
-      background-color: transparent;
+      background-color: transparent !important;
       font-size: 1.5rem;
       transform: translate(calc(100vw - 3.75rem), calc(0.5rem));
 
       &:hover,
       &:focus {
-        background-color: white;
-        color: $theme-primary-v3;
+        background-color: white !important;
+        color: $theme-tertiary-v3;
       }
     }
 
     &:hover,
     &:focus {
-      background-color: $theme-tertiary-v3;
+      background-color: $theme-tertiary-v3 !important;
       color: white;
-      border-color: white;
     }
   }
 
@@ -211,7 +312,7 @@
 
       sup {
         font-size: 0.7rem;
-        color: #bbb;
+        opacity: 0.6;
       }
     }
 
@@ -222,7 +323,7 @@
 
     .temp {
       margin-top: 0.35rem;
-      color: #ddd;
+      opacity: 0.8;
     }
   }
 

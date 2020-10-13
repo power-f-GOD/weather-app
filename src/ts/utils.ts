@@ -10,7 +10,7 @@ import {
 } from './types';
 import { updateCard } from './card';
 import { updateLocation } from './nav';
-import { updateTabLink } from './main';
+import { updateTabLink, updateTabLinkContainer } from './main';
 
 export const Q = document.querySelector.bind(document);
 export const QAll = document.querySelectorAll.bind(document);
@@ -24,6 +24,14 @@ export const state: Readonly<Pick<State, 'setState'>> &
   location: { text: 'New York, US', err: false },
   setState(val: Omit<State, 'setState'>) {
     return new Promise((resolve) => {
+      //update state
+      for (const [key, value] of Object.entries(val)) {
+        (state as any)[key] =
+          Array.isArray(value) || /string|number/.test(typeof value)
+            ? value
+            : { ...(state as any)[key], ...value };
+      }
+
       const {
         location: _location,
         current,
@@ -33,17 +41,17 @@ export const state: Readonly<Pick<State, 'setState'>> &
         hourly,
         activeTabLinkIndex
       } = val;
-      let activeTab = current;
+      let activeTab = current || state.current;
 
       switch (activeTabLinkIndex || state.activeTabLinkIndex) {
         case 1:
-          activeTab = tomorrow;
+          activeTab = tomorrow || state.tomorrow;
           break;
         case 2:
-          activeTab = other;
+          activeTab = other || state.other;
           break;
         default:
-          activeTab = current;
+          activeTab = current || state.current;
       }
 
       //update UI...
@@ -57,6 +65,12 @@ export const state: Readonly<Pick<State, 'setState'>> &
 
       if (current || tomorrow || other) {
         updateCard({ ...activeTab, type: 'A' });
+      }
+
+      if (current || tomorrow || other || activeTabLinkIndex !== undefined) {
+        updateTabLinkContainer(
+          activeTab?.weather?.slice(-1)[0].main ?? activeTab?.main ?? 'clouds'
+        );
       }
 
       if (daily) {
@@ -77,14 +91,6 @@ export const state: Readonly<Pick<State, 'setState'>> &
             type: 'C'
           });
         });
-      }
-
-      //update state
-      for (const [key, value] of Object.entries(val)) {
-        (state as any)[key] =
-          Array.isArray(value) || /string|number/.test(typeof value)
-            ? value
-            : { ...(state as any)[key], ...value };
       }
 
       //do the next few lines so the setState function is not resolved with state
@@ -162,7 +168,7 @@ export const getAndReturnWeatherData = async (
       feels_like: 0,
       wind_speed: 0,
       temp: 0,
-      main: '',
+      main: undefined,
       description: '',
       date_string: '',
       dt: 0,

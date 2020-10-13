@@ -11,6 +11,7 @@ import {
   addEventListenerOnce
 } from './utils';
 import { updateCard } from './card';
+import { WeatherResponseMain } from './types';
 
 export default function main() {
   const TabLinks = QAll('.Main .tab-link') as NodeListOf<HTMLAnchorElement>;
@@ -20,7 +21,7 @@ export default function main() {
   const TabLinksContainer = Q('.Main nav') as HTMLElement;
   const Next7DaysSection = Q('.Main .scroll-section') as HTMLElement;
 
-  const callGetWeatherData = () => {
+  const triggerGetWeatherData = () => {
     if (navigator.onLine && document.visibilityState === 'visible') {
       getAndReturnWeatherData(
         state.latitude as number,
@@ -86,7 +87,7 @@ export default function main() {
 
   //update app weather data every 2 minutes
   interval(() => {
-    callGetWeatherData();
+    triggerGetWeatherData();
   }, 300000);
 
   let getDataTimeout: any = null;
@@ -95,11 +96,33 @@ export default function main() {
 
     if (document.visibilityState === 'visible') {
       getDataTimeout = setTimeout(() => {
-        callGetWeatherData();
+        triggerGetWeatherData();
       }, 4000);
     }
   });
 }
+
+export const updateTabLinkContainer = (weatherMain: WeatherResponseMain) => {
+  const TabLinksContainer = Q('.Main .tab-links-container') as HTMLElement;
+
+  let className: 'primary' | 'secondary' | 'tertiary' = 'primary';
+
+  switch (true) {
+    case /clear/i.test(weatherMain):
+      className = 'secondary';
+      break;
+    case /clouds|drizzle|rainy?|snow/i.test(weatherMain):
+      className = 'primary';
+      break;
+    default:
+      className = 'tertiary';
+  }
+
+  TabLinksContainer.className = TabLinksContainer.className.replace(
+    /(theme--).*(--0)/,
+    `$1${className}$2`
+  );
+};
 
 export const updateTabLink = (
   activeTabLinkIndex: number,

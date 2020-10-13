@@ -333,6 +333,20 @@
       width: 8rem;
       background-image: url('../images/sunny.png');
     }
+
+    & + .hourlies-wrapper {
+      $diff: -50;
+
+      background-color: rgba(
+        $sec-r + $diff,
+        $sec-g + $diff,
+        $sec-b + $diff,
+        0.95
+      );
+      .hourlies-toggler {
+        background-color: $theme-secondary-v6;
+      }
+    }
   }
 
   &.condition--cloud-storm--0,
@@ -388,6 +402,45 @@
     &.animate {
       .weather-image {
         animation: animateScale 1s infinite;
+      }
+    }
+  }
+
+  &.condition--cloudy--0,
+  &.condition--cloudy-sun--0,
+  &.condition--clouds-sun-rain--0,
+  &.condition--rainy-cloud--0,
+  &.condition--snowy-cloud--0 {
+    & + .hourlies-wrapper {
+      $diff: -50;
+
+      background-color: rgba(
+        $prim-r + $diff,
+        $prim-g + $diff,
+        $prim-b + $diff,
+        0.95
+      );
+      .hourlies-toggler {
+        background-color: $theme-primary-v6;
+      }
+    }
+  }
+
+  &[class*='storm'],
+  &[class*='thunder'],
+  &[class*='atmosphere'] {
+    & + .hourlies-wrapper {
+      $diff: -75;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.95
+      );
+
+      .hourlies-toggler {
+        background-color: $theme-tertiary-v5;
       }
     }
   }

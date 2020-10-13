@@ -27,6 +27,7 @@ export type WeatherResponseMain =
   | 'clear'
   | 'drizzle'
   | 'rainy'
+  | 'rain'
   | 'snow'
   | 'tornado'
   | 'fog';
@@ -35,7 +36,7 @@ export interface CardDataProps
   extends Partial<WeatherInfoProps & WeatherResponseProps> {
   type: 'A' | 'B' | 'C';
   description?: string;
-  main?: string;
+  main?: WeatherResponseMain;
   tomorrow?: WeatherInfoProps;
   other?: WeatherInfoProps;
   index?: number;
@@ -97,7 +98,7 @@ export interface WeatherInfoProps {
   wind_deg: number;
   wind_speed: number;
   date_string: string;
-  main?: string;
+  main?: WeatherResponseMain;
   description?: string;
 }
 
