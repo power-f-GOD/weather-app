@@ -33,7 +33,7 @@ export async function updateCard(props: CardDataProps) {
       const HumidityDeg = Card.querySelector('.humidity-deg');
 
       if (Card.classList.contains('animate-cover')) {
-        await delay(600);
+        await delay(400);
         Card.classList.remove('animate-cover');
       }
 
@@ -54,7 +54,7 @@ export async function updateCard(props: CardDataProps) {
         );
         await delay(20);
         Card.classList.add('animate-cover');
-        await delay(450);
+        await delay(350);
 
         FeelsLike.textContent = round(feels_like as number) + '°';
         WindSpeed.textContent = round(wind_speed) + ' m/s';

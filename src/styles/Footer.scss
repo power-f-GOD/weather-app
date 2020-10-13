@@ -62,7 +62,7 @@
     flex-direction: column;
     transform: translateX(calc(100% + 2rem));
     animation: sideBarTogglerSlideIn 0.5s forwards ease 0.5s;
-    transition: 0.35s ease;
+    transition: 0.35s ease 0.1s;
 
     &.theme--primary--0 {
       background-color: $theme-primary-v6;
@@ -114,7 +114,7 @@
       width: 1.65rem;
       height: 0.15rem;
       background-color: white;
-      transition: 0.35s;
+      transition: 0.35s ease 0.1s;
 
       &:nth-child(2) {
         width: 1.15rem;
