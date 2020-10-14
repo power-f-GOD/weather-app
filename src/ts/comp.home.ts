@@ -4,20 +4,19 @@ import {
   Processor,
   render,
   delay,
-  setState,
   makeInert,
-  getAndReturnWeatherData,
-  state
+  getAndReturnWeatherData
 } from './utils';
 
 import Main from '../components/Main.html';
 import Footer from '../components/Footer.html';
 
-import main from './main';
+import main from './comp.main';
 import { Card } from './templates';
 import { task, getWeatherAndCityDataThenSetState } from './utils';
 import { State } from './types';
-import { footer } from './footer';
+import { footer } from './comp.footer';
+import state, { setState } from './state';
 
 const processedMain: string = new Processor(Main, [
   {
@@ -62,7 +61,7 @@ export default async function home() {
   const Nav = Q('.Nav') as HTMLElement | any;
 
   //make Nav initially inert on load of app for accessibility reason(s) as it would be hidden from the view at the time
-  makeInert(Nav, true, true);
+  makeInert(Nav, true);
 
   const mountMain = () => {
     render(processedMain + Footer, View, { adjacency: 'beforeend' }, () => {
@@ -73,7 +72,7 @@ export default async function home() {
     addEventListenerOnce(Home, () => {
       View.removeChild(Home);
       Nav.classList.remove('hide');
-      makeInert(Nav, false, true);
+      makeInert(Nav, false);
       document.body.style.overflow = 'unset';
     });
   };

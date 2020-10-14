@@ -2,112 +2,17 @@ import {
   ProcessorProps,
   WeatherImageClassName,
   WeatherResponseMain,
-  State,
   WeatherResponseProps,
   Task,
   CitiesResponse,
   WeatherInfoProps
 } from './types';
-import { updateCard } from './card';
-import { updateLocation } from './nav';
-import { updateTabLink, updateTabLinkContainer } from './main';
+import state, { setState } from './state';
 
 export const Q = document.querySelector.bind(document);
 export const QAll = document.querySelectorAll.bind(document);
 export const getByClass = document.getElementsByClassName.bind(document);
 export const getById = document.getElementsByClassName.bind(document);
-
-export const state: Readonly<Pick<State, 'setState'>> &
-  Omit<State, 'setState'> = {
-  latitude: 40.69,
-  longitude: -73.96,
-  location: { text: 'New York, US', err: false },
-  setState(val: Omit<State, 'setState'>) {
-    return new Promise((resolve) => {
-      //update state
-      for (const [key, value] of Object.entries(val)) {
-        (state as any)[key] =
-          Array.isArray(value) || /string|number/.test(typeof value)
-            ? value
-            : { ...(state as any)[key], ...value };
-      }
-
-      const {
-        location: _location,
-        current,
-        daily,
-        tomorrow,
-        other,
-        hourly,
-        activeTabLinkIndex
-      } = val;
-      let activeTab = current || state.current;
-
-      switch (activeTabLinkIndex || state.activeTabLinkIndex) {
-        case 1:
-          activeTab = tomorrow || state.tomorrow;
-          break;
-        case 2:
-          activeTab = other || state.other;
-          break;
-        default:
-          activeTab = current || state.current;
-      }
-
-      //update UI...
-      if (_location) {
-        updateLocation(_location.text ?? state.location?.text, _location.err);
-      }
-
-      if (activeTabLinkIndex !== undefined) {
-        updateTabLink(activeTabLinkIndex, (other ?? state.other)?.date_string);
-      }
-
-      if (current || tomorrow || other) {
-        updateCard({ ...activeTab, type: 'A' });
-      }
-
-      if (current || tomorrow || other || activeTabLinkIndex !== undefined) {
-        updateTabLinkContainer(
-          activeTab?.weather?.slice(-1)[0].main ?? activeTab?.main ?? 'clouds'
-        );
-      }
-
-      if (daily) {
-        daily.map((data: WeatherInfoProps, index: number) => {
-          updateCard({
-            ...data,
-            index,
-            type: 'B'
-          });
-        });
-      }
-
-      if (hourly) {
-        hourly.map((data: WeatherInfoProps, index: number) => {
-          updateCard({
-            ...data,
-            index,
-            type: 'C'
-          });
-        });
-      }
-
-      //do the next few lines so the setState function is not resolved with state
-      const _state = { ...state } as any;
-
-      delete _state.setState;
-
-      if (navigator.cookieEnabled) {
-        localStorage.weatherAppState = JSON.stringify(_state);
-      }
-
-      resolve(_state);
-    });
-  }
-};
-
-export const setState: State['setState'] = state.setState;
 
 //used for caching failed tasks (mainly failed network requests) so they can be 'retried/re-executed' e.g. when an API call is made and there's no internet connection, the task is cached/stored then executed when internet connection is regained
 export const task: Readonly<Omit<Task, 'task'>> & { task(): any } = {
@@ -364,17 +269,20 @@ export const round = (num?: number) => {
 export const makeInert = (
   target: HTMLElement,
   inert: boolean,
-  alsoIncludeChildren?: boolean,
+  excludeChildrenInTabOrder?: boolean,
   targetIsInTabOrder?: boolean
 ) => {
   target.style.pointerEvents = inert ? 'none' : 'unset';
   target.setAttribute('aria-hidden', inert ? 'true' : 'false');
 
-  if (targetIsInTabOrder) {
+  if (
+    targetIsInTabOrder ||
+    /0|-1/.test(String(target.getAttribute('tabindex')))
+  ) {
     target.tabIndex = inert ? -1 : 0;
   }
 
-  if (alsoIncludeChildren) {
+  if (!excludeChildrenInTabOrder) {
     const childrenAnchorTag = target.querySelectorAll('a') as NodeListOf<
       HTMLElement
     >;

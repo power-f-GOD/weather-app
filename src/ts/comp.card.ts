@@ -2,14 +2,13 @@ import {
   Q,
   QAll,
   requireMappedImageString,
-  setState,
-  state,
   round,
   delay,
   addEventListenerOnce,
   requireDateChunk
 } from './utils';
 import { CardDataProps, WeatherResponseMain } from './types';
+import state, { setState } from './state';
 
 export async function updateCard(props: CardDataProps) {
   const { type, current, tomorrow, other, index } = props ?? {};
@@ -24,6 +23,7 @@ export async function updateCard(props: CardDataProps) {
 
   switch (type) {
     case 'A': {
+      const Body = document.body;
       const Card = Q('.card.type-a') as HTMLElement;
       const FeelsLike = Card.querySelector('.feels-like');
       const WindSpeed = Card.querySelector('.wind-speed');
@@ -32,9 +32,9 @@ export async function updateCard(props: CardDataProps) {
       const Desc = Card.querySelector('.desc');
       const HumidityDeg = Card.querySelector('.humidity-deg');
 
-      if (Card.classList.contains('animate-cover')) {
+      if (Body.classList.contains('animate-card-overlay')) {
         await delay(400);
-        Card.classList.remove('animate-cover');
+        Body.classList.remove('animate-card-overlay');
       }
 
       const weatherForToday =
@@ -49,11 +49,11 @@ export async function updateCard(props: CardDataProps) {
       if (Card && Degree && Desc && HumidityDeg && FeelsLike && WindSpeed) {
         addEventListenerOnce(
           Card,
-          () => Card.classList.remove('animate-cover'),
+          () => Body.classList.remove('animate-card-overlay'),
           'animationend'
         );
         await delay(20);
-        Card.classList.add('animate-cover');
+        Body.classList.add('animate-card-overlay');
         await delay(350);
 
         FeelsLike.textContent = round(feels_like as number) + '°';
@@ -71,12 +71,11 @@ export async function updateCard(props: CardDataProps) {
           /(condition--).*(--0)/,
           `$1${weatherImage}$2`
         );
-        Card.classList.add('animate');
 
         if (weatherForToday && isNightTime) {
-          Card.classList.add('night-time');
+          Body.classList.add('night-time');
         } else {
-          Card.classList.remove('night-time');
+          Body.classList.remove('night-time');
         }
       }
 

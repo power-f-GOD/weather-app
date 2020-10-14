@@ -6,7 +6,7 @@ export const Card = (props: CardDataProps) => {
   switch (type) {
     case 'A':
       return `
-      <div class="card type-a condition--cloudy-sun--0">
+      <div class="card type-a animate condition--cloudy-sun--0">
         <div class='top'>
           <p class='feels-like-container'>
             <span>feels like<span>
@@ -65,7 +65,7 @@ export const SearchResult = (props: {
     .join(', ');
 
   return `
-  <a href="/${latitude},${longitude}" 
+  <a href="/#${latitude},${longitude}" 
     class="search-result fulfilled"
     data-longitude='${longitude}' 
     data-latitude='${latitude}'

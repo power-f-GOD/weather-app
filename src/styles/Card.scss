@@ -34,18 +34,12 @@
       image: linear-gradient(to top, $theme-primary-v5, $theme-primary-v7);
     }
 
-    &.animate-cover {
-      &::before {
-        animation: coverCardAnimate 1.1s cubic-bezier(0.47, 0.5, 0.745, 0.715);
-      }
-    }
-
     &::before {
       @include before-or-after($zi: 2, $br: 50%, $w: 5rem, $h: 5rem, $bg: #eee);
       transform: translate(-5rem, -5rem);
     }
 
-    @keyframes coverCardAnimate {
+    @keyframes cardOverlayAnimation {
       0% {
         transform: scale(1) translate(-4rem, -4rem);
       }
@@ -98,45 +92,56 @@
       height: 28.5%;
       display: flex;
 
-      .thermometer {
-        min-height: 0;
-        position: relative;
-        z-index: 1;
-        min-width: 100%;
-        align-self: flex-end;
-        background-color: orange;
-        border-radius: inherit;
-        transition: 0.35s ease 0.35s;
-
-        &.therm--hot--0 {
-          background-color: red;
-        }
-
-        &.therm--warm--0 {
-          background-color: orange;
-        }
-
-        &.therm--cold--0 {
-          background-color: skyblue;
-        }
-      }
-
-      .danger-zone {
-        height: 50%;
-        position: absolute;
-        left: 0;
-        min-width: 100%;
-        border-radius: 0.25rem 0.25rem 0 0;
-        background-color: $theme-tertiary-v1;
-        opacity: 0.15;
-      }
-
       span {
         display: inline-block;
         position: absolute;
         bottom: -1.15rem;
         left: -0.35rem;
         font-size: 0.7rem;
+      }
+    }
+
+    .thermometer {
+      min-height: 0;
+      position: relative;
+      z-index: 1;
+      min-width: 100%;
+      align-self: flex-end;
+      background-color: orange;
+      border-radius: inherit;
+      transition: 0.35s ease 0.35s;
+
+      &.therm--hot--0 {
+        background-color: red;
+      }
+
+      &.therm--warm--0 {
+        background-color: orange;
+      }
+
+      &.therm--cold--0 {
+        background-color: skyblue;
+      }
+    }
+
+    .danger-zone {
+      height: 50%;
+      position: absolute;
+      left: 0;
+      min-width: 100%;
+      opacity: 0.9;
+      border-radius: 0.25rem 0.25rem 0 0;
+      background-color: $theme-tertiary-v9;
+
+      &::before {
+        @include before-or-after(
+          $h: 0.0625rem,
+          $w: calc(100% + 0.4rem),
+          $l: -0.2rem,
+          $t: 100%,
+          $zi: 0,
+          $bg: red
+        );
       }
     }
 
@@ -345,20 +350,6 @@
       width: 8rem;
       background-image: url('../images/sunny.png');
     }
-
-    & + .hourlies-wrapper {
-      $diff: -50;
-
-      background-color: rgba(
-        $sec-r + $diff,
-        $sec-g + $diff,
-        $sec-b + $diff,
-        0.95
-      );
-      .hourlies-toggler {
-        background-color: $theme-secondary-v6;
-      }
-    }
   }
 
   &.condition--cloud-storm--0,
@@ -417,80 +408,56 @@
       }
     }
   }
+}
 
-  &.condition--cloudy--0,
-  &.condition--cloudy-sun--0,
-  &.condition--clouds-sun-rain--0,
-  &.condition--rainy-cloud--0,
-  &.condition--snowy-cloud--0 {
-    & + .hourlies-wrapper {
-      $diff: -50;
-
-      background-color: rgba(
-        $prim-r + $diff,
-        $prim-g + $diff,
-        $prim-b + $diff,
-        0.95
-      );
-      .hourlies-toggler {
-        background-color: $theme-primary-v6;
-      }
-    }
-  }
-
-  &[class*='storm'],
-  &[class*='thunder'],
-  &[class*='atmosphere'] {
-    & + .hourlies-wrapper {
-      $diff: -75;
-
-      background-color: rgba(
-        $tert-r + $diff,
-        $tert-g + $diff,
-        $tert-b + $diff,
-        0.95
-      );
-
-      .hourlies-toggler {
-        background-color: $theme-tertiary-v5;
+body {
+  &.animate-card-overlay {
+    .card.type-a {
+      &::before {
+        animation: cardOverlayAnimation 1.1s
+          cubic-bezier(0.47, 0.5, 0.745, 0.715);
       }
     }
   }
 
   &.night-time {
-    background-image: linear-gradient(
-      to bottom,
-      $theme-primary-v3,
-      $theme-tertiary-v2
-    ) !important;
-
-    &.condition--cloudy-sun--0,
-    &.condition--sunny--0 {
+    .card {
       &.type-a {
-        .weather-image {
-          bottom: -1.75rem !important;
-          animation: animateX 8s infinite;
+        background-image: linear-gradient(
+          to bottom,
+          $theme-primary-v3,
+          $theme-tertiary-v2
+        ) !important;
+
+        &.condition--cloudy-sun--0,
+        &.condition--sunny--0 {
+          &.type-a {
+            .weather-image {
+              bottom: -1.75rem !important;
+              animation: animateX 8s infinite;
+            }
+          }
+
+          .weather-image {
+            background-image: url('../images/cloudy.png');
+          }
+        }
+
+        &.condition--clouds-sun-rain--0 {
+          .weather-image {
+            background-image: url('../images/rainy-cloud.png');
+          }
+        }
+
+        &.condition--thunder-storm--0,
+        &.condition--thunder-cloud--0 {
+          background-image: linear-gradient(
+            to bottom,
+            $theme-tertiary-v3,
+            $theme-tertiary-v1
+          );
         }
       }
-
-      .weather-image {
-        background-image: url('../images/cloudy.png');
-      }
-    }
-
-    &.condition--clouds-sun-rain--0 {
-      .weather-image {
-        background-image: url('../images/rainy-cloud.png');
-      }
-    }
-
-    &.condition--thunder-storm--0,
-    &.condition--thunder-cloud--0 {
-      background-image: linear-gradient(
-        to bottom,
-        $theme-tertiary-v3,
-        $theme-tertiary-v1
-      );
     }
   }
 }

@@ -20,117 +20,19 @@
     margin: 0.8vh 0;
     position: relative;
     // @include debugger();
-
-    //primary
-    &.theme--primary--0 {
-      .tab-link {
-        $diff: 25;
-        color: $theme-primary-v5;
-
-        &.active {
-          color: $theme-primary-v4;
-        }
-
-        &:hover,
-        &:focus {
-          border-bottom-color: rgba(
-            $prim-r + $diff,
-            $prim-g + $diff,
-            $prim-b + $diff,
-            0.4
-          );
-        }
-      }
-
-      .tab-indicator {
-        $diff: 85;
-
-        background-color: rgba(
-          $prim-r + $diff,
-          $prim-g + $diff,
-          $prim-b + $diff,
-          0.35
-        );
-      }
-    }
-
-    //secondary
-    &.theme--secondary--0 {
-      .tab-link {
-        $diff: 25;
-        color: $theme-secondary-v5;
-
-        &.active {
-          color: $theme-secondary-v4;
-        }
-
-        &:hover,
-        &:focus {
-          border-bottom-color: rgba(
-            $sec-r + $diff,
-            $sec-g + $diff,
-            $sec-b + $diff,
-            0.4
-          );
-        }
-      }
-
-      .tab-indicator {
-        $diff: 55;
-
-        background-color: rgba(
-          $sec-r + $diff,
-          $sec-g + $diff,
-          $sec-b + $diff,
-          0.35
-        );
-      }
-    }
-
-    //tertiary
-    &.theme--tertiary--0 {
-      .tab-link {
-        $diff: 25;
-        color: $theme-tertiary-v4;
-
-        &.active {
-          color: $theme-tertiary-v3;
-        }
-
-        &:hover,
-        &:focus {
-          border-bottom-color: rgba(
-            $tert-r + $diff,
-            $tert-g + $diff,
-            $tert-b + $diff,
-            0.35
-          );
-        }
-      }
-
-      .tab-indicator {
-        $diff: 55;
-
-        background-color: rgba(
-          $tert-r + $diff,
-          $tert-g + $diff,
-          $tert-b + $diff,
-          0.35
-        );
-      }
-    }
   }
 
   .tab-indicator {
     position: absolute;
     left: 0;
-    height: 100%;
-    width: 5.6rem;
+    height: calc(100% - 0.125rem);
+    width: 4.75rem;
     z-index: 0;
     border-radius: 2rem;
     display: inline-block;
     transition: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-      background-color 0.35s ease 0.25s;
+      background-color 0.35s ease;
+    transform: translateX(0.75rem);
     background-color: rgba($prim-r + 50, $prim-g + 50, $prim-b + 50, 0.2);
   }
 
@@ -146,10 +48,9 @@
     align-items: center;
     position: static;
     z-index: 1;
-    transition: 0.35s, color 0.35s ease 0.25s;
+    transition: 0.35s;
 
     &.active {
-      transition: 0.35s ease 0.25s;
       color: $theme-primary-v4;
     }
 
@@ -180,12 +81,12 @@
     &.open {
       z-index: 5;
       transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1),
-        width 0.35s ease 0.2s, border-radius 0.5s ease 0.2s;
+        width 0.35s ease 0.2s, border-radius 0.5s ease 0.2s,
+        background-color 0.2s;
       transform: translateY(0) !important;
       height: 100vh;
       width: 100vw;
       position: fixed;
-      background-color: rgba(0, 0, 0, 0.9);
       border-radius: 0;
 
       .today-hourly,
@@ -207,7 +108,7 @@
   .hourlies-toggler {
     border: 0.125rem solid transparent;
     border-radius: 2rem;
-    color: white; // $theme-secondary-v2;
+    color: white;
     height: 2rem;
     display: inline-block;
     width: 6rem;
@@ -220,7 +121,6 @@
     transition: 0.35s ease, font-size 0s;
 
     &.toggle-close {
-      transition-delay: 0.1s;
       width: 3rem;
       height: 3rem;
       color: white;
@@ -232,6 +132,7 @@
       background-color: transparent !important;
       font-size: 1.5rem;
       transform: translate(calc(100vw - 3.75rem), calc(0.5rem));
+      transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
 
       &:hover,
       &:focus {
@@ -275,7 +176,7 @@
     overflow-x: auto;
     border: 0.125rem solid white;
     border-radius: 1rem;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
   }
 
   .hourly-wrapper {
@@ -342,5 +243,168 @@
     display: flex;
     overflow-x: auto;
     // @include debugger();
+  }
+}
+
+body {
+  //primary
+  &.theme--primary--0 {
+    .tab-link {
+      $diff: 25;
+      color: $theme-primary-v5;
+
+      &.active {
+        color: $theme-primary-v4;
+      }
+
+      &:hover,
+      &:focus {
+        border-bottom-color: rgba(
+          $prim-r + $diff,
+          $prim-g + $diff,
+          $prim-b + $diff,
+          0.4
+        );
+      }
+    }
+
+    .tab-indicator {
+      $diff: 85;
+
+      background-color: rgba(
+        $prim-r + $diff,
+        $prim-g + $diff,
+        $prim-b + $diff,
+        0.35
+      );
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -80;
+
+      background-color: rgba(
+        $prim-r + $diff,
+        $prim-g + $diff,
+        $prim-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-primary-v6;
+    }
+  }
+
+  //secondary
+  &.theme--secondary--0 {
+    .tab-link {
+      $diff: 25;
+      color: $theme-secondary-v5;
+
+      &.active {
+        color: $theme-secondary-v4;
+      }
+
+      &:hover,
+      &:focus {
+        border-bottom-color: rgba(
+          $sec-r + $diff,
+          $sec-g + $diff,
+          $sec-b + $diff,
+          0.4
+        );
+      }
+    }
+
+    .tab-indicator {
+      $diff: 55;
+
+      background-color: rgba(
+        $sec-r + $diff,
+        $sec-g + $diff,
+        $sec-b + $diff,
+        0.35
+      );
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -75;
+
+      background-color: rgba(
+        $sec-r + $diff,
+        $sec-g + $diff,
+        $sec-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-secondary-v6;
+    }
+  }
+
+  //tertiary
+  &.theme--tertiary--0 {
+    .tab-link {
+      $diff: 25;
+      color: $theme-tertiary-v4;
+
+      &.active {
+        color: $theme-tertiary-v3;
+      }
+
+      &:hover,
+      &:focus {
+        border-bottom-color: rgba(
+          $tert-r + $diff,
+          $tert-g + $diff,
+          $tert-b + $diff,
+          0.35
+        );
+      }
+    }
+
+    .tab-indicator {
+      $diff: 55;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.35
+      );
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -80;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-tertiary-v5;
+    }
+  }
+
+  &.night-time {
+    .hourlies-wrapper.open {
+      $diff: -100;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-tertiary-v2;
+    }
   }
 }

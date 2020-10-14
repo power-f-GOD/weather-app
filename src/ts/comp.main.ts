@@ -1,17 +1,17 @@
 import {
   QAll,
-  state,
   transform,
   interval,
   getAndReturnWeatherData,
-  setState,
   delay,
   Q,
   makeInert,
-  addEventListenerOnce
+  addEventListenerOnce,
+  getWeatherAndCityDataThenSetState
 } from './utils';
-import { updateCard } from './card';
+import { updateCard } from './comp.card';
 import { WeatherResponseMain } from './types';
+import state, { setState } from './state';
 
 export default function main() {
   const TabLinks = QAll('.Main .tab-link') as NodeListOf<HTMLAnchorElement>;
@@ -26,14 +26,15 @@ export default function main() {
       getAndReturnWeatherData(
         state.latitude as number,
         state.longitude as number
-      ).then(({ current, daily }) => {
+      ).then(({ current, daily, hourly }) => {
         setState({
           current,
           daily,
           tomorrow: daily[0],
           other: daily.find(
             (day) => day.date_string === state.other?.date_string
-          )
+          ),
+          hourly
         });
       });
     }
@@ -48,9 +49,9 @@ export default function main() {
     HourliesToggler.textContent = isOpen ? '✕' : 'hourly';
     HourliesWrapper.style.overflow = 'hidden';
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
-    makeInert(Next7DaysSection, isOpen, true);
-    makeInert(Nav, isOpen, true);
-    makeInert(TabLinksContainer, isOpen, true);
+    makeInert(Next7DaysSection, isOpen);
+    makeInert(Nav, isOpen);
+    makeInert(TabLinksContainer, isOpen);
     addEventListenerOnce(HourliesWrapper, () => {
       delay(400).then(() => {
         HourliesWrapper.style.overflow = isOpen ? 'auto' : 'hidden';
@@ -100,12 +101,50 @@ export default function main() {
       }, 4000);
     }
   });
+
+  window.addEventListener('popstate', () => {
+    const SearchResultsOverlay = Q('.search-results-overlay') as HTMLElement;
+    const SideBarToggler = Q('.side-bar-toggler') as HTMLElement;
+
+    const { hash } = window.location;
+
+    if (hash) {
+      const [latitude, longitude] = window.location.hash
+        .replace('#', '')
+        .split(',')
+        .map(parseFloat) ?? [null, null];
+
+      if (!isNaN(latitude) && !isNaN(longitude)) {
+        getWeatherAndCityDataThenSetState(latitude, longitude, null);
+      }
+    } else {
+      window.history.replaceState(
+        {},
+        '',
+        `${window.location.pathname}#${state.latitude},${state.longitude}`
+      );
+    }
+
+    if (SearchResultsOverlay.classList.contains('show')) {
+      SearchResultsOverlay.click();
+    }
+
+    if (HourliesWrapper.classList.contains('open')) {
+      HourliesWrapper.click();
+    }
+
+    if (SideBarToggler.classList.contains('is-open')) {
+      SideBarToggler.click();
+    }
+  });
 }
 
-export const updateTabLinkContainer = (weatherMain: WeatherResponseMain) => {
-  const TabLinksContainer = Q('.Main .tab-links-container') as HTMLElement;
-  const SideBarToggler = Q('.Footer .side-bar-toggler') as HTMLElement;
+export const updateBody = (weatherMain: WeatherResponseMain) => {
+  const Body = document.body;
 
+  const delayTimeout = Body.classList.contains('animate-card-overlay')
+    ? 750
+    : 350;
   let className: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   switch (true) {
@@ -119,14 +158,12 @@ export const updateTabLinkContainer = (weatherMain: WeatherResponseMain) => {
       className = 'tertiary';
   }
 
-  TabLinksContainer.className = TabLinksContainer.className.replace(
-    /(theme--).*(--0)/,
-    `$1${className}$2`
-  );
-  SideBarToggler.className = SideBarToggler.className.replace(
-    /(theme--).*(--0)/,
-    `$1${className}$2`
-  );
+  delay(delayTimeout).then(() => {
+    Body.className = Body.className.replace(
+      /(theme--).*(--0)/,
+      `$1${className}$2`
+    );
+  });
 };
 
 export const updateTabLink = (

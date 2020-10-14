@@ -16,13 +16,11 @@ export default function nav() {
   const CityLocation = Q('.Nav .location') as HTMLElement;
   const SearchButton = Q('.search-button') as HTMLElement;
   const SearchInput = Q('.search-input') as HTMLInputElement;
-  const SearchResultsOverlay = Q('.search-results-overlay') as
-    | HTMLElement
-    | any;
+  const SearchResultsOverlay = Q('.search-results-overlay') as HTMLElement;
   const SearchResultsContainer = Q(
     '.search-results-overlay .container'
   ) as HTMLElement;
-  const View = Q('.View') as HTMLElement | any;
+  const View = Q('.View') as HTMLElement;
 
   let inputTimeout: any | undefined;
 
@@ -41,9 +39,9 @@ export default function nav() {
 
   const handleTransitionEnd = () => {
     const isHidden = !SearchResultsOverlay.classList.contains('show');
-
-    makeInert(View, !isHidden, true);
-    makeInert(SearchResultsOverlay, isHidden, true);
+    console.log(isHidden);
+    makeInert(View, !isHidden);
+    makeInert(SearchResultsOverlay, isHidden);
     (SearchInput as any).onblur();
     document.body.style.overflow = !isHidden ? 'hidden' : 'auto';
   };
@@ -56,6 +54,12 @@ export default function nav() {
     const Result = e.target as HTMLAnchorElement;
     const Type = Result.children[1] as HTMLElement;
     const { latitude, longitude, location, type } = Result.dataset ?? {};
+
+    window.history.pushState(
+      {},
+      '',
+      `${window.location.pathname}#${latitude},${longitude}`
+    );
 
     if (searchIsLoading) {
       Type.textContent = 'busy!🙂';
@@ -99,16 +103,16 @@ export default function nav() {
       searchMessage('Getting set...😊');
 
       inputTimeout = setTimeout(async () => {
-        searchMessage('Getting matching cities...😉');
+        searchMessage('Getting matching cities/locations...😉');
 
         const [latitude, longitude] = SearchInput.value
           .split(',')
-          .map(Number) ?? [null, null];
-        const isCoord = !isNaN(latitude) && !isNaN(longitude);
-        const baseUrl = isCoord
+          .map(parseFloat) ?? [null, null];
+        const areCoords = !isNaN(latitude) && !isNaN(longitude);
+        const baseUrl = areCoords
           ? `https://geocode.xyz/${latitude},${longitude}`
           : 'https://geocode.xyz/';
-        const queryParam = isCoord
+        const queryParam = areCoords
           ? 'json=1'
           : `scantext=${SearchInput.value}&geoit=json`;
         const {
@@ -154,13 +158,13 @@ export default function nav() {
             `${
               error?.code === '006'
                 ? 'Something went wrong. Please, try again after some time.😕'
-                : ` Sorry, could not find any matching cities for '${SearchInput.value.replace(
+                : ` Sorry, could not find any matching cities/locations for '${SearchInput.value.replace(
                     /<\/?.*>/,
                     ''
                   )}'. ${
-                    isCoord
+                    areCoords
                       ? ''
-                      : 'You may try entering full city name/keyword.'
+                      : 'You may try entering full city/location name/keyword.'
                   }`
             }`
           );
@@ -168,7 +172,7 @@ export default function nav() {
       }, 2000);
     } else {
       searchMessage(
-        "Ok, I'm waiting...🙂 <br /><br />PS. You can enter location name or (comma-separated) coordinates (latitude, longitude) [e.g. 7.1, 5.3].✌🏼"
+        "Ok, I'm waiting...🙂 <br /><br />PS. You can enter city/location name or (comma-separated) coordinates (latitude, longitude) [e.g. 7.1, 5.3].✌🏼"
       );
     }
 
@@ -219,7 +223,7 @@ export default function nav() {
       callTransitionEndListener();
     }
   };
-  makeInert(SearchResultsOverlay, true, true);
+  makeInert(SearchResultsOverlay, true);
 
   (Q('.search-form') as HTMLElement).onsubmit = (e: any) => e.preventDefault();
 }
