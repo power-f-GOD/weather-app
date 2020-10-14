@@ -39,7 +39,7 @@ export default function nav() {
 
   const handleTransitionEnd = () => {
     const isHidden = !SearchResultsOverlay.classList.contains('show');
-    console.log(isHidden);
+    
     makeInert(View, !isHidden);
     makeInert(SearchResultsOverlay, isHidden);
     (SearchInput as any).onblur();

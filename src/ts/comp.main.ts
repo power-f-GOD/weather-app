@@ -7,7 +7,8 @@ import {
   Q,
   makeInert,
   addEventListenerOnce,
-  getWeatherAndCityDataThenSetState
+  getWeatherAndCityDataThenSetState,
+  task
 } from './utils';
 import { updateCard } from './comp.card';
 import { WeatherResponseMain } from './types';
@@ -108,22 +109,28 @@ export default function main() {
 
     const { hash } = window.location;
 
-    if (hash) {
-      const [latitude, longitude] = window.location.hash
-        .replace('#', '')
-        .split(',')
-        .map(parseFloat) ?? [null, null];
+    const _task = () => {
+      if (navigator.onLine) {
+        if (hash) {
+          const [latitude, longitude] = window.location.hash
+            .replace('#', '')
+            .split(',')
+            .map(parseFloat) ?? [null, null];
 
-      if (!isNaN(latitude) && !isNaN(longitude)) {
-        getWeatherAndCityDataThenSetState(latitude, longitude, null);
+          if (!isNaN(latitude) && !isNaN(longitude)) {
+            getWeatherAndCityDataThenSetState(latitude, longitude, null);
+          }
+        } else {
+          window.history.replaceState(
+            {},
+            '',
+            `${window.location.pathname}#${state.latitude},${state.longitude}`
+          );
+        }
       }
-    } else {
-      window.history.replaceState(
-        {},
-        '',
-        `${window.location.pathname}#${state.latitude},${state.longitude}`
-      );
-    }
+    };
+
+    task.assign(_task).execute();
 
     if (SearchResultsOverlay.classList.contains('show')) {
       SearchResultsOverlay.click();

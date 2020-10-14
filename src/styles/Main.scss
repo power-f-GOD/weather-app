@@ -15,7 +15,7 @@
     display: inline-flex;
     justify-content: space-between;
     width: 100%;
-    padding: 0 0.75rem;
+    padding: 0 1rem;
     max-width: 18rem;
     margin: 0.8vh 0;
     position: relative;
@@ -26,13 +26,13 @@
     position: absolute;
     left: 0;
     height: calc(100% - 0.125rem);
-    width: 4.75rem;
+    width: 3.85rem;
     z-index: 0;
     border-radius: 2rem;
     display: inline-block;
     transition: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
       background-color 0.35s ease;
-    transform: translateX(0.75rem);
+    transform: translateX(1rem);
     background-color: rgba($prim-r + 50, $prim-g + 50, $prim-b + 50, 0.2);
   }
 
@@ -102,6 +102,10 @@
       .tomorrow-hourly {
         transition-delay: 0.75s;
       }
+    }
+
+    .container {
+      max-width: 50rem;
     }
   }
 

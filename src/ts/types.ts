@@ -3,10 +3,8 @@ export interface State extends Partial<WeatherResponseProps & CitiesResponse> {
   other?: WeatherResponseProps['current'];
   latitude?: number;
   longitude?: number;
-  location?: { text: string; err?: boolean };
+  location?: { text?: string | null; err?: boolean; errText?: string | null };
   activeTabLinkIndex?: number;
-  hash?: string;
-  history?: { [hash: string]: Omit<State, 'setState'> };
   setState(val: Omit<State, 'setState'>): Promise<Omit<State, 'setState'>>;
 }
 
@@ -80,6 +78,7 @@ export interface WeatherResponseProps {
   current: WeatherInfoProps;
   daily: WeatherInfoProps[];
   hourly: WeatherInfoProps[];
+  minutely: WeatherInfoProps[];
   lat: number;
   lon: number;
 }

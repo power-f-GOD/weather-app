@@ -404,7 +404,7 @@
   &[class*='-storm'] {
     &.animate {
       .weather-image {
-        animation: animateScale 1s infinite;
+        animation: animateScale 0.75s infinite;
       }
     }
   }

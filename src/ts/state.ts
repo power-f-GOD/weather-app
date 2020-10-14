@@ -4,7 +4,6 @@ import { updateTabLink, updateBody } from './comp.main';
 import { updateCard } from './comp.card';
 
 const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
-  hash: '#40.69,-73.96',
   latitude: 40.69,
   longitude: -73.96,
   location: { text: 'New York, US', err: false },
@@ -42,7 +41,10 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
 
       //update UI...
       if (_location) {
-        updateLocation(_location.text ?? state.location?.text, _location.err);
+        updateLocation(
+          _location.errText ?? _location.text ?? state.location?.text ?? '...',
+          _location.err
+        );
       }
 
       if (activeTabLinkIndex !== undefined) {

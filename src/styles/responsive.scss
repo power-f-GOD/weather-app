@@ -8,6 +8,15 @@
         font-size: 0.75rem;
       }
     }
+
+    .search-input {
+      max-width: unset;
+      top: 0.35rem;
+      height: calc(100% - 0.7rem);
+      position: absolute;
+      right: 3.5rem;
+      width: calc(100% - 4.5rem);
+    }
   }
 
   .Home {

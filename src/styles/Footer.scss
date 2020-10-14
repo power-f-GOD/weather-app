@@ -58,7 +58,7 @@
     background-color: $theme-primary-v6;
     display: inline-flex;
     justify-content: space-evenly;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
     flex-direction: column;
     transform: translateX(calc(100% + 2rem));
     animation: sideBarTogglerSlideIn 0.5s forwards ease 0.5s;

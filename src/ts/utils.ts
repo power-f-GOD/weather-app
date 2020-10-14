@@ -180,10 +180,11 @@ export const getWeatherAndCityDataThenSetState = (
 
           setState({
             location: {
-              text: city
-                ? `${city}, ${prov}`
-                : "Couldn't get location name. Tap here to retry.",
-              err: !city
+              text: city ? `${city}, ${prov}` : null,
+              err: !city,
+              errText: !city
+                ? "Couldn't get location name. Tap here to retry."
+                : null
             }
           });
 
@@ -218,7 +219,7 @@ export const catchGetRequest = (e?: any) => {
   }
 
   setState({
-    location: { text: '⚠ An error occurred. Tap here to retry.', err: true }
+    location: { errText: '⚠ An error occurred. Tap here to retry.', err: true }
   });
 
   console.error(e);
@@ -275,10 +276,7 @@ export const makeInert = (
   target.style.pointerEvents = inert ? 'none' : 'unset';
   target.setAttribute('aria-hidden', inert ? 'true' : 'false');
 
-  if (
-    targetIsInTabOrder ||
-    /0|-1/.test(String(target.getAttribute('tabindex')))
-  ) {
+  if (targetIsInTabOrder) {
     target.tabIndex = inert ? -1 : 0;
   }
 
