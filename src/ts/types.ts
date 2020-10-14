@@ -3,7 +3,7 @@ export interface State extends Partial<WeatherResponseProps & CitiesResponse> {
   other?: WeatherResponseProps['current'];
   latitude?: number;
   longitude?: number;
-  location?: { text?: string | null; err?: boolean; errText?: string | null };
+  location?: { name?: string; err?: boolean; statusText?: string | null };
   activeTabLinkIndex?: number;
   setState(val: Omit<State, 'setState'>): Promise<Omit<State, 'setState'>>;
 }
@@ -22,15 +22,15 @@ export type WeatherImageClassName =
   | 'atmosphere';
 
 export type WeatherResponseMain =
-  | 'clouds'
-  | 'thunderstorm'
-  | 'clear'
-  | 'drizzle'
-  | 'rainy'
-  | 'rain'
-  | 'snow'
-  | 'tornado'
-  | 'fog';
+  | 'Clouds'
+  | 'Thunderstorm'
+  | 'Clear'
+  | 'Drizzle'
+  | 'Rainy'
+  | 'Rain'
+  | 'Snow'
+  | 'Tornado'
+  | 'Fog';
 
 export interface CardDataProps
   extends Partial<WeatherInfoProps & WeatherResponseProps> {

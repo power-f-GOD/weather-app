@@ -135,7 +135,7 @@ export const getWeatherAndCityDataThenSetState = (
   setState({
     latitude,
     longitude,
-    location: { text: 'Fetching weather data...', err: false }
+    location: { statusText: 'Fetching weather data...', err: false }
   });
 
   let _task = async () => {
@@ -152,12 +152,13 @@ export const getWeatherAndCityDataThenSetState = (
           hourly,
           activeTabLinkIndex: state.activeTabLinkIndex || 0,
           location: {
-            text:
+            name:
               location === undefined
                 ? 'New York, US'
-                : location === null
-                ? 'Getting location name...'
-                : location,
+                : location
+                ? location
+                : state.location?.name,
+            statusText: location === null ? 'Getting location name...' : null,
             err: false
           }
         });
@@ -167,7 +168,7 @@ export const getWeatherAndCityDataThenSetState = (
         _task = async () => {
           setState({
             location: {
-              text: 'Getting location name...',
+              statusText: 'Getting location name...',
               err: false
             }
           });
@@ -180,10 +181,10 @@ export const getWeatherAndCityDataThenSetState = (
 
           setState({
             location: {
-              text: city ? `${city}, ${prov}` : null,
+              name: city ? `${city}, ${prov}` : state.location?.name,
               err: !city,
-              errText: !city
-                ? "Couldn't get location name. Tap here to retry."
+              statusText: !city
+                ? 'Error getting location name. Tap here to retry.'
                 : null
             }
           });
@@ -212,14 +213,17 @@ export const catchGetRequest = (e?: any) => {
     alert(
       `${
         !navigator.onLine
-          ? "Couldn't fetch. You're offline."
+          ? "Couldn't fetch data. You're offline."
           : "A network error occurred. Sure you're connected?"
       } `
     );
   }
 
   setState({
-    location: { errText: '⚠ An error occurred. Tap here to retry.', err: true }
+    location: {
+      statusText: '⚠ An error occurred. Tap here to retry.',
+      err: true
+    }
   });
 
   console.error(e);
@@ -234,7 +238,7 @@ export const requireMappedImageString = (
       return 'sunny';
     case /thunderstorm/i.test(main):
       return /rain/i.test(desc) ? 'thunder-storm' : 'thunder-cloud';
-    case /drizzle|rain/i.test(main):
+    case /drizzle|rainy?/i.test(main):
       return /heavy/i.test(desc) ? 'rainy-cloud' : 'clouds-sun-rain';
     case /snow/i.test(main):
       return 'snowy-cloud';

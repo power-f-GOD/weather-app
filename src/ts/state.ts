@@ -6,7 +6,7 @@ import { updateCard } from './comp.card';
 const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
   latitude: 40.69,
   longitude: -73.96,
-  location: { text: 'New York, US', err: false },
+  location: { name: 'New York, US', err: false },
   setState(val: Omit<State, 'setState'>) {
     return new Promise((resolve) => {
       //update state
@@ -18,7 +18,7 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
       }
 
       const {
-        location: _location,
+        location,
         current,
         daily,
         tomorrow,
@@ -40,10 +40,10 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
       }
 
       //update UI...
-      if (_location) {
+      if (location) {
         updateLocation(
-          _location.errText ?? _location.text ?? state.location?.text ?? '...',
-          _location.err
+          location.statusText ?? location.name ?? state.location?.name ?? '...',
+          location.err
         );
       }
 
@@ -57,7 +57,7 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
 
       if (current || tomorrow || other || activeTabLinkIndex !== undefined) {
         updateBody(
-          activeTab?.weather?.slice(-1)[0].main ?? activeTab?.main ?? 'clouds'
+          activeTab?.weather?.slice(-1)[0].main ?? activeTab?.main ?? 'Clouds'
         );
       }
 

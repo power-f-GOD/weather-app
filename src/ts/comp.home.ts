@@ -147,6 +147,14 @@ export default async function home() {
             )
           });
         });
+      } else {
+        setState({
+          location: {
+            ...state.location,
+            err: false,
+            statusText: null
+          }
+        });
       }
     }
   }
