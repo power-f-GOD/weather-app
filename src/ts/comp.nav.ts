@@ -39,7 +39,7 @@ export default function nav() {
 
   const handleTransitionEnd = () => {
     const isHidden = !SearchResultsOverlay.classList.contains('show');
-    
+
     makeInert(View, !isHidden);
     makeInert(SearchResultsOverlay, isHidden);
     (SearchInput as any).onblur();
@@ -53,13 +53,8 @@ export default function nav() {
 
     const Result = e.target as HTMLAnchorElement;
     const Type = Result.children[1] as HTMLElement;
-    const { latitude, longitude, location, type } = Result.dataset ?? {};
 
-    window.history.pushState(
-      {},
-      '',
-      `${window.location.pathname}#${latitude},${longitude}`
-    );
+    const { latitude, longitude, location, type } = Result.dataset ?? {};
 
     if (searchIsLoading) {
       Type.textContent = 'busy!🙂';
@@ -71,21 +66,34 @@ export default function nav() {
       Type.textContent = 'fetching data...🏃🏽‍♂️';
     }
 
-    _task = async () => {
+    _task = () => {
       searchIsLoading = true;
-      await getWeatherAndCityDataThenSetState(
+
+      getWeatherAndCityDataThenSetState(
         Number(latitude),
         Number(longitude),
         location
-      ).catch(() => {
-        searchMessage('An error occurred. Failed to get.', true);
-      });
-      searchIsLoading = false;
-      Type.textContent = 'done!😎';
-      await delay(850);
-      Type.textContent = type as string;
-      SearchResultsOverlay.classList.remove('show');
-      callTransitionEndListener();
+      )
+        .then(async () => {
+          //use a non empty string here so results container is displayed/shown when search button is again clicked (if hitherto hidden after a previous search)
+          SearchInput.value = ' ';
+          searchIsLoading = false;
+          Type.textContent = 'done!😎';
+          await delay(850);
+          Type.textContent = type as string;
+
+          SearchResultsOverlay.classList.remove('show');
+          callTransitionEndListener();
+          window.history.pushState(
+            {},
+            '',
+            `${window.location.pathname}#${latitude},${longitude}`
+          );
+        })
+        .catch(() => {
+          Type.textContent = type as string;
+          searchMessage('An error occurred. Failed to get.', true);
+        });
     };
 
     task.assign(_task).execute();
@@ -98,8 +106,11 @@ export default function nav() {
 
     clearTimeout(inputTimeout);
 
-    if (SearchInput.value.trim()) {
+    if (SearchInput.value) {
       SearchResultsOverlay.classList.add('show');
+    }
+
+    if (SearchInput.value.trim()) {
       searchMessage('Getting set...😊');
 
       inputTimeout = setTimeout(async () => {
@@ -157,8 +168,8 @@ export default function nav() {
           searchMessage(
             `${
               error?.code === '006'
-                ? 'Something went wrong. Please, try again after some time.😕'
-                : ` Sorry, could not find any matching cities/locations for '${SearchInput.value.replace(
+                ? '😕 Something went wrong. Please, try again after some time.'
+                : `🤔 Sorry, could not find any matching cities/locations for '${SearchInput.value.replace(
                     /<\/?.*>/,
                     ''
                   )}'. ${
@@ -184,7 +195,7 @@ export default function nav() {
     handleSearch(e);
   };
   SearchInput.onfocus = (e: any) => {
-    if (e.target.value.trim()) {
+    if (e.target.value) {
       SearchResultsOverlay.classList.add('show');
       callTransitionEndListener();
     }
@@ -207,7 +218,7 @@ export default function nav() {
     const hasFocus = SearchInput.classList.contains('focused');
 
     if (hasFocus) {
-      if (SearchInput.value.trim()) {
+      if (SearchInput.value) {
         (SearchInput as any).onkeyup();
         SearchInput.focus();
       } else {

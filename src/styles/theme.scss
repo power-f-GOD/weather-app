@@ -1,64 +1,8 @@
 body {
   //primary
-  &.theme--primary--0 {
-    // Main
-    .tab-link {
-      $diff: 25;
-      color: $theme-primary-v5;
-
-      &.active {
-        color: $theme-primary-v4;
-      }
-
-      &:hover,
-      &:focus {
-        border-bottom-color: rgba(
-          $prim-r + $diff,
-          $prim-g + $diff,
-          $prim-b + $diff,
-          0.4
-        );
-      }
-    }
-
-    .tab-indicator {
-      $diff: 85;
-
-      background-color: rgba(
-        $prim-r + $diff,
-        $prim-g + $diff,
-        $prim-b + $diff,
-        0.35
-      );
-    }
-
-    .hourlies-wrapper.open {
-      $diff: -80;
-
-      background-color: rgba(
-        $prim-r + $diff,
-        $prim-g + $diff,
-        $prim-b + $diff,
-        0.95
-      );
-    }
-
-    .hourlies-toggler {
-      background-color: $theme-primary-v6;
-    }
-
-    // Footer
-    .side-bar-toggler {
-      background-color: $theme-primary-v6;
-
-      &:hover,
-      &:focus {
-        span {
-          background-color: $theme-primary-v6;
-        }
-      }
-    }
-  }
+  /*
+    default colours are all already primary
+  */
 
   //secondary
   &.theme--secondary--0 {
@@ -119,6 +63,48 @@ body {
         }
       }
     }
+
+    .theme-toggler {
+      $bg: $theme-secondary-v7;
+      $hoverBg: $theme-tertiary-v2;
+
+      background-color: $bg;
+
+      &:hover,
+      &:focus {
+        background-color: $hoverBg;
+
+        .icon span {
+          background-color: $hoverBg;
+        }
+      }
+
+      .icon span {
+        background-color: $bg;
+      }
+    }
+
+    .icon-container {
+      background: linear-gradient(
+        to top,
+        $theme-secondary-v4,
+        $theme-secondary-v7
+      );
+    }
+
+    .title {
+      border-color: $theme-secondary-v7;
+    }
+
+    .Footer {
+      a {
+        color: $theme-secondary-v6;
+
+        &:hover {
+          color: $theme-secondary-v4;
+        }
+      }
+    }
   }
 
   //tertiary
@@ -167,6 +153,49 @@ body {
 
     .hourlies-toggler {
       background-color: $theme-tertiary-v5;
+    }
+
+    // Footer
+    .theme-toggler {
+      $bg: $theme-secondary-v7;
+      $hoverBg: $theme-tertiary-v2;
+
+      background-color: $bg;
+
+      &:hover,
+      &:focus {
+        background-color: $hoverBg;
+
+        .icon span {
+          background-color: $hoverBg;
+        }
+      }
+
+      .icon span {
+        background-color: $bg;
+      }
+    }
+
+    .icon-container {
+      background: linear-gradient(
+        to top,
+        $theme-secondary-v4,
+        $theme-secondary-v7
+      );
+    }
+
+    .title {
+      border-color: $theme-secondary-v7;
+    }
+
+    .Footer {
+      a {
+        color: $theme-secondary-v6;
+
+        &:hover {
+          color: $theme-secondary-v4;
+        }
+      }
     }
   }
 
@@ -272,12 +301,6 @@ body {
 
     .hourlies-toggler {
       background-color: $theme-tertiary-v1;
-
-      &:hover,
-      &:focus {
-        background-color: #fff !important;
-        color: #222;
-      }
     }
 
     // Card
@@ -342,6 +365,14 @@ body {
     }
 
     // Footer
+    .side-bar {
+      background-image: linear-gradient(
+        to top,
+        $theme-tertiary-v1,
+        $theme-primary-v3
+      );
+    }
+
     .side-bar-toggler {
       background-color: $theme-primary-v3;
 
@@ -349,6 +380,62 @@ body {
       &:focus {
         span {
           background-color: $theme-primary-v4;
+        }
+      }
+    }
+
+    .theme-toggler {
+      $bg: $theme-primary-v4;
+      $hoverBg: $theme-secondary-v7;
+
+      background-color: $bg;
+
+      &:hover,
+      &:focus {
+        background-color: $hoverBg;
+
+        .icon span {
+          background-color: $hoverBg;
+        }
+      }
+
+      .icon span {
+        background-color: $bg;
+        transform: translate(0.1rem, 0.1rem);
+      }
+    }
+
+    .icon-container {
+      background: transparent;
+      box-shadow: -0.25rem 0 1rem rgba(0, 0, 0, 0.5);
+    }
+
+    .title {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: #ddd;
+      border-color: #ccc;
+    }
+
+    .details {
+      color: #bbb;
+    }
+
+    .last-synced-date {
+      font-weight: bolder;
+      color: limegreen;
+    }
+
+    a {
+      &:hover {
+        color: $theme-primary-v4;
+      }
+
+      &.social {
+        opacity: 0.6;
+
+        &:hover,
+        &:focus {
+          opacity: 1;
         }
       }
     }

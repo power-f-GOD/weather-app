@@ -10,23 +10,23 @@
     <section class="hourlies-wrapper" role="presentation">
       <button class='hourlies-toggler'>hourly</button>
       <div class="legend container w-100">
-        <div class="today-hourly w-100 text-center">
+        <div class="hourlies-container-1 w-100 text-center">
           <h2>Next 0 - 24 hours</h2>
           <small>(24-hour hourly)</small>
-          <div class="scroll-view">
+          <section class="list-view" role="list">
             %CardTypeC%
-          </div>
+          </section>
         </div>
-        <div class="tomorrow-hourly w-100 text-center">
+        <div class="hourlies-container-2 w-100 text-center">
           <h2>Next 24 - 48 hours</h2>
           <small>(24-hour hourly)</small>
-          <div class="scroll-view">
+          <section class="list-view" role="list">
             %CardTypeC%
-          </div>
+          </section>
         </div>
       </div>
     </section>
     <h2>Next 7 days</h2>
-    <section class="scroll-section">%CardTypeB%</section>
+    <section class="daily-list-view" role="list">%CardTypeB%</section>
   </div>
 </main>

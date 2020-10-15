@@ -1,4 +1,5 @@
 import { Q, makeInert } from './utils';
+import state, { setState } from './state';
 
 export const footer = () => {
   const Nav = Q('.Nav') as HTMLElement;
@@ -6,6 +7,7 @@ export const footer = () => {
   const Container = Q('.Footer .container') as HTMLElement;
   const SideBar = Q('.side-bar') as HTMLElement;
   const SideBarToggler = Q('.side-bar-toggler') as HTMLElement;
+  const ThemeToggler = Q('.theme-toggler') as HTMLElement;
 
   makeInert(Container, true);
 
@@ -26,5 +28,9 @@ export const footer = () => {
     if (e.target === Container) {
       SideBarToggler.click();
     }
+  });
+
+  ThemeToggler.addEventListener('click', () => {
+    setState({ nightMode: !state.nightMode });
   });
 };

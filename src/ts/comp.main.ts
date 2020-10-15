@@ -20,7 +20,7 @@ export default function main() {
   const HourliesToggler = Q('.Main .hourlies-toggler') as HTMLButtonElement;
   const Nav = Q('.Nav') as HTMLElement;
   const TabLinksContainer = Q('.Main nav') as HTMLElement;
-  const Next7DaysSection = Q('.Main .scroll-section') as HTMLElement;
+  const Next7DaysSection = Q('.Main .daily-list-view') as HTMLElement;
 
   const triggerGetWeatherData = () => {
     if (navigator.onLine && document.visibilityState === 'visible') {
@@ -146,30 +146,45 @@ export default function main() {
   });
 }
 
-export const updateBody = (weatherMain: WeatherResponseMain) => {
+export const updateBody = (props: {
+  nightMode?: boolean;
+  weatherMain?: WeatherResponseMain;
+}) => {
   const Body = document.body;
 
+  const { nightMode, weatherMain } = props;
   const delayTimeout = Body.classList.contains('animate-card-overlay')
     ? 750
-    : 350;
-  let className: 'primary' | 'secondary' | 'tertiary' = 'primary';
-
-  switch (true) {
-    case /clear/i.test(weatherMain):
-      className = 'secondary';
-      break;
-    case /clouds|drizzle|rainy?|snow/i.test(weatherMain):
-      className = 'primary';
-      break;
-    default:
-      className = 'tertiary';
-  }
+    : weatherMain
+    ? 350
+    : 100;
 
   delay(delayTimeout).then(() => {
-    Body.className = Body.className.replace(
-      /(theme--).*(--0)/,
-      `$1${className}$2`
-    );
+    if (weatherMain) {
+      let className: 'primary' | 'secondary' | 'tertiary' = 'primary';
+
+      switch (true) {
+        case /clear/i.test(weatherMain as WeatherResponseMain):
+          className = 'secondary';
+          break;
+        case /clouds|drizzle|rainy?|snow/i.test(
+          weatherMain as WeatherResponseMain
+        ):
+          className = 'primary';
+          break;
+        default:
+          className = 'tertiary';
+      }
+
+      Body.className = Body.className.replace(
+        /(theme--).*(--0)/,
+        `$1${className}$2`
+      );
+    }
+
+    if (nightMode !== undefined) {
+      Body.classList[nightMode ? 'add' : 'remove']('night-time');
+    }
   });
 };
 

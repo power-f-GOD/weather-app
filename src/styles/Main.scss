@@ -23,6 +23,14 @@
   }
 
   .tab-indicator {
+    $diff: 80;
+
+    background-color: rgba(
+      $prim-r + $diff,
+      $prim-g + $diff,
+      $prim-b + $diff,
+      0.45
+    );
     position: absolute;
     left: 0;
     height: calc(100% - 0.125rem);
@@ -33,11 +41,11 @@
     transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
       background-color 0.35s ease;
     transform: translateX(1rem);
-    background-color: rgba($prim-r + 50, $prim-g + 50, $prim-b + 50, 0.2);
   }
 
   .tab-link {
-    color: $theme-primary-v4;
+    $diff: 25;
+
     font-size: 0.8rem;
     font-weight: bolder;
     border-radius: 2rem;
@@ -49,6 +57,7 @@
     position: static;
     z-index: 1;
     transition: 0.35s;
+    color: $theme-primary-v5;
 
     &.active {
       color: $theme-primary-v4;
@@ -56,7 +65,12 @@
 
     &:hover,
     &:focus {
-      border-bottom-color: rgba($prim-r + 25, $prim-g + 25, $prim-b + 25, 0.35);
+      border-bottom-color: rgba(
+        $prim-r + $diff,
+        $prim-g + $diff,
+        $prim-b + $diff,
+        0.45
+      );
     }
   }
 
@@ -79,6 +93,14 @@
     transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1);
 
     &.open {
+      $diff: -80;
+
+      background-color: rgba(
+        $prim-r + $diff,
+        $prim-g + $diff,
+        $prim-b + $diff,
+        0.95
+      );
       z-index: 5;
       transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1),
         width 0.35s ease 0.2s, border-radius 0.5s ease 0.2s,
@@ -89,17 +111,17 @@
       position: fixed;
       border-radius: 0;
 
-      .today-hourly,
-      .tomorrow-hourly {
+      .hourlies-container-1,
+      .hourlies-container-2 {
         transform: translateY(0);
         opacity: 1;
       }
 
-      .today-hourly {
+      .hourlies-container-1 {
         transition-delay: 0.55s;
       }
 
-      .tomorrow-hourly {
+      .hourlies-container-2 {
         transition-delay: 0.75s;
       }
     }
@@ -120,7 +142,7 @@
     position: absolute;
     min-height: unset;
     align-self: flex-start;
-    background-color: white;
+    background-color: $theme-primary-v5;
     transform: translate(0);
     transition: 0.35s ease, font-size 0s;
 
@@ -147,8 +169,8 @@
 
     &:hover,
     &:focus {
-      background-color: $theme-tertiary-v3 !important;
-      color: white;
+      color: $theme-tertiary-v3 !important;
+      background-color: white;
     }
   }
 
@@ -156,8 +178,8 @@
     padding: 0 0.5rem;
   }
 
-  .today-hourly,
-  .tomorrow-hourly {
+  .hourlies-container-1,
+  .hourlies-container-2 {
     transition: transform 0.5s, opacity 0.6s;
     opacity: 0;
     transform: translateY(4rem);
@@ -168,11 +190,11 @@
     }
   }
 
-  .tomorrow-hourly {
+  .hourlies-container-2 {
     transform: translateY(2rem);
   }
 
-  .scroll-view {
+  .list-view {
     max-height: 12rem;
     width: 100%;
     margin: 1rem 0;
@@ -240,7 +262,7 @@
     width: calc(100% - 2rem);
   }
 
-  .scroll-section {
+  .daily-list-view {
     border-radius: 1rem;
     width: calc(100% - 2rem);
     margin: 0.25rem 1rem 1rem;

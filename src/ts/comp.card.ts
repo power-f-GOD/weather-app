@@ -9,6 +9,7 @@ import {
 } from './utils';
 import { CardDataProps, WeatherResponseMain } from './types';
 import state, { setState } from './state';
+import { updateBody } from './comp.main';
 
 export async function updateCard(props: CardDataProps) {
   const { type, current, tomorrow, other, index } = props ?? {};
@@ -69,7 +70,7 @@ export async function updateCard(props: CardDataProps) {
           `$1${weatherImage}$2`
         );
 
-        Body.classList[isNightTime ? 'add' : 'remove']('night-time');
+        updateBody({ nightMode: !!(isNightTime || state.nightMode) });
       }
 
       break;

@@ -43,11 +43,12 @@ a,
 button {
   cursor: pointer;
   text-decoration: none;
+  transition: 0.3s;
 }
 
 button {
-  min-height: 3rem;
-  min-width: 3rem;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
 
   &.icon-button {
     display: inline-flex;

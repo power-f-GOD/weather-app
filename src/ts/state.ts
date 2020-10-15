@@ -7,12 +7,13 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
   latitude: 40.69,
   longitude: -73.96,
   location: { name: 'New York, US', err: false },
+  nightMode: false,
   setState(val: Omit<State, 'setState'>) {
     return new Promise((resolve) => {
       //update state
       for (const [key, value] of Object.entries(val)) {
         (state as any)[key] =
-          Array.isArray(value) || /string|number/.test(typeof value)
+          Array.isArray(value) || /string|number|boolean/.test(typeof value)
             ? value
             : { ...(state as any)[key], ...value };
       }
@@ -24,6 +25,7 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
         tomorrow,
         other,
         hourly,
+        nightMode,
         activeTabLinkIndex
       } = val; //using props from val (if they exist) and not state in order for to not make redundant (UI) updates
       let activeTab = current || state.current;
@@ -55,10 +57,18 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
         updateCard({ ...activeTab, type: 'A' });
       }
 
-      if (current || tomorrow || other || activeTabLinkIndex !== undefined) {
-        updateBody(
-          activeTab?.weather?.slice(-1)[0].main ?? activeTab?.main ?? 'Clouds'
-        );
+      if (
+        current ||
+        tomorrow ||
+        other ||
+        activeTabLinkIndex !== undefined ||
+        nightMode !== undefined
+      ) {
+        updateBody({
+          nightMode,
+          weatherMain:
+            activeTab?.weather?.slice(-1)[0].main ?? activeTab?.main ?? 'Clouds'
+        });
       }
 
       if (daily) {

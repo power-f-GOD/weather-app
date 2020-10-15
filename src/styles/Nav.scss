@@ -124,6 +124,8 @@
 }
 
 .search-button {
+  height: 3rem;
+  width: 3rem;
   background: {
     image: url('../images/search-icon-32.png');
     repeat: no-repeat;
@@ -160,7 +162,7 @@
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   border: 0.125rem solid #333;
-  background-color: #eee;
+  background-color: #ddd;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -189,7 +191,7 @@
   }
 
   .type {
-    color: rgba(0, 0, 0, 0.75);
+    color: #888;
     font-size: 0.8rem;
     padding-left: 0.5rem;
   }
