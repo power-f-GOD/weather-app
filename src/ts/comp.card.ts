@@ -37,9 +37,6 @@ export async function updateCard(props: CardDataProps) {
         Body.classList.remove('animate-card-overlay');
       }
 
-      const weatherForToday =
-        new Date(Number(`${dt}000`)).toDateString() ===
-        new Date().toDateString();
       const currentHr = new Date(Date.now()).getHours();
       const isNightTime = currentHr >= 19 || currentHr < 7;
       const celsiusValue = round(temp as number);
@@ -72,11 +69,7 @@ export async function updateCard(props: CardDataProps) {
           `$1${weatherImage}$2`
         );
 
-        if (weatherForToday && isNightTime) {
-          Body.classList.add('night-time');
-        } else {
-          Body.classList.remove('night-time');
-        }
+        Body.classList[isNightTime ? 'add' : 'remove']('night-time');
       }
 
       break;

@@ -9,7 +9,7 @@
   z-index: 5;
   opacity: 1;
   overflow: hidden;
-  background-color: #eee;
+  background-color: inherit;
   border-bottom: 1px solid #ddd;
   transition: opacity 0.35s, transform 0.35s;
 
@@ -50,19 +50,6 @@
     }
   }
 
-  .menu-button {
-    display: none;
-
-    span {
-      height: 0.15rem;
-      width: 1.35rem;
-      background-color: black;
-      display: inline-block;
-      margin: 0.15rem 0;
-      border-radius: 0.2rem;
-    }
-  }
-
   .location {
     display: inline-flex;
     align-items: center;
@@ -73,7 +60,7 @@
     left: 8.25rem;
     padding-right: 5rem;
     border-radius: 0.25rem;
-    background-color: #eee;
+    background-color: inherit;
     max-width: calc(100% - 12rem);
     width: 100%;
     color: $theme-tertiary-v3;
@@ -202,7 +189,7 @@
   }
 
   .type {
-    color: #999;
+    color: rgba(0, 0, 0, 0.75);
     font-size: 0.8rem;
     padding-left: 0.5rem;
   }

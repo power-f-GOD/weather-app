@@ -9,6 +9,7 @@ body {
 
 body {
   overflow: hidden;
+  transition: background-color 0.3s;
 }
 
 *,
@@ -23,6 +24,7 @@ body {
 
 #app {
   height: 100%;
+  background-color: inherit;
 }
 
 .View {

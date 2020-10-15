@@ -5,6 +5,7 @@
   justify-content: center;
   flex-direction: column;
   color: white;
+  background-color: transparent !important;
 
   .weather-image {
     display: inline-block;
@@ -221,7 +222,7 @@
     &::before {
       opacity: 0.55;
       transform: translateY(100%);
-      @include before-or-after($zi: 0, $bg: #fff, $br: inherit, $tr: 0.3s);
+      @include before-or-after($zi: 0, $bg: #fff, $br: unset, $tr: 0.25s);
     }
 
     h3 {
@@ -313,7 +314,7 @@
     background-image: linear-gradient(
       to top,
       $theme-primary-v5,
-      $theme-tertiary-v6
+      $theme-tertiary-v5
     );
 
     .weather-image {
@@ -416,47 +417,6 @@ body {
       &::before {
         animation: cardOverlayAnimation 1.1s
           cubic-bezier(0.47, 0.5, 0.745, 0.715);
-      }
-    }
-  }
-
-  &.night-time {
-    .card {
-      &.type-a {
-        background-image: linear-gradient(
-          to bottom,
-          $theme-primary-v3,
-          $theme-tertiary-v2
-        ) !important;
-
-        &.condition--cloudy-sun--0,
-        &.condition--sunny--0 {
-          &.type-a {
-            .weather-image {
-              bottom: -1.75rem !important;
-              animation: animateX 8s infinite;
-            }
-          }
-
-          .weather-image {
-            background-image: url('../images/cloudy.png');
-          }
-        }
-
-        &.condition--clouds-sun-rain--0 {
-          .weather-image {
-            background-image: url('../images/rainy-cloud.png');
-          }
-        }
-
-        &.condition--thunder-storm--0,
-        &.condition--thunder-cloud--0 {
-          background-image: linear-gradient(
-            to bottom,
-            $theme-tertiary-v3,
-            $theme-tertiary-v1
-          );
-        }
       }
     }
   }

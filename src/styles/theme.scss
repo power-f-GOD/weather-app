@@ -1,0 +1,356 @@
+body {
+  //primary
+  &.theme--primary--0 {
+    // Main
+    .tab-link {
+      $diff: 25;
+      color: $theme-primary-v5;
+
+      &.active {
+        color: $theme-primary-v4;
+      }
+
+      &:hover,
+      &:focus {
+        border-bottom-color: rgba(
+          $prim-r + $diff,
+          $prim-g + $diff,
+          $prim-b + $diff,
+          0.4
+        );
+      }
+    }
+
+    .tab-indicator {
+      $diff: 85;
+
+      background-color: rgba(
+        $prim-r + $diff,
+        $prim-g + $diff,
+        $prim-b + $diff,
+        0.35
+      );
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -80;
+
+      background-color: rgba(
+        $prim-r + $diff,
+        $prim-g + $diff,
+        $prim-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-primary-v6;
+    }
+
+    // Footer
+    .side-bar-toggler {
+      background-color: $theme-primary-v6;
+
+      &:hover,
+      &:focus {
+        span {
+          background-color: $theme-primary-v6;
+        }
+      }
+    }
+  }
+
+  //secondary
+  &.theme--secondary--0 {
+    // Main
+    .tab-link {
+      $diff: 25;
+      color: $theme-secondary-v5;
+
+      &.active {
+        color: $theme-secondary-v4;
+      }
+
+      &:hover,
+      &:focus {
+        border-bottom-color: rgba(
+          $sec-r + $diff,
+          $sec-g + $diff,
+          $sec-b + $diff,
+          0.4
+        );
+      }
+    }
+
+    .tab-indicator {
+      $diff: 55;
+
+      background-color: rgba(
+        $sec-r + $diff,
+        $sec-g + $diff,
+        $sec-b + $diff,
+        0.35
+      );
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -75;
+
+      background-color: rgba(
+        $sec-r + $diff,
+        $sec-g + $diff,
+        $sec-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-secondary-v6;
+    }
+
+    // Footer
+    .side-bar-toggler {
+      background-color: $theme-secondary-v6;
+
+      &:hover,
+      &:focus {
+        span {
+          background-color: $theme-secondary-v6;
+        }
+      }
+    }
+  }
+
+  //tertiary
+  &.theme--tertiary--0 {
+    // Main
+    .tab-link {
+      $diff: 25;
+      color: $theme-tertiary-v4;
+
+      &.active {
+        color: $theme-tertiary-v3;
+      }
+
+      &:hover,
+      &:focus {
+        border-bottom-color: rgba(
+          $tert-r + $diff,
+          $tert-g + $diff,
+          $tert-b + $diff,
+          0.35
+        );
+      }
+    }
+
+    .tab-indicator {
+      $diff: 55;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.35
+      );
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -80;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-tertiary-v5;
+    }
+  }
+
+  //night time
+  &.night-time {
+    color: white;
+    background: linear-gradient(
+      to bottom,
+      $theme-primary-v3,
+      $theme-tertiary-v1
+    );
+
+    // Nav
+    .Nav {
+      border-bottom-color: rgba(0, 0, 0, 0.25);
+
+      .emblem {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .location {
+        color: #fff;
+      }
+    }
+
+    .search-input {
+      $diff: -62.5;
+      background-color: rgb($prim-r + $diff, $prim-g + $diff, $prim-b + $diff);
+      color: white;
+
+      &:hover,
+      &:focus {
+        background-color: rgb(
+          $prim-r + $diff - 5,
+          $prim-g + $diff - 5,
+          $prim-b + $diff - 5
+        );
+      }
+
+      &::placeholder {
+        color: white;
+        opacity: 0.3;
+      }
+    }
+
+    .search-result {
+      background-color: $theme-primary-v3;
+      border-color: transparent;
+      color: #f0f0f0;
+
+      &.fulfilled {
+        &:hover,
+        &:focus {
+          color: $theme-primary-v3;
+          background-color: #f0f0f0;
+
+          .type {
+            color: rgba($prim-r - 50, $prim-g - 50, $prim-b - 50, 0.75);
+          }
+        }
+
+        .type {
+          color: rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
+
+    // Main
+    .tab-link {
+      $diff: -80;
+      color: #fff !important;
+      opacity: 0.65;
+
+      &.active {
+        opacity: 1;
+      }
+
+      &:hover,
+      &:focus {
+        opacity: 1;
+        border-bottom-color: rgb(
+          $prim-r + $diff,
+          $prim-g + $diff,
+          $prim-b + $diff
+        );
+      }
+    }
+
+    .tab-indicator {
+      background-color: rgba($prim-r, $prim-g, $prim-b, 0.4);
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -100;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-tertiary-v1;
+
+      &:hover,
+      &:focus {
+        background-color: #fff !important;
+        color: #222;
+      }
+    }
+
+    // Card
+    .card {
+      &.type-a {
+        background-image: linear-gradient(
+          to bottom,
+          $theme-primary-v3,
+          $theme-tertiary-v1
+        ) !important;
+
+        &.condition--cloudy-sun--0,
+        &.condition--sunny--0 {
+          &.type-a {
+            .weather-image {
+              bottom: -1.75rem !important;
+              animation: animateX 8s infinite;
+            }
+          }
+
+          .weather-image {
+            background-image: url('../images/cloudy.png');
+          }
+        }
+
+        &.condition--clouds-sun-rain--0 {
+          .weather-image {
+            background-image: url('../images/rainy-cloud.png');
+          }
+        }
+
+        &.condition--thunder-storm--0,
+        &.condition--thunder-cloud--0 {
+          background-image: linear-gradient(
+            to bottom,
+            $theme-tertiary-v3,
+            $theme-tertiary-v1
+          );
+        }
+      }
+
+      &.type-b {
+        transition: 0.3s ease 0.25s;
+        border: 0.125rem solid transparent;
+        border-top: none;
+        border-bottom: none;
+
+        &:hover,
+        &:focus {
+          color: white;
+        }
+
+        &::before {
+          background-image: linear-gradient(
+            to bottom,
+            $theme-primary-v3,
+            $theme-tertiary-v1
+          ) !important;
+          opacity: 0.95;
+        }
+      }
+    }
+
+    // Footer
+    .side-bar-toggler {
+      background-color: $theme-primary-v3;
+
+      &:hover,
+      &:focus {
+        span {
+          background-color: $theme-primary-v4;
+        }
+      }
+    }
+  }
+}

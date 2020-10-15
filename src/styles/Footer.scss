@@ -35,9 +35,10 @@
     max-width: 20rem;
     background: #eee;
     transform: translateX(-100%);
-    transition: transform 0.35s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: transform 0.35s cubic-bezier(0.25, 0.75, 0.15, 1); // cubic-bezier(0.215, 0.61, 0.355, 1);
 
     &.open {
+      transition-duration: 0.25s;
       transform: translateX(0);
     }
   }
@@ -108,47 +109,6 @@
 
       &:nth-child(2) {
         width: 1.15rem;
-      }
-    }
-  }
-}
-
-body {
-  &.theme--primary--0 {
-    .side-bar-toggler {
-      background-color: $theme-primary-v6;
-
-      &:hover,
-      &:focus {
-        span {
-          background-color: $theme-primary-v6;
-        }
-      }
-    }
-  }
-
-  &.theme--secondary--0 {
-    .side-bar-toggler {
-      background-color: $theme-secondary-v6;
-
-      &:hover,
-      &:focus {
-        span {
-          background-color: $theme-secondary-v6;
-        }
-      }
-    }
-  }
-
-  &.theme--tertiary--0 {
-    .side-bar-toggler {
-      background-color: $theme-tertiary-v5;
-
-      &:hover,
-      &:focus {
-        span {
-          background-color: $theme-tertiary-v5;
-        }
       }
     }
   }
