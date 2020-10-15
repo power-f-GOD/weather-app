@@ -1,4 +1,4 @@
-import { Q, makeInert } from './utils';
+import { Q, makeInert, requireDateChunk } from './utils';
 import state, { setState } from './state';
 
 export const footer = () => {
@@ -34,3 +34,11 @@ export const footer = () => {
     setState({ nightMode: !state.nightMode });
   });
 };
+
+export function updateLastSynced(lastSynced: number) {
+  const LastSyncedDate = Q('.last-synced-date') as HTMLElement;
+
+  const { date_string, hour, day } = requireDateChunk(lastSynced);
+
+  LastSyncedDate.textContent = `${day}, ${date_string} at ${hour}`;
+}

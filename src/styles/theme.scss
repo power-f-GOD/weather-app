@@ -210,7 +210,9 @@ body {
 
     // Nav
     .Nav {
-      border-bottom-color: rgba(0, 0, 0, 0.25);
+      $diff: -56;
+      background: rgb($prim-r + $diff, $prim-g + $diff, $prim-b + $diff);
+      border-bottom-color: rgba(0, 0, 0, 0.15);
 
       .emblem {
         color: rgba(255, 255, 255, 0.4);
@@ -431,7 +433,7 @@ body {
       }
 
       &.social {
-        opacity: 0.6;
+        opacity: 0.8;
 
         &:hover,
         &:focus {

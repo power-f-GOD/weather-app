@@ -35,7 +35,8 @@ export default function main() {
           other: daily.find(
             (day) => day.date_string === state.other?.date_string
           ),
-          hourly
+          hourly,
+          lastSynced: Date.now()
         });
       });
     }

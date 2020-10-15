@@ -111,7 +111,7 @@ export async function updateCard(props: CardDataProps) {
       const Desc = Card.querySelector('.main');
       const Degree = Card.querySelector('.temp');
 
-      const { hour, day } = requireDateChunk(dt);
+      const { hour, day } = requireDateChunk(dt, true);
 
       if (Card && Hour && Desc && Degree) {
         Hour.innerHTML = `${hour}<sup>${day}</sup>` ?? '...';

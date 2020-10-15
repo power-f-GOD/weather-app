@@ -111,7 +111,7 @@ export const getAndReturnWeatherData = async (
             value = key === 'main' ? main : description;
             break;
           case key === 'date_string':
-            value = requireDateChunk(day.dt).date_string;
+            value = requireDateChunk(day.dt, true).date_string;
             break;
         }
 
@@ -151,6 +151,7 @@ export const getWeatherAndCityDataThenSetState = (
           daily,
           hourly,
           activeTabLinkIndex: state.activeTabLinkIndex || 0,
+          lastSynced: Date.now(),
           location: {
             name:
               location === undefined
@@ -251,8 +252,10 @@ export const requireMappedImageString = (
   }
 };
 
-export const requireDateChunk = (dt?: number) => {
-  const dateString = new Date(dt ? Number(`${dt}000`) : Date.now()).toString();
+export const requireDateChunk = (dt?: number, dateFromAPI?: boolean) => {
+  const dateString = new Date(
+    dt ? (dateFromAPI ? Number(`${dt}000`) : dt) : Date.now()
+  ).toString();
   const dArr = dateString.split(' ');
   let [day, month, date, hour] = [dArr[0], dArr[1], dArr[2], dArr[4]];
 

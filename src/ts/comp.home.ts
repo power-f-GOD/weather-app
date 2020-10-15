@@ -144,7 +144,8 @@ export default async function home() {
             tomorrow: daily[0],
             other: daily.find(
               (day) => day.date_string === state.other?.date_string
-            )
+            ),
+            lastSynced: Date.now()
           });
         });
       } else {

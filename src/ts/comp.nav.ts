@@ -75,8 +75,6 @@ export default function nav() {
         location
       )
         .then(async () => {
-          //use a non empty string here so results container is displayed/shown when search button is again clicked (if hitherto hidden after a previous search)
-          SearchInput.value = ' ';
           searchIsLoading = false;
           Type.textContent = 'done!😎';
           await delay(850);
@@ -106,11 +104,8 @@ export default function nav() {
 
     clearTimeout(inputTimeout);
 
-    if (SearchInput.value) {
-      SearchResultsOverlay.classList.add('show');
-    }
-
     if (SearchInput.value.trim()) {
+      SearchResultsOverlay.classList.add('show');
       searchMessage('Getting set...😊');
 
       inputTimeout = setTimeout(async () => {
