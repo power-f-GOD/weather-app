@@ -24,9 +24,10 @@ export const task: Readonly<Omit<Task, 'task'>> & { task(): any } = {
   erase() {
     task.task = () => {};
   },
-  execute<T>(reset?: boolean): T {
-    if (reset) {
-      delay(50).then(() => task.erase());
+  execute<T>(clear?: boolean): T {
+    if (clear) {
+      task.task();
+      return task.erase();
     }
 
     return task.task();
@@ -132,13 +133,13 @@ export const getWeatherAndCityDataThenSetState = (
   longitude: number,
   location?: string | null
 ) => {
-  setState({
-    latitude,
-    longitude,
-    location: { statusText: 'Fetching weather data...', err: false }
-  });
-
   let _task = async () => {
+    setState({
+      latitude,
+      longitude,
+      location: { statusText: 'Fetching weather data...', err: false }
+    });
+
     try {
       const { current, daily, hourly } =
         (await getAndReturnWeatherData(latitude, longitude)) ?? {};
@@ -227,7 +228,7 @@ export const catchGetRequest = (e?: any) => {
     }
   });
 
-  console.error(e);
+  console.error('E042:', e);
 };
 
 export const requireMappedImageString = (
@@ -258,13 +259,18 @@ export const requireDateChunk = (dt?: number, dateFromAPI?: boolean) => {
   ).toString();
   const dArr = dateString.split(' ');
   let [day, month, date, hour] = [dArr[0], dArr[1], dArr[2], dArr[4]];
+  const date_string = `${month} ${date}`;
+  const date_is_today = new RegExp(date_string, 'i').test(
+    new Date().toDateString()
+  );
 
   hour = hour.replace(/(.*):\d\d/, '$1');
 
   return {
     hour,
     day,
-    date_string: `${month} ${date}`,
+    date_is_today,
+    date_string,
     date_time: `${hour}, ${month} ${day}`
   };
 };

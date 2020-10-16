@@ -93,7 +93,7 @@
     transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1);
 
     &.open {
-      $diff: -80;
+      $diff: -90;
 
       background-color: rgba(
         $prim-r + $diff,
@@ -127,7 +127,7 @@
 
       .temp-meter {
         transform: translateY(0);
-        transition-delay: 1.25s;
+        transition-delay: 1s;
       }
     }
 

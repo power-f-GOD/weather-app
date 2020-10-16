@@ -188,11 +188,15 @@ export default function nav() {
   SearchInput.onkeyup = (e: any) => {
     CityLocation.classList.add('hide');
     handleSearch(e);
+
+    SearchButton.classList[e.target.value ? 'remove' : 'add']('turn-off');
   };
   SearchInput.onfocus = (e: any) => {
     if (e.target.value) {
       SearchResultsOverlay.classList.add('show');
       callTransitionEndListener();
+    } else {
+      SearchButton.classList.add('turn-off');
     }
 
     SearchInput.classList.add('focused');
@@ -203,6 +207,7 @@ export default function nav() {
       return;
     }
 
+    SearchButton.classList.remove('turn-off');
     CityLocation.classList.remove('hide');
     setTimeout(() => {
       SearchInput.classList.remove('focused');

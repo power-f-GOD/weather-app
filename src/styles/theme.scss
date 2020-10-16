@@ -3,7 +3,7 @@
 body {
   //primary
   /*
-    default colours are all already primary
+    default style colours are all already primary
   */
 
   //secondary
@@ -40,7 +40,7 @@ body {
     }
 
     .hourlies-wrapper.open {
-      $diff: -75;
+      $diff: -90;
 
       background-color: rgba(
         $sec-r + $diff,
@@ -258,6 +258,27 @@ body {
 
         .type {
           color: #bbb;
+        }
+      }
+    }
+
+    .search-button {
+      .icon {
+        $color: #fff;
+        opacity: 1;
+
+        border-color: $color;
+
+        span {
+          background-color: $color;
+        }
+      }
+
+      &.turn-off {
+        .icon {
+          span {
+            border-color: $theme-primary-v3 !important;
+          }
         }
       }
     }

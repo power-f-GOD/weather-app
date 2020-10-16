@@ -119,6 +119,7 @@ export default function main() {
             .map(parseFloat) ?? [null, null];
 
           if (!isNaN(latitude) && !isNaN(longitude)) {
+            
             getWeatherAndCityDataThenSetState(latitude, longitude, null);
           }
         } else {
@@ -150,11 +151,14 @@ export const updateBody = (props: {
   const Body = document.body;
 
   const { nightMode, weatherMain } = props;
-  const delayTimeout = Body.classList.contains('animate-card-overlay')
-    ? 750
-    : weatherMain
-    ? 350
-    : 100;
+  const delayTimeout =
+    nightMode !== undefined
+      ? 50
+      : Body.classList.contains('animate-card-overlay')
+      ? 750
+      : weatherMain
+      ? 350
+      : 100;
 
   delay(delayTimeout).then(() => {
     if (weatherMain) {

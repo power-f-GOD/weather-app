@@ -38,6 +38,7 @@
     transition: transform 0.35s cubic-bezier(0.25, 0.75, 0.15, 1);
 
     &.open {
+      transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
       transition-duration: 0.25s;
       transform: translateX(0);
     }
@@ -143,12 +144,8 @@
       }
     }
 
-    .icon {
-      height: 60%;
-      width: 60%;
+    > * {
       border-radius: inherit;
-      display: inline-block;
-      position: relative;
       background-color: white;
 
       span {
@@ -159,7 +156,7 @@
         position: absolute;
         background-color: $bg;
         transform: translate(0.3rem, -0.1rem);
-        transition: 0.3s;
+        transition: 0.35s;
       }
     }
   }

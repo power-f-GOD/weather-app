@@ -126,10 +126,46 @@
 .search-button {
   height: 3rem;
   width: 3rem;
-  background: {
-    image: url('../images/search-icon-32.png');
-    repeat: no-repeat;
-    position: center;
+  // background: black !important;
+
+  .icon {
+    $color: $theme-tertiary-v1;
+    opacity: 0.85;
+    $stroke: 0.155rem solid $color;
+
+    height: 47%;
+    width: 47%;
+    border-radius: inherit;
+    border: $stroke;
+    transform: translate(-7.5%, -10%);
+    transition: 0.3s;
+
+    span {
+      height: 55%;
+      width: 0.2rem;
+      border-radius: 0.5rem;
+      background-color: $color;
+      position: absolute;
+      top: 0;
+      display: inline-block;
+      left: 50%;
+      border: 0.175rem solid transparent;
+      transform: translate(0.35rem, 1.05rem) rotateZ(-35deg);
+      transition: inherit;
+    }
+  }
+
+  &.turn-off {
+    .icon {
+      transform: translate(0);
+
+      span {
+        width: 0.4rem;
+        height: 105%;
+        border-color: #eee;
+        transform: translate(-0.2rem, -0.55rem) rotateZ(0deg);
+      }
+    }
   }
 }
 

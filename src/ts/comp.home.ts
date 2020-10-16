@@ -129,7 +129,15 @@ export default async function home() {
       await delay(1000);
       mountMain();
       await delay(1000);
-      setState({ ...weatherAppState });
+      setState({
+        ...weatherAppState,
+        location: {
+          ...weatherAppState.location,
+          err: false,
+          statusText: null
+        },
+        nightMode: undefined
+      });
       await delay(2000);
 
       //update weather data on app load/reload as previous data (from localStorage) might be stale
@@ -145,18 +153,8 @@ export default async function home() {
             other: daily.find(
               (day) => day.date_string === state.other?.date_string
             ),
-            lastSynced: Date.now(),
-            nightMode: undefined
+            lastSynced: Date.now()
           });
-        });
-      } else {
-        setState({
-          location: {
-            ...state.location,
-            err: false,
-            statusText: null
-          },
-          nightMode: undefined
         });
       }
     }

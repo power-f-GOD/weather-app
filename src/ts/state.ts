@@ -16,7 +16,9 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
         (state as any)[key] =
           Array.isArray(value) || /string|number|boolean/.test(typeof value)
             ? value
-            : { ...(state as any)[key], ...value };
+            : value
+            ? { ...(state as any)[key], ...value }
+            : value;
       }
 
       const {
@@ -46,7 +48,7 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
       //update UI...
       if (location) {
         updateLocation(
-          location.statusText ?? location.name ?? state.location?.name ?? '...',
+          location.statusText || location.name || state.location?.name || '...',
           location.err
         );
       }

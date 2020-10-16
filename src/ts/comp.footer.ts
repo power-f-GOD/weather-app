@@ -37,14 +37,20 @@ export const footer = () => {
   });
 
   ThemeToggler.addEventListener('click', () => {
-    setState({ nightMode: !state.nightMode });
+    setState({
+      nightMode: state.nightMode !== undefined ? !state.nightMode : true
+    });
   });
 };
 
 export function updateLastSynced(lastSynced: number) {
   const LastSyncedDate = Q('.last-synced-date') as HTMLElement;
 
-  const { date_string, hour, day } = requireDateChunk(lastSynced);
+  const { date_string, hour, day, date_is_today } = requireDateChunk(
+    lastSynced
+  );
 
-  LastSyncedDate.textContent = `${day}, ${date_string} at ${hour}`;
+  LastSyncedDate.textContent = `${
+    date_is_today ? 'today' : `${day}, ${date_string}`
+  } at ${hour}`;
 }
