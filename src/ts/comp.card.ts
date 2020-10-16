@@ -11,9 +11,9 @@ import { CardDataProps, WeatherResponseMain } from './types';
 import state, { setState } from './state';
 
 export async function updateCard(props: CardDataProps) {
-  const { type, current, tomorrow, other, index } = props ?? {};
+  const { type, current, tomorrow, other, index } = props;
   let { temp, weather, humidity, dt, feels_like, wind_speed, date_string } =
-    current || tomorrow || other || props || {};
+    current || tomorrow || other || props;
   const { description, main } = weather?.slice(-1)[0] ?? props;
 
   const weatherImage = requireMappedImageString(
@@ -93,7 +93,7 @@ export async function updateCard(props: CardDataProps) {
         );
       }
 
-      Card.onclick = (e: any) => {
+      Card.onclick = (e: Event) => {
         e.preventDefault();
 
         if (index! > 0) {
@@ -119,6 +119,7 @@ export async function updateCard(props: CardDataProps) {
 
       if (Card && Hour && Desc && Degree && TempMeter) {
         const degree = round(temp as number);
+
         Hour.innerHTML = `${hour}<sup>${day}</sup>` ?? '...';
         Desc.textContent = description ?? '...';
         Degree.textContent = degree + '°';
@@ -132,6 +133,7 @@ export async function updateCard(props: CardDataProps) {
           `$1${weatherImage}$2`
         );
       }
+
       break;
     }
   }

@@ -24,14 +24,14 @@ export const footer = () => {
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
   });
 
-  SideBar.addEventListener('click', (e: any) => {
-    if ((e.target as HTMLElement).tagName === 'A') {
+  SideBar.addEventListener('click', ({ target }: Event) => {
+    if (/A/i.test((target as Element).tagName)) {
       SideBarToggler.click();
     }
   });
 
-  Container.addEventListener('click', (e) => {
-    if (e.target === Container) {
+  Container.addEventListener('click', ({ target }: Event) => {
+    if (target === Container) {
       SideBarToggler.click();
     }
   });

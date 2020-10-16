@@ -59,8 +59,8 @@ export default function main() {
       });
     });
   });
-  HourliesWrapper.addEventListener('click', (e: any) => {
-    if (e.target.classList.contains('hourlies-wrapper')) {
+  HourliesWrapper.addEventListener('click', ({ target }: Event) => {
+    if ((target as Element).classList.contains('hourlies-wrapper')) {
       HourliesToggler.click();
     }
   });
@@ -119,7 +119,6 @@ export default function main() {
             .map(parseFloat) ?? [null, null];
 
           if (!isNaN(latitude) && !isNaN(longitude)) {
-            
             getWeatherAndCityDataThenSetState(latitude, longitude, null);
           }
         } else {

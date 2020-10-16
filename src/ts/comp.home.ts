@@ -1,3 +1,5 @@
+import state, { setState } from './state';
+
 import {
   Q,
   addEventListenerOnce,
@@ -5,18 +7,19 @@ import {
   render,
   delay,
   makeInert,
-  getAndReturnWeatherData
+  getAndReturnWeatherData,
+  getWeatherAndCityDataThenSetState,
+  task
 } from './utils';
 
 import Main from '../components/Main.html';
 import Footer from '../components/Footer.html';
 
-import main from './comp.main';
 import { Card } from './templates';
-import { task, getWeatherAndCityDataThenSetState } from './utils';
 import { State } from './types';
+
+import main from './comp.main';
 import { footer } from './comp.footer';
-import state, { setState } from './state';
 
 const processedMain: string = new Processor(Main, [
   {
@@ -57,7 +60,7 @@ const processedMain: string = new Processor(Main, [
 export default async function home() {
   const View = Q('.View') as HTMLElement;
   const Home = Q('.Home') as HTMLElement;
-  const Button = Q('.Home button') as HTMLButtonElement;
+  const Explore = Q('.Home button') as HTMLButtonElement;
   const Nav = Q('.Nav') as HTMLElement | any;
 
   //make Nav initially inert on load of app for accessibility reason(s) as it would be hidden from the view at the time
@@ -78,8 +81,8 @@ export default async function home() {
   };
 
   const handleExploreButtonClick = () => {
-    Button.disabled = true;
-    Button.textContent = 'Starting...';
+    Explore.disabled = true;
+    Explore.textContent = 'Starting...';
 
     const locationRequestSuccess = (position: Position) => {
       const { latitude, longitude } = position.coords;
@@ -114,8 +117,8 @@ export default async function home() {
     );
   };
 
-  if (Button) {
-    Button?.addEventListener('click', handleExploreButtonClick);
+  if (Explore) {
+    Explore.addEventListener('click', handleExploreButtonClick);
     Q('.Nav .location')!.addEventListener('click', () => task.execute());
   }
 
@@ -143,8 +146,8 @@ export default async function home() {
       //update weather data on app load/reload as previous data (from localStorage) might be stale
       if (navigator.onLine) {
         getAndReturnWeatherData(
-          state.latitude as number,
-          state.longitude as number
+          state.latitude!,
+          state.longitude!
         ).then(({ current, daily }) => {
           setState({
             current,

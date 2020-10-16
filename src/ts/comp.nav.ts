@@ -6,25 +6,26 @@ import {
   QAll,
   delay,
   task,
-  makeInert
+  makeInert,
+  getWeatherAndCityDataThenSetState
 } from './utils';
+
 import { CitiesResponse } from './types';
-import { getWeatherAndCityDataThenSetState } from './utils';
 import { SearchResult } from './templates';
 
 export default function nav() {
   const CityLocation = Q('.Nav .location') as HTMLElement;
   const SearchButton = Q('.search-button') as HTMLElement;
   const SearchInput = Q('.search-input') as HTMLInputElement;
-  const SearchResultsOverlay = Q('.search-results-overlay') as HTMLElement;
+  const SearchResultsWrapper = Q('.search-results-overlay') as HTMLElement;
   const SearchResultsContainer = Q(
     '.search-results-overlay .container'
   ) as HTMLElement;
   const View = Q('.View') as HTMLElement;
 
-  let inputTimeout: any | undefined;
+  let inputTimeout: any;
 
-  const searchMessage = (message: string, err?: boolean) => {
+  const searchStatus = (message: string, err?: boolean) => {
     render(
       `<span class='search-result text-center ${
         err ? 'error' : ''
@@ -33,22 +34,22 @@ export default function nav() {
     );
   };
 
-  const callTransitionEndListener = () => {
-    addEventListenerOnce(SearchResultsOverlay, handleTransitionEnd);
+  const handleTransitionEnd = () => {
+    const isOpen = SearchResultsWrapper.classList.contains('show');
+
+    makeInert(View, isOpen);
+    makeInert(SearchResultsWrapper, !isOpen);
+    (SearchInput as any).onblur();
+    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
   };
 
-  const handleTransitionEnd = () => {
-    const isHidden = !SearchResultsOverlay.classList.contains('show');
-
-    makeInert(View, !isHidden);
-    makeInert(SearchResultsOverlay, isHidden);
-    (SearchInput as any).onblur();
-    document.body.style.overflow = !isHidden ? 'hidden' : 'auto';
+  const callTransitionEndListener = () => {
+    addEventListenerOnce(SearchResultsWrapper, handleTransitionEnd);
   };
 
   let _task = () => {};
   let searchIsLoading = false;
-  const handleSearchResultClick = (e: any) => {
+  const handleSearchResultClick = (e: Event) => {
     e.preventDefault();
 
     const Result = e.target as HTMLAnchorElement;
@@ -80,7 +81,7 @@ export default function nav() {
           await delay(850);
           Type.textContent = type as string;
 
-          SearchResultsOverlay.classList.remove('show');
+          SearchResultsWrapper.classList.remove('show');
           callTransitionEndListener();
           window.history.pushState(
             {},
@@ -90,14 +91,14 @@ export default function nav() {
         })
         .catch(() => {
           Type.textContent = type as string;
-          searchMessage('An error occurred. Failed to get.', true);
+          searchStatus('An error occurred. Failed to get.', true);
         });
     };
 
     task.assign(_task).execute();
   };
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: KeyboardEvent) => {
     if (/Tab|Arrow|Shift|Meta|Control|Alt/i.test(e?.key)) {
       return;
     }
@@ -105,11 +106,11 @@ export default function nav() {
     clearTimeout(inputTimeout);
 
     if (SearchInput.value.trim()) {
-      SearchResultsOverlay.classList.add('show');
-      searchMessage('Getting set...😊');
+      SearchResultsWrapper.classList.add('show');
+      searchStatus('Getting set...😊');
 
       inputTimeout = setTimeout(async () => {
-        searchMessage('Getting matching cities/locations...😉');
+        searchStatus('Getting matching cities/locations...😉');
 
         const [latitude, longitude] = SearchInput.value
           .split(',')
@@ -132,7 +133,7 @@ export default function nav() {
           error
         }: CitiesResponse =
           (await getData(baseUrl, queryParam).catch(() => {
-            searchMessage('An error occurred. Failed to get.', true);
+            searchStatus('An error occurred. Failed to get.', true);
           })) ?? {};
 
         if (matches || region || typeof standard?.city === 'string') {
@@ -160,7 +161,7 @@ export default function nav() {
             result.addEventListener('click', handleSearchResultClick, true);
           });
         } else {
-          searchMessage(
+          searchStatus(
             `${
               error?.code === '006'
                 ? '😕 Something went wrong. Please, try again after some time.'
@@ -177,7 +178,7 @@ export default function nav() {
         }
       }, 2000);
     } else {
-      searchMessage(
+      searchStatus(
         "Ok, I'm waiting...🙂 <br /><br />PS. You can enter city/location name or (comma-separated) coordinates (latitude, longitude) [e.g. 7.1, 5.3].✌🏼"
       );
     }
@@ -185,15 +186,17 @@ export default function nav() {
     callTransitionEndListener();
   };
 
-  SearchInput.onkeyup = (e: any) => {
+  SearchInput.onkeyup = (e: KeyboardEvent) => {
     CityLocation.classList.add('hide');
     handleSearch(e);
 
-    SearchButton.classList[e.target.value ? 'remove' : 'add']('turn-off');
+    SearchButton.classList[
+      (e.target as HTMLInputElement).value ? 'remove' : 'add'
+    ]('turn-off');
   };
-  SearchInput.onfocus = (e: any) => {
-    if (e.target.value) {
-      SearchResultsOverlay.classList.add('show');
+  SearchInput.onfocus = ({ target }: Event) => {
+    if ((target as HTMLInputElement).value) {
+      SearchResultsWrapper.classList.add('show');
       callTransitionEndListener();
     } else {
       SearchButton.classList.add('turn-off');
@@ -203,7 +206,7 @@ export default function nav() {
     CityLocation.classList.add('hide');
   };
   SearchInput.onblur = () => {
-    if (SearchResultsOverlay.classList.contains('show')) {
+    if (SearchResultsWrapper.classList.contains('show')) {
       return;
     }
 
@@ -222,21 +225,22 @@ export default function nav() {
         (SearchInput as any).onkeyup();
         SearchInput.focus();
       } else {
-        SearchResultsOverlay.click();
+        SearchResultsWrapper.click();
       }
     } else {
       SearchInput.focus();
     }
   };
-  SearchResultsOverlay.onclick = (e: any) => {
-    if (e.target === SearchResultsOverlay) {
-      SearchResultsOverlay.classList.remove('show');
+  SearchResultsWrapper.onclick = ({ target }: Event) => {
+    if (target === SearchResultsWrapper) {
+      SearchResultsWrapper.classList.remove('show');
       callTransitionEndListener();
     }
   };
-  makeInert(SearchResultsOverlay, true);
+  makeInert(SearchResultsWrapper, true);
 
-  (Q('.search-form') as HTMLElement).onsubmit = (e: any) => e.preventDefault();
+  (Q('.search-form') as HTMLElement).onsubmit = (e: Event) =>
+    e.preventDefault();
 }
 
 export const updateLocation = (text: string, err?: boolean) => {
