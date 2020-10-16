@@ -137,10 +137,6 @@ export default function main() {
       SearchResultsOverlay.click();
     }
 
-    if (HourliesWrapper.classList.contains('open')) {
-      HourliesWrapper.click();
-    }
-
     if (SideBarToggler.classList.contains('is-open')) {
       SideBarToggler.click();
     }

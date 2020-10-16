@@ -112,6 +112,18 @@ h6 {
   font-size: 1rem;
 }
 
+.therm--hot--0 {
+  background-color: red !important;
+}
+
+.therm--warm--0 {
+  background-color: orange !important;
+}
+
+.therm--cold--0 {
+  background-color: skyblue !important;
+}
+
 .container {
   max-width: 68rem;
   margin: auto;

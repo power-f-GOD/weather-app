@@ -31,14 +31,14 @@
 
 // Card animation(s)
 @keyframes animateX {
-  0% {
-    transform: translateX(0);
+  17% {
+    transform: translateX(-7%);
   }
-  50% {
-    transform: translateX(-10%);
+  51% {
+    transform: translateX(7%);
   }
-  100% {
-    transform: translateX(0);
+  83% {
+    transform: translateX(-7%);
   }
 }
 

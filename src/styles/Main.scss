@@ -124,6 +124,11 @@
       .hourlies-container-2 {
         transition-delay: 0.75s;
       }
+
+      .temp-meter {
+        transform: translateY(0);
+        transition-delay: 1.25s;
+      }
     }
 
     .container {
@@ -195,7 +200,8 @@
   }
 
   .list-view {
-    max-height: 12rem;
+    // @include debugger();
+    min-height: 12rem;
     width: 100%;
     margin: 1rem 0;
     display: flex;
@@ -208,12 +214,15 @@
   .hourly-wrapper {
     background: transparent !important;
     border-radius: inherit;
+    border-bottom-left-radius: unset;
+    border-bottom-right-radius: unset;
     padding: 0.75rem 0.85rem;
     font-size: 0.9rem;
     display: inline-flex;
+    position: relative;
     flex-direction: column;
     justify-content: center;
-    margin-right: 0.25rem;
+    margin-right: 0.125rem;
 
     &:nth-child(even) {
       .weather-image {
@@ -221,16 +230,16 @@
       }
     }
 
+    > * {
+      position: static;
+      z-index: 1;
+    }
+
     .weather-image {
-      max-height: 3.25rem;
+      height: 3.25rem;
+      width: 3.25rem;
       max-width: 3.25rem;
       margin: 0.25rem 0;
-      background: {
-        image: url('/src/images/cloudy-sun.png');
-        size: contain;
-        position: center;
-        repeat: no-repeat;
-      }
     }
 
     .hour {
@@ -251,6 +260,18 @@
     .temp {
       margin-top: 0.35rem;
       opacity: 0.8;
+    }
+
+    .temp-meter {
+      height: 100%;
+      width: 100%;
+      background-color: skyblue;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      opacity: 0.5;
+      transform: translateY(100%);
+      transition: 0.35s;
     }
   }
 

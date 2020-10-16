@@ -113,13 +113,20 @@ export async function updateCard(props: CardDataProps) {
       const Hour = Card.querySelector('.hour');
       const Desc = Card.querySelector('.main');
       const Degree = Card.querySelector('.temp');
+      const TempMeter = Card.querySelector('.temp-meter') as HTMLElement;
 
       const { hour, day } = requireDateChunk(dt, true);
 
-      if (Card && Hour && Desc && Degree) {
+      if (Card && Hour && Desc && Degree && TempMeter) {
+        const degree = round(temp as number);
         Hour.innerHTML = `${hour}<sup>${day}</sup>` ?? '...';
-        Desc.textContent = main ?? '...';
-        Degree.textContent = round(temp as number) + '°';
+        Desc.textContent = description ?? '...';
+        Degree.textContent = degree + '°';
+        TempMeter.style.height = `${degree}%`;
+        TempMeter.className = TempMeter.className.replace(
+          /(therm--).*(--0)/,
+          `$1${degree < 20 ? 'cold' : degree < 40 ? 'warm' : 'hot'}$2`
+        );
         Card.className = Card.className.replace(
           /(condition--).*(--0)/,
           `$1${weatherImage}$2`

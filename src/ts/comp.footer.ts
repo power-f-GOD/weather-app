@@ -24,6 +24,12 @@ export const footer = () => {
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
   });
 
+  SideBar.addEventListener('click', (e: any) => {
+    if ((e.target as HTMLElement).tagName === 'A') {
+      SideBarToggler.click();
+    }
+  });
+
   Container.addEventListener('click', (e) => {
     if (e.target === Container) {
       SideBarToggler.click();

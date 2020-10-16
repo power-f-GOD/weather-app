@@ -111,18 +111,6 @@
       background-color: orange;
       border-radius: inherit;
       transition: 0.35s ease 0.35s;
-
-      &.therm--hot--0 {
-        background-color: red;
-      }
-
-      &.therm--warm--0 {
-        background-color: orange;
-      }
-
-      &.therm--cold--0 {
-        background-color: skyblue;
-      }
     }
 
     .danger-zone {
@@ -203,7 +191,7 @@
     background-clip: border-box;
     background-size: 150%;
     background-position: 10rem;
-    transition: 0.3s;
+    transition: color 0.3s;
 
     > * {
       position: relative;
@@ -248,7 +236,7 @@
   &:nth-child(even) {
     &.type-b {
       .weather-image {
-        animation-delay: 1s !important;
+        animation-delay: 3s !important;
       }
     }
   }
@@ -387,7 +375,7 @@
   &[class*='-cloud'] {
     &.animate {
       .weather-image {
-        animation: animateX 8s infinite;
+        animation: animateX 20s infinite;
       }
     }
   }

@@ -35,7 +35,7 @@
     min-width: 15rem;
     background: #eee;
     transform: translateX(-100%);
-    transition: 0.35s, transform 0.35s cubic-bezier(0.25, 0.75, 0.15, 1);
+    transition: transform 0.35s cubic-bezier(0.25, 0.75, 0.15, 1);
 
     &.open {
       transition-duration: 0.25s;
@@ -63,7 +63,7 @@
     flex-direction: column;
     transform: translateX(calc(100% + 2rem));
     animation: sideBarTogglerSlideIn 0.5s forwards ease 0.5s;
-    transition: 0.35s ease;
+    transition: 0.35s;
 
     &.is-open {
       span {

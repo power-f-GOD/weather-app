@@ -253,16 +253,11 @@ body {
       &.fulfilled {
         &:hover,
         &:focus {
-          color: $theme-primary-v3;
-          background-color: #f0f0f0;
-
-          .type {
-            color: rgba($prim-r - 50, $prim-g - 50, $prim-b - 50, 0.75);
-          }
+          background-color: $theme-primary-v1;
         }
 
         .type {
-          color: rgba(255, 255, 255, 0.4);
+          color: #bbb;
         }
       }
     }
