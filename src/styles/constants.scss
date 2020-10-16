@@ -138,6 +138,13 @@ $theme-tertiary-v9: rgb(
   $tert-b + (25 * 4)
 );
 
+$theme-bg: url('/src/images/theme-bg.png');
+
+@mixin bodyBg($bg-color: #eee) {
+  background: $theme-bg;
+  background-color: $bg-color;
+}
+
 @mixin debugger($color: red) {
   &,
   * {

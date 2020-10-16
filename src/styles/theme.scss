@@ -284,6 +284,18 @@ body {
     }
 
     // Main
+    .Main {
+      &::before {
+        background: inherit;
+        opacity: 1;
+      }
+    }
+
+    .tab-links-container {
+      background-color: transparent;
+      border-color: transparent;
+    }
+
     .tab-link {
       $diff: -80;
       color: #fff !important;

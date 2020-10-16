@@ -3,6 +3,12 @@
 .Main {
   animation: mainSlideIn 0.5s;
 
+  &::before {
+    @include before-or-after($zi: -1, $tr: unset);
+    @include bodyBg();
+    opacity: 0.4;
+  }
+
   .container {
     text-align: center;
     display: flex;
@@ -12,14 +18,18 @@
   }
 
   .tab-links-container {
+    // @include debugger();
     display: inline-flex;
     justify-content: space-between;
     width: 100%;
     padding: 0 1rem;
-    max-width: 18rem;
-    margin: 0.8vh 0;
+    max-width: 19rem;
+    background-color: #eee;
+    border: 0.8vh solid #eee;
+    border-radius: 2rem;
+    border-left-width: 0.5rem;
+    border-right-width: 0.5rem;
     position: relative;
-    // @include debugger();
   }
 
   .tab-indicator {
