@@ -9,7 +9,6 @@ import {
 } from './utils';
 import { CardDataProps, WeatherResponseMain } from './types';
 import state, { setState } from './state';
-import { updateBody } from './comp.main';
 
 export async function updateCard(props: CardDataProps) {
   const { type, current, tomorrow, other, index } = props ?? {};
@@ -70,7 +69,12 @@ export async function updateCard(props: CardDataProps) {
           `$1${weatherImage}$2`
         );
 
-        updateBody({ nightMode: !!(isNightTime || state.nightMode) });
+        if (isNightTime) {
+          setState({
+            nightMode:
+              state.nightMode === undefined ? isNightTime : state.nightMode
+          });
+        }
       }
 
       break;
@@ -98,8 +102,7 @@ export async function updateCard(props: CardDataProps) {
             activeTabLinkIndex: 2
           });
         } else {
-          updateCard({ ...state.tomorrow, type: 'A' });
-          setState({ activeTabLinkIndex: 1 });
+          setState({ activeTabLinkIndex: 1, tomorrow: { ...state.tomorrow! } });
         }
       };
 

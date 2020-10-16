@@ -8,7 +8,7 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
   latitude: 40.69,
   longitude: -73.96,
   location: { name: 'New York, US', err: false },
-  nightMode: false,
+  nightMode: undefined,
   setState(val: Omit<State, 'setState'>) {
     return new Promise((resolve) => {
       //update state

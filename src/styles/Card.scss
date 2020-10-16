@@ -222,7 +222,7 @@
     &::before {
       opacity: 0.55;
       transform: translateY(100%);
-      @include before-or-after($zi: 0, $bg: #fff, $br: unset, $tr: 0.25s);
+      @include before-or-after($zi: 0, $bg: #fff, $br: inherit, $tr: 0.25s);
     }
 
     h3 {

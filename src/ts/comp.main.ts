@@ -10,7 +10,6 @@ import {
   getWeatherAndCityDataThenSetState,
   task
 } from './utils';
-import { updateCard } from './comp.card';
 import { WeatherResponseMain } from './types';
 import state, { setState } from './state';
 
@@ -81,9 +80,10 @@ export default function main() {
     TabLinks.forEach((TabLink, index) =>
       TabLink.addEventListener('click', (e) => {
         e.preventDefault();
-        updateTabLink(index, state.other?.date_string as string);
-        updateCard({ ...(state as any)[TabLink.id], type: 'A' });
-        setState({ activeTabLinkIndex: index });
+        setState({
+          activeTabLinkIndex: index,
+          [TabLink.id]: { ...(state as any)[TabLink.id] }
+        });
       })
     );
   }

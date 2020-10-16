@@ -145,7 +145,8 @@ export default async function home() {
             other: daily.find(
               (day) => day.date_string === state.other?.date_string
             ),
-            lastSynced: Date.now()
+            lastSynced: Date.now(),
+            nightMode: undefined
           });
         });
       } else {
@@ -154,7 +155,8 @@ export default async function home() {
             ...state.location,
             err: false,
             statusText: null
-          }
+          },
+          nightMode: undefined
         });
       }
     }

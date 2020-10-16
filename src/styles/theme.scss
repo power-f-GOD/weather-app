@@ -1,3 +1,5 @@
+@import 'constants';
+
 body {
   //primary
   /*
@@ -427,17 +429,21 @@ body {
       color: limegreen;
     }
 
-    a {
-      &:hover {
-        color: $theme-primary-v4;
-      }
+    .Footer {
+      a {
+        color: $theme-primary-v5;
 
-      &.social {
-        opacity: 0.8;
+        &:hover {
+          color: $theme-primary-v4;
+        }
 
-        &:hover,
-        &:focus {
-          opacity: 1;
+        &.social {
+          opacity: 0.8;
+
+          &:hover,
+          &:focus {
+            opacity: 1;
+          }
         }
       }
     }
