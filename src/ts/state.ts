@@ -2,7 +2,7 @@ import { State, WeatherInfoProps } from './types';
 import { updateLocation } from './comp.nav';
 import { updateTabLink, updateBody } from './comp.main';
 import { updateCard } from './comp.card';
-import { updateLastSynced } from './comp.footer';
+import { updateLastSynced, updateOnlineStatus } from './comp.footer';
 
 const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
   latitude: 40.69,
@@ -30,7 +30,8 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
         hourly,
         nightMode,
         activeTabLinkIndex,
-        lastSynced
+        lastSynced,
+        isOnline
       } = val; //using props from val (if they exist) and not state in order for to not make redundant (UI) updates
       let activeTab = current || state.current;
 
@@ -97,6 +98,10 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
 
       if (lastSynced) {
         updateLastSynced(lastSynced);
+      }
+
+      if (isOnline !== undefined) {
+        updateOnlineStatus(isOnline);
       }
 
       //do the next few lines so the setState function is not resolved with state

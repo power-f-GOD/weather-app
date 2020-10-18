@@ -25,7 +25,7 @@ export const footer = () => {
   });
 
   SideBar.addEventListener('click', ({ target }: Event) => {
-    if (/A/i.test((target as Element).tagName)) {
+    if (/^A$/i.test((target as Element).tagName)) {
       SideBarToggler.click();
     }
   });
@@ -53,4 +53,11 @@ export function updateLastSynced(lastSynced: number) {
   LastSyncedDate.textContent = `${
     date_is_today ? 'today' : `${day}, ${date_string}`
   } at ${hour}`;
+}
+
+export function updateOnlineStatus(isOnline: boolean) {
+  const OnlineStatus = Q('.online-status') as HTMLElement;
+
+  OnlineStatus.classList[!isOnline ? 'add' : 'remove']('offline');
+  OnlineStatus.textContent = isOnline ? 'online' : 'offline';
 }

@@ -84,6 +84,15 @@ export default async function home() {
     Explore.disabled = true;
     Explore.textContent = 'Starting...';
 
+    if (!window.fetch) {
+      alert(
+        "Sorry, your browser can't run this app as it is not supported.\n\nUpgrade to a newer version of your browser."
+      );
+      Explore.disabled = false;
+      Explore.textContent = 'Explore';
+      return;
+    }
+
     const locationRequestSuccess = (position: Position) => {
       const { latitude, longitude } = position.coords;
 
@@ -145,20 +154,19 @@ export default async function home() {
 
       //update weather data on app load/reload as previous data (from localStorage) might be stale
       if (navigator.onLine) {
-        getAndReturnWeatherData(
-          state.latitude!,
-          state.longitude!
-        ).then(({ current, daily }) => {
-          setState({
-            current,
-            daily,
-            tomorrow: daily[0],
-            other: daily.find(
-              (day) => day.date_string === state.other?.date_string
-            ),
-            lastSynced: Date.now()
-          });
-        });
+        getAndReturnWeatherData(state.latitude!, state.longitude!).then(
+          ({ current, daily }) => {
+            setState({
+              current,
+              daily,
+              tomorrow: daily[0],
+              other: daily.find(
+                (day) => day.date_string === state.other?.date_string
+              ),
+              lastSynced: Date.now()
+            });
+          }
+        );
       }
     }
   }

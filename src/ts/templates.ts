@@ -68,6 +68,7 @@ export const SearchResult = (props: {
   return `
   <a href="/#${latitude},${longitude}" 
     class="search-result fulfilled"
+    role='list-item'
     data-longitude='${longitude}' 
     data-latitude='${latitude}'
     data-location='${location}'

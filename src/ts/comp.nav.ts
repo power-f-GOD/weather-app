@@ -70,11 +70,7 @@ export default function nav() {
     _task = () => {
       searchIsLoading = true;
 
-      getWeatherAndCityDataThenSetState(
-        Number(latitude),
-        Number(longitude),
-        location
-      )
+      getWeatherAndCityDataThenSetState(+latitude!, +longitude!, location)
         .then(async () => {
           searchIsLoading = false;
           Type.textContent = 'done!😎';
@@ -141,34 +137,37 @@ export default function nav() {
             matches
               ? match.map(({ latt, longt, location, matchtype }) =>
                   SearchResult({
-                    latitude: Number(latt),
-                    longitude: Number(longt),
+                    latitude: +latt,
+                    longitude: +longt,
                     location,
                     type: matchtype
                   })
                 )
               : SearchResult({
-                  latitude: Number(latt),
-                  longitude: Number(longt),
+                  latitude: +latt,
+                  longitude: +longt,
                   location: `${region || standard.city}, ${
-                    prov || standard.countryname || standard.prov
+                    standard.countryname || prov || standard.prov
                   }`,
                   type: 'city'
                 }),
-            SearchResultsContainer
+            SearchResultsContainer,
+            null,
+            () => {
+              QAll('.search-result').forEach((result) => {
+                result.addEventListener('click', handleSearchResultClick, true);
+              });
+            }
           );
-          QAll('.search-result').forEach((result) => {
-            result.addEventListener('click', handleSearchResultClick, true);
-          });
         } else {
           searchStatus(
             `${
               error?.code === '006'
                 ? '😕 Something went wrong. Please, try again after some time.'
-                : `🤔 Sorry, could not find any matching cities/locations for '${SearchInput.value.replace(
+                : `🤔 Sorry, could not find any matching cities/locations for <b>'${SearchInput.value.replace(
                     /<\/?.*>/,
                     ''
-                  )}'. ${
+                  )}'</b>. ${
                     areCoords
                       ? ''
                       : 'You may try entering full city/location name/keyword.'
@@ -176,7 +175,7 @@ export default function nav() {
             }`
           );
         }
-      }, 2000);
+      }, 1500);
     } else {
       searchStatus(
         "Ok, I'm waiting...🙂 <br /><br />PS. You can enter city/location name or (comma-separated) coordinates (latitude, longitude) [e.g. 7.1, 5.3].✌🏼"
@@ -231,6 +230,7 @@ export default function nav() {
       SearchInput.focus();
     }
   };
+
   SearchResultsWrapper.onclick = ({ target }: Event) => {
     if (target === SearchResultsWrapper) {
       SearchResultsWrapper.classList.remove('show');

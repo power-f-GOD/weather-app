@@ -244,8 +244,19 @@
 
   .last-synced-date {
     font-weight: bolder;
-    font-size: 90%;
-    color: green;
+    font-size: 95%;
+    color: rgb(235, 152, 0);
+  }
+
+  .online-status {
+    font-size: 100%;
+    font-weight: bolder;
+    color: rgb(51, 194, 51);
+    transition: 0.3s;
+
+    &.offline {
+      color: rgb(220, 0, 0);
+    }
   }
 
   a {

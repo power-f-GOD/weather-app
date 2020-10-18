@@ -257,7 +257,7 @@ body {
       &.fulfilled {
         &:hover,
         &:focus {
-          background-color: $theme-primary-v1;
+          background-color: $theme-primary-v2;
         }
 
         .type {
@@ -397,6 +397,7 @@ body {
             $theme-tertiary-v1
           ) !important;
           opacity: 0.95;
+          border-radius: unset;
         }
       }
     }
@@ -457,17 +458,12 @@ body {
       color: #bbb;
     }
 
-    .last-synced-date {
-      font-weight: bolder;
-      color: limegreen;
-    }
-
     .Footer {
       a {
-        color: $theme-primary-v5;
+        color: $theme-primary-v6;
 
         &:hover {
-          color: $theme-primary-v4;
+          color: $theme-primary-v5;
         }
 
         &.social {

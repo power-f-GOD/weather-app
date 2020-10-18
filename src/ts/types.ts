@@ -7,6 +7,7 @@ export interface State extends Partial<WeatherResponseProps & CitiesResponse> {
   activeTabLinkIndex?: number;
   nightMode?: boolean;
   lastSynced?: number;
+  isOnline?: boolean;
   setState(val: Omit<State, 'setState'>): Promise<Omit<State, 'setState'>>;
 }
 

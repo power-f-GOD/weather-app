@@ -23,10 +23,9 @@
     display: inline-flex;
     justify-content: space-between;
     width: 100%;
-    padding: 0 0.25rem;
-    max-width: 18rem;
     background-color: #eee;
-    border: 0.8vh solid #eee;
+    margin: 0.8vh 0;
+    max-width: 18rem;
     border-radius: 3rem;
     border-left-width: 0.25rem;
     border-right-width: 0.25rem;
@@ -51,7 +50,6 @@
     display: inline-block;
     transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
       background-color 0.35s ease;
-    transform: translateX(1rem);
   }
 
   .tab-link {
@@ -138,7 +136,7 @@
 
       .temp-meter {
         transform: translateY(0);
-        transition-delay: 1s;
+        transition-delay: 1.1s;
       }
     }
 
@@ -160,7 +158,7 @@
     align-self: flex-start;
     background-color: $theme-primary-v5;
     transform: translate(0);
-    transition: 0.35s ease, font-size 0s;
+    transition: 0.3s ease, font-size 0s;
 
     &.toggle-close {
       width: 3rem;
@@ -282,7 +280,7 @@
       left: 0;
       opacity: 0.5;
       transform: translateY(100%);
-      transition: 0.35s;
+      transition: 0.4s;
     }
   }
 
