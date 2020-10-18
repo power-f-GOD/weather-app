@@ -158,8 +158,19 @@ body {
     }
 
     // Footer
+    .side-bar-toggler {
+      background-color: $theme-tertiary-v5;
+
+      &:hover,
+      &:focus {
+        span {
+          background-color: $theme-tertiary-v6;
+        }
+      }
+    }
+
     .theme-toggler {
-      $bg: $theme-secondary-v7;
+      $bg: $theme-tertiary-v7;
       $hoverBg: $theme-tertiary-v2;
 
       background-color: $bg;
@@ -181,8 +192,8 @@ body {
     .icon-container {
       background: linear-gradient(
         to top,
-        $theme-secondary-v4,
-        $theme-secondary-v7
+        $theme-tertiary-v4,
+        $theme-tertiary-v6
       );
     }
 
