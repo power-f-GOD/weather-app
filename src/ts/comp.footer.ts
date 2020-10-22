@@ -1,7 +1,7 @@
 import { Q, makeInert, requireDateChunk } from './utils';
 import state, { setState } from './state';
 
-export const footer = () => {
+export default function footer() {
   const Nav = Q('.Nav') as HTMLElement;
   const Main = Q('.Main') as HTMLElement;
   const Container = Q('.Footer .container') as HTMLElement;
@@ -41,7 +41,7 @@ export const footer = () => {
       nightMode: state.nightMode !== undefined ? !state.nightMode : true
     });
   });
-};
+}
 
 export function updateLastSynced(lastSynced: number) {
   const LastSyncedDate = Q('.last-synced-date') as HTMLElement;

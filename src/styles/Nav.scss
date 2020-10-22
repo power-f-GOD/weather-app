@@ -1,7 +1,6 @@
 @import 'constants';
 
 .Nav {
-  
   position: fixed;
   top: 0;
   max-width: 100vw;
@@ -12,7 +11,8 @@
   overflow: hidden;
   background-color: #eee;
   border-bottom: 1px solid #ddd;
-  transition: opacity 0.35s, transform 0.35s;
+  will-change: transform;
+  transition: 0.25s ease, transform 0.35s ease 0.2s;
 
   &::before {
     @include before-or-after();
@@ -139,10 +139,11 @@
     opacity: 0.85;
     $stroke: 0.155rem solid $color;
 
-    height: 47%;
-    width: 47%;
+    height: 1.4rem;
+    width: 1.4rem;
     border-radius: inherit;
     border: $stroke;
+    will-change: transform;
     transform: translate(-7.5%, -10%);
     transition: 0.3s;
 
@@ -156,6 +157,7 @@
       display: inline-block;
       left: 50%;
       border: 0.175rem solid transparent;
+      will-change: transform, width, height;
       transform: translate(0.35rem, 1.05rem) rotateZ(-35deg);
       transition: inherit;
     }
@@ -209,6 +211,7 @@
   align-items: flex-end;
   justify-content: space-between;
   font-size: 0.95rem;
+  will-change: transform;
   transition: 0.2s;
 
   &.fulfilled {

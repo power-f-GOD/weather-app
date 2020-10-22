@@ -100,7 +100,7 @@ export default function main() {
     if (document.visibilityState === 'visible') {
       getDataTimeout = setTimeout(() => {
         triggerGetWeatherData();
-      }, 4000);
+      }, 10000);
     }
   });
 
@@ -206,8 +206,8 @@ export const updateTabLink = (
           const { offsetWidth, offsetLeft } = TabLink;
 
           TabLink.classList.add('active');
-          transform(TabIndicator, `translateX(${offsetLeft}px)`);
-          TabIndicator.style.width = `${offsetWidth}px`;
+          transform(TabIndicator, `translateX(${offsetLeft - 0.5}px)`);
+          TabIndicator.style.width = `${offsetWidth + 1}px`;
         });
       } else {
         TabLink.classList.remove('active');

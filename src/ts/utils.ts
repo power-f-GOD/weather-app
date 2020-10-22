@@ -18,19 +18,13 @@ export const getById = document.getElementsByClassName.bind(document);
 export const task: Readonly<Omit<Task, 'task'>> & { task(): any } = {
   task: () => {},
   assign(_task: Function | any) {
-    task.task = _task;
-    return task;
+    return (task.task = _task), task;
   },
   erase() {
     task.task = () => {};
   },
   execute<T>(clear?: boolean): T {
-    if (clear) {
-      task.task();
-      return task.erase();
-    }
-
-    return task.task();
+    return clear ? (task.task(), task.erase()) : task.task();
   }
 };
 
@@ -306,17 +300,34 @@ export const makeInert = (
     const childrenWithTabIndex = target.querySelectorAll(
       '[tabindex]'
     ) as NodeListOf<HTMLElement>;
+    let length = childrenAnchorTag.length;
 
-    childrenAnchorTag.forEach((child) => _inert(child));
-    childrenButtonTag.forEach((child) => _inert(child));
-    childrenInputTag.forEach((child) => _inert(child));
-    childrenWithTabIndex.forEach((child) => _inert(child));
+    if (length < childrenButtonTag.length) {
+      length = childrenButtonTag.length;
+    }
+
+    if (length < childrenInputTag.length) {
+      length = childrenInputTag.length;
+    }
+
+    if (length < childrenWithTabIndex.length) {
+      length = childrenWithTabIndex.length;
+    }
+
+    for (let i = 0; i < length; i++) {
+      _inert(childrenAnchorTag[i]);
+      _inert(childrenButtonTag[i]);
+      _inert(childrenInputTag[i]);
+      _inert(childrenWithTabIndex[i]);
+    }
   }
 
-  function _inert(tag: HTMLElement) {
-    tag.style.pointerEvents = inert ? 'none' : 'unset';
-    tag.setAttribute('aria-hidden', inert ? 'true' : 'false');
-    tag.tabIndex = inert ? -1 : 0;
+  function _inert(tag: HTMLElement | null) {
+    if (tag) {
+      tag.style.pointerEvents = inert ? 'none' : 'unset';
+      tag.setAttribute('aria-hidden', inert ? 'true' : 'false');
+      tag.tabIndex = inert ? -1 : 0;
+    }
   }
 };
 

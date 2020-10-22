@@ -16,9 +16,10 @@
     position: center;
     repeat: no-repeat;
   }
+  will-change: transform;
   transform: translateX(0);
   transition: transform 0.35s;
-  animation: fadeIn 0.75s;
+  animation: fadeIn 0.35s;
 
   &.hide {
     transform: translateX(-100%);

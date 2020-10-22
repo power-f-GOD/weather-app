@@ -154,12 +154,12 @@ body {
     }
 
     .hourlies-toggler {
-      background-color: $theme-tertiary-v5;
+      background-color: $theme-tertiary-v7;
     }
 
     // Footer
     .side-bar-toggler {
-      background-color: $theme-tertiary-v5;
+      background-color: $theme-tertiary-v7;
 
       &:hover,
       &:focus {
@@ -170,7 +170,7 @@ body {
     }
 
     .theme-toggler {
-      $bg: $theme-tertiary-v7;
+      $bg: $theme-tertiary-v8;
       $hoverBg: $theme-tertiary-v2;
 
       background-color: $bg;
@@ -193,20 +193,20 @@ body {
       background: linear-gradient(
         to top,
         $theme-tertiary-v4,
-        $theme-tertiary-v6
+        $theme-tertiary-v7
       );
     }
 
     .title {
-      border-color: $theme-secondary-v7;
+      border-color: $theme-tertiary-v6;
     }
 
     .Footer {
       a {
-        color: $theme-secondary-v6;
+        color: $theme-tertiary-v6;
 
         &:hover {
-          color: $theme-secondary-v4;
+          color: $theme-tertiary-v4;
         }
       }
     }
@@ -371,6 +371,12 @@ body {
 
           .weather-image {
             background-image: url('../images/cloudy.png');
+          }
+        }
+
+        &.condition--sunny--0 {
+          .weather-image {
+            width: 9.5rem;
           }
         }
 

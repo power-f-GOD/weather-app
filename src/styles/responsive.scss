@@ -1,5 +1,10 @@
 @media screen and (max-width: 767px) {
   .Nav {
+    &::before {
+      background-size: 100vh auto;
+      background-position: top left;
+    }
+
     .emblem {
       font-size: 0.65rem;
 
@@ -37,6 +42,17 @@
     }
   }
 
+  .Main {
+    &::before {
+      background-size: 100vh auto;
+      background-position: top left;
+    }
+  }
+
+  .tab-links-container {
+    background: transparent !important;
+  }
+
   .Home {
     h1 {
       font-size: 2rem;
@@ -60,7 +76,7 @@
 
       .weather-image {
         bottom: -1.25rem;
-        width: 8rem;
+        width: 8rem !important;
       }
     }
   }

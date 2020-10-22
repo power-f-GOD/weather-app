@@ -2,10 +2,10 @@ import state, { setState } from './state';
 
 import {
   Q,
-  addEventListenerOnce,
+  delay,
   Processor,
   render,
-  delay,
+  addEventListenerOnce,
   makeInert,
   getAndReturnWeatherData,
   getWeatherAndCityDataThenSetState,
@@ -15,47 +15,7 @@ import {
 import Main from '../components/Main.html';
 import Footer from '../components/Footer.html';
 
-import { Card } from './templates';
 import { State } from './types';
-
-import main from './comp.main';
-import { footer } from './comp.footer';
-
-const processedMain: string = new Processor(Main, [
-  {
-    match: '%CardTypeA%',
-    value: Card({
-      type: 'A',
-      temp: 0.0,
-      description: '...',
-      humidity: 0.0
-    })
-  },
-  {
-    match: '%CardTypeB%',
-    value: Array(7)
-      .fill(
-        Card({
-          type: 'B',
-          temp: 0.0
-        })
-      )
-      .join('')
-  },
-  {
-    match: '%CardTypeC%',
-    value: Array(24)
-      .fill(
-        Card({
-          type: 'C',
-          temp: 0.0,
-          main: undefined,
-          hour: '00'
-        })
-      )
-      .join('')
-  }
-]).process();
 
 export default async function home() {
   const View = Q('.View') as HTMLElement;
@@ -66,10 +26,55 @@ export default async function home() {
   //make Nav initially inert on load of app for accessibility reason(s) as it would be hidden from the view at the time
   makeInert(Nav, true);
 
-  const mountMain = () => {
-    render(processedMain + Footer, View, { adjacency: 'beforeend' }, () => {
-      main();
-      footer();
+  const mountMain = async () => {
+    await import('./templates').then(({ Card }) => {
+      const processedMain: string = new Processor(Main, [
+        {
+          match: '%CardTypeA%',
+          value: Card({
+            type: 'A',
+            temp: 0.0,
+            description: '...',
+            humidity: 0.0
+          })
+        },
+        {
+          match: '%CardTypeB%',
+          value: Array(7)
+            .fill(
+              Card({
+                type: 'B',
+                temp: 0.0
+              })
+            )
+            .join('')
+        },
+        {
+          match: '%CardTypeC%',
+          value: Array(24)
+            .fill(
+              Card({
+                type: 'C',
+                temp: 0.0,
+                main: undefined,
+                hour: '00'
+              })
+            )
+            .join('')
+        }
+      ]).process();
+
+      render(
+        processedMain + Footer,
+        View,
+        { adjacency: 'beforeend' },
+        async () => {
+          await import('./comp.main').then(({ default: main }: any) => main());
+          await import('./comp.footer').then(({ default: footer }: any) =>
+            footer()
+          );
+        }
+      );
     });
     Home.classList.add('hide');
     addEventListenerOnce(Home, () => {
@@ -93,24 +98,20 @@ export default async function home() {
       return;
     }
 
-    const locationRequestSuccess = (position: Position) => {
+    const locationRequestSuccess = async (position: Position) => {
       const { latitude, longitude } = position.coords;
 
-      delay(700).then(() => {
-        mountMain();
-        delay(700).then(() => {
-          getWeatherAndCityDataThenSetState(latitude, longitude, null);
-        });
-      });
+      await delay(700);
+      mountMain();
+      await delay(1000);
+      getWeatherAndCityDataThenSetState(latitude, longitude, null);
     };
 
-    const locationRequestFailure = () => {
-      delay(700).then(() => {
-        mountMain();
-        delay(700).then(() => {
-          getWeatherAndCityDataThenSetState(40.69, -73.96);
-        });
-      });
+    const locationRequestFailure = async () => {
+      await delay(700);
+      mountMain();
+      await delay(1000);
+      getWeatherAndCityDataThenSetState(40.69, -73.96);
     };
 
     const locationRequestOptions = {
@@ -134,13 +135,13 @@ export default async function home() {
   //load appState from localStorage if present
   if (navigator.cookieEnabled) {
     const weatherAppState: Omit<State, 'setState'> = JSON.parse(
-      localStorage.weatherAppState
+      localStorage.weatherAppState ?? '{}'
     );
 
-    if (weatherAppState) {
+    if (weatherAppState.location) {
       await delay(1000);
       mountMain();
-      await delay(1000);
+      await delay(1200);
       setState({
         ...weatherAppState,
         location: {

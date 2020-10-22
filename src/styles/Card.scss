@@ -25,9 +25,8 @@
     margin: 2vh 1rem;
     padding: 0 1.5rem 1.75rem 1.5rem;
     width: calc(100% - 2rem);
-    height: 40vh;
-    min-height: 16.5rem;
-    max-height: 19rem;
+    min-height: 19rem;
+    max-height: 40vh;
     max-width: 28rem;
     border-radius: 1.6rem;
     background: {
@@ -37,6 +36,7 @@
 
     &::before {
       @include before-or-after($zi: 2, $br: 50%, $w: 5rem, $h: 5rem, $bg: #eee);
+      will-change: transform;
       transform: translate(-5rem, -5rem);
     }
 
@@ -209,6 +209,7 @@
 
     &::before {
       opacity: 0.55;
+      will-change: transform;
       transform: translateY(100%);
       @include before-or-after($zi: 0, $bg: #fff, $br: inherit, $tr: 0.25s);
     }
