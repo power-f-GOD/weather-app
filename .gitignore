@@ -12,8 +12,10 @@
 
 # production
 */build
+*/public
 */dist
 *dist
+*public
 
 # misc
 *.rpt2_cache

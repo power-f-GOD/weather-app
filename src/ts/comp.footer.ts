@@ -1,5 +1,6 @@
-import { Q, makeInert, requireDateChunk } from './utils';
 import state, { setState } from './state';
+
+import { Q, makeInert, requireDateChunk } from './utils';
 
 export default function footer() {
   const Nav = Q('.Nav') as HTMLElement;
@@ -36,7 +37,7 @@ export default function footer() {
     }
   });
 
-  ThemeToggler.addEventListener('click', () => {
+  ThemeToggler.addEventListener('click', async () => {
     setState({
       nightMode: state.nightMode !== undefined ? !state.nightMode : true
     });

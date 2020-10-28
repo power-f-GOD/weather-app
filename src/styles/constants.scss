@@ -144,7 +144,7 @@ $theme-bg: url('/src/images/theme-bg-image.png');
   background: $theme-bg;
   background-color: $bg-color;
   background-size: cover;
-  opacity: 0.35;
+  opacity: 0.2;
 }
 
 @mixin debugger($color: red) {

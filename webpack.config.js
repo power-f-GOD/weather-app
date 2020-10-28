@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlCriticalPlugin = require('html-critical-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const manifest = require('./manifest.json');
@@ -13,23 +14,31 @@ module.exports = {
   entry: './src/ts/index.ts',
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'public')
   },
   // devtool: 'inline-source-map',
   devServer: {
-    contentBase: './dist',
+    contentBase: './public',
     hot: true
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      attributes: {
-        id: 'main-css'
-      }
-    }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: true }),
     new HtmlWebpackPlugin({ template: './src/index.html', minify: 'auto' }),
-
+    new MiniCssExtractPlugin(),
+    new HtmlCriticalPlugin({
+      base: path.join(path.resolve(__dirname), 'public/'),
+      src: 'index.html',
+      dest: 'index.html',
+      inline: true,
+      minify: true,
+      extract: true,
+      width: 320,
+      height: 568,
+      penthouse: {
+        blockJSRequests: false
+      }
+    }),
     new WebpackPwaManifest({
       filename: 'manifest.json',
       fingerprints: false,
@@ -43,7 +52,7 @@ module.exports = {
       icons: [
         {
           src: path.resolve('src/icons/icon-256x256.png'),
-          sizes: [96, 128, 192, 256]
+          sizes: [96, 128, 192, 256, 512]
         }
       ]
     })
@@ -55,7 +64,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(sc|sa|c)ss$/,
+        test: /index\.(sc|sa|c)ss$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',

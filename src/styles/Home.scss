@@ -19,7 +19,7 @@
   will-change: transform;
   transform: translateX(0);
   transition: transform 0.35s;
-  animation: fadeIn 0.35s;
+  animation: fadeIn 0.25s;
 
   &.hide {
     transform: translateX(-100%);

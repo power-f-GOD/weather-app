@@ -1,3 +1,5 @@
+import state, { setState } from './state';
+
 import {
   Q,
   QAll,
@@ -8,7 +10,6 @@ import {
   requireDateChunk
 } from './utils';
 import { CardDataProps, WeatherResponseMain } from './types';
-import state, { setState } from './state';
 
 export async function updateCard(props: CardDataProps) {
   const { type, current, tomorrow, other, index } = props;
@@ -25,12 +26,12 @@ export async function updateCard(props: CardDataProps) {
     case 'A': {
       const Body = document.body;
       const Card = Q('.card.type-a') as HTMLElement;
-      const FeelsLike = Card.querySelector('.feels-like');
-      const WindSpeed = Card.querySelector('.wind-speed');
-      const Degree = Card.querySelector('h1');
+      const FeelsLike = Card.querySelector('.feels-like')!;
+      const WindSpeed = Card.querySelector('.wind-speed')!;
+      const Degree = Card.querySelector('h1')!;
       const Thermometer = Card.querySelector('.thermometer') as HTMLElement;
-      const Desc = Card.querySelector('.desc');
-      const HumidityDeg = Card.querySelector('.humidity-deg');
+      const Desc = Card.querySelector('.desc')!;
+      const HumidityDeg = Card.querySelector('.humidity-deg')!;
 
       if (Body.classList.contains('animate-card-overlay')) {
         await delay(400);
@@ -43,7 +44,7 @@ export async function updateCard(props: CardDataProps) {
       const feel =
         celsiusValue < 20 ? 'cold' : celsiusValue < 40 ? 'warm' : 'hot';
 
-      if (Card && Degree && Desc && HumidityDeg && FeelsLike && WindSpeed) {
+      if (!isNaN(celsiusValue) && Card) {
         addEventListenerOnce(
           Card,
           () => Body.classList.remove('animate-card-overlay'),
@@ -81,10 +82,10 @@ export async function updateCard(props: CardDataProps) {
     }
     case 'B': {
       const Card = QAll('.card.type-b')[index ?? 0] as HTMLElement;
-      const Day = Card.querySelector('h3');
-      const Degree = Card.querySelector('p');
+      const Day = Card.querySelector('h3')!;
+      const Degree = Card.querySelector('p')!;
 
-      if (Card && Day && Degree) {
+      if (!isNaN(+temp!) && Card) {
         Day.textContent = date_string ?? 'Monday';
         Degree.textContent = round(temp as number) + '°';
         Card.className = Card.className.replace(
@@ -110,16 +111,15 @@ export async function updateCard(props: CardDataProps) {
     }
     case 'C': {
       const Card = QAll('.hourly-wrapper')[index ?? 0] as HTMLElement;
-      const Hour = Card.querySelector('.hour');
-      const Desc = Card.querySelector('.main');
-      const Degree = Card.querySelector('.temp');
+      const Hour = Card.querySelector('.hour')!;
+      const Desc = Card.querySelector('.main')!;
+      const Degree = Card.querySelector('.temp')!;
       const TempMeter = Card.querySelector('.temp-meter') as HTMLElement;
 
       const { hour, day } = requireDateChunk(dt, true);
+      const degree = round(temp as number);
 
-      if (Card && Hour && Desc && Degree && TempMeter) {
-        const degree = round(temp as number);
-
+      if (!isNaN(degree) && Card) {
         Hour.innerHTML = `${hour}<sup>${day}</sup>` ?? '...';
         Desc.textContent = description ?? '...';
         Degree.textContent = degree + '°';

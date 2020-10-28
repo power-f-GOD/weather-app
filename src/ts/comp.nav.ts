@@ -29,7 +29,7 @@ export default function nav() {
     render(
       `<span class='search-result text-center ${
         err ? 'error' : ''
-      }'>${message}</span>`,
+      }'><span>${message}</span></span>`,
       SearchResultsContainer
     );
   };
@@ -64,7 +64,7 @@ export default function nav() {
       });
       return;
     } else {
-      Type.textContent = 'fetching data...🏃🏽‍♂️';
+      Type.textContent = 'fetching weather data...🏃🏽‍♂️';
     }
 
     _task = () => {
@@ -129,7 +129,10 @@ export default function nav() {
           error
         }: CitiesResponse =
           (await getData(baseUrl, queryParam).catch(() => {
-            searchStatus('An error occurred. Failed to get.', true);
+            searchStatus(
+              'Error: Failed to get. A network error, probably, occurred.',
+              true
+            );
           })) ?? {};
 
         if (matches || region || typeof standard?.city === 'string') {
@@ -160,20 +163,31 @@ export default function nav() {
             }
           );
         } else {
-          searchStatus(
-            `${
-              error?.code === '006'
-                ? '😕 Something went wrong. Please, try again after some time.'
-                : `🤔 Sorry, could not find any matching cities/locations for <b>'${SearchInput.value.replace(
-                    /<\/?.*>/,
-                    ''
-                  )}'</b>. ${
-                    areCoords
-                      ? ''
-                      : 'You may try entering full city/location name/keyword.'
-                  }`
-            }`
-          );
+          let errMessage = '';
+
+          switch (true) {
+            case error.code === '006':
+              errMessage =
+                '😕 Something went wrong. Please, try again after some time.';
+              break;
+            case !navigator.onLine:
+              errMessage = 'You are offline.😴';
+              break;
+            case !!match:
+              errMessage = `🤔 Sorry, could not find any matching cities/locations for <b>'${SearchInput.value.replace(
+                /<\/?.*>/,
+                ''
+              )}'</b>. ${
+                areCoords
+                  ? ''
+                  : 'You may try entering full city/location name/keyword.'
+              }`;
+              break;
+          }
+
+          if (errMessage) {
+            searchStatus(errMessage, !navigator.onLine);
+          }
         }
       }, 1500);
     } else {

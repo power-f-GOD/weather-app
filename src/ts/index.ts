@@ -3,8 +3,11 @@ import '../styles/index.scss';
 import Nav from '../components/Nav.html';
 import Home from '../components/Home.html';
 
-import { render, task } from './utils';
 import { setState } from './state';
+
+import { render, task } from './utils';
+
+import home from './comp.home';
 
 const App = () => {
   return `
@@ -14,9 +17,8 @@ const App = () => {
   </div>`;
 };
 
-render(App(), document.querySelector('#app')!, null, async () => {
-  await import('./comp.nav').then(({ default: nav }) => nav());
-  import('./comp.home').then(({ default: home }) => home());
+render(App(), document.querySelector('#app')!, null, () => {
+  home();
 });
 
 window.ononline = () => {
@@ -28,6 +30,7 @@ window.onoffline = () => {
   setState({ isOnline: false });
 };
 
+//remove 0 in expression eventually
 if (0 && navigator.serviceWorker) {
   window.addEventListener('load', () => {
     navigator.serviceWorker

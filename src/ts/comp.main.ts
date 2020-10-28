@@ -1,3 +1,5 @@
+import state, { setState } from './state';
+
 import {
   QAll,
   transform,
@@ -11,7 +13,6 @@ import {
   task
 } from './utils';
 import { WeatherResponseMain } from './types';
-import state, { setState } from './state';
 
 export default function main() {
   const TabLinks = QAll('.Main .tab-link') as NodeListOf<HTMLAnchorElement>;
@@ -27,6 +28,7 @@ export default function main() {
         state.latitude as number,
         state.longitude as number
       ).then(({ current, daily, hourly }) => {
+        console.log('daily:', current, daily);
         setState({
           current,
           daily,
@@ -148,6 +150,7 @@ export const updateBody = (props: {
   weatherMain?: WeatherResponseMain;
 }) => {
   const Body = document.body;
+  const MetaTheme = Q("meta[name='theme-color']") as HTMLMetaElement;
 
   const { nightMode, weatherMain } = props;
   const delayTimeout =
@@ -164,16 +167,19 @@ export const updateBody = (props: {
       let className: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
       switch (true) {
-        case /clear/i.test(weatherMain as WeatherResponseMain):
-          className = 'secondary';
-          break;
         case /clouds|drizzle|rainy?|snow/i.test(
           weatherMain as WeatherResponseMain
         ):
           className = 'primary';
+          MetaTheme.content = 'rgb(0, 141, 205)';
+          break;
+        case /clear/i.test(weatherMain as WeatherResponseMain):
+          className = 'secondary';
+          MetaTheme.content = 'rgb(154, 138, 0)';
           break;
         default:
           className = 'tertiary';
+          MetaTheme.content = 'rgb(128, 128, 128)';
       }
 
       Body.className = Body.className.replace(
@@ -184,6 +190,10 @@ export const updateBody = (props: {
 
     if (nightMode !== undefined) {
       Body.classList[nightMode ? 'add' : 'remove']('night-time');
+
+      if (nightMode) {
+        MetaTheme.content = 'rgb(0, 85, 149)';
+      }
     }
   });
 };

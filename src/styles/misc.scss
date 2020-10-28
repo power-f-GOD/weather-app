@@ -76,6 +76,20 @@ button {
   }
 }
 
+.ENV {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+
+  > * {
+    height: 60%;
+    width: 60%;
+    display: inline-block;
+    position: relative;
+  }
+}
+
 h1,
 h2,
 h3,

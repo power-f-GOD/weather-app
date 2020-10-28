@@ -154,12 +154,12 @@ body {
     }
 
     .hourlies-toggler {
-      background-color: $theme-tertiary-v7;
+      background-color: $theme-tertiary-v6;
     }
 
     // Footer
     .side-bar-toggler {
-      background-color: $theme-tertiary-v7;
+      background-color: $theme-tertiary-v6;
 
       &:hover,
       &:focus {
@@ -170,7 +170,7 @@ body {
     }
 
     .theme-toggler {
-      $bg: $theme-tertiary-v8;
+      $bg: $theme-tertiary-v7;
       $hoverBg: $theme-tertiary-v2;
 
       background-color: $bg;

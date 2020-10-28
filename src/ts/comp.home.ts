@@ -27,7 +27,7 @@ export default async function home() {
   makeInert(Nav, true);
 
   const mountMain = async () => {
-    await import('./templates').then(({ Card }) => {
+    await import(/* webpackPreload: true */ './templates').then(({ Card }) => {
       const processedMain: string = new Processor(Main, [
         {
           match: '%CardTypeA%',
@@ -69,10 +69,15 @@ export default async function home() {
         View,
         { adjacency: 'beforeend' },
         async () => {
-          await import('./comp.main').then(({ default: main }: any) => main());
-          await import('./comp.footer').then(({ default: footer }: any) =>
-            footer()
-          );
+          await import(
+            /* webpackPreload: true */ './comp.nav'
+          ).then(({ default: nav }) => nav());
+          await import(
+            /* webpackPreload: true */ './comp.main'
+          ).then(({ default: main }: any) => main());
+          await import(
+            /* webpackPreload: true */ './comp.footer'
+          ).then(({ default: footer }: any) => footer());
         }
       );
     });
