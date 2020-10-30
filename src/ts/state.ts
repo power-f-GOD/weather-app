@@ -86,14 +86,16 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
         });
       }
 
-      if (hourly) {
-        hourly.map((data: WeatherInfoProps, index: number) => {
-          updateCard({
-            ...data,
-            index,
-            type: 'C'
-          });
-        });
+      if (state.hourliesIsOpen) {
+        (hourly || state.hourly)?.map(
+          (data: WeatherInfoProps, index: number) => {
+            updateCard({
+              ...data,
+              index,
+              type: 'C'
+            });
+          }
+        );
       }
 
       if (lastSynced) {

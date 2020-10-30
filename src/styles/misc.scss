@@ -31,6 +31,11 @@ body {
 
 .View {
   display: flex;
+  transition: 0.3s;
+
+  &.inert {
+    filter: blur(0.2rem);
+  }
 
   & > * {
     position: absolute;
@@ -73,20 +78,6 @@ button {
     &:focus {
       background-color: rgba(0, 0, 0, 0.2);
     }
-  }
-}
-
-.ENV {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-
-  > * {
-    height: 60%;
-    width: 60%;
-    display: inline-block;
-    position: relative;
   }
 }
 

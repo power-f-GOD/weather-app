@@ -283,8 +283,9 @@ export const makeInert = (
 ) => {
   target.style.pointerEvents = inert ? 'none' : 'unset';
   target.setAttribute('aria-hidden', inert ? 'true' : 'false');
+  target.classList[inert ? 'add' : 'remove']('inert');
 
-  if (targetIsInTabOrder) {
+  if (targetIsInTabOrder || /^(a|button|input)$/i.test(target.tagName)) {
     target.tabIndex = inert ? -1 : 0;
   }
 

@@ -1,3 +1,7 @@
+.fade-in {
+  animation: fadeIn 0.6s;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -26,6 +30,15 @@
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
   }
 }
 

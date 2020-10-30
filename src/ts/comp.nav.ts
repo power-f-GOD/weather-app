@@ -2,7 +2,6 @@ import {
   Q,
   getData,
   render,
-  addEventListenerOnce,
   QAll,
   delay,
   task,
@@ -34,17 +33,14 @@ export default function nav() {
     );
   };
 
-  const handleTransitionEnd = () => {
+  const toggleSearchView = () => {
     const isOpen = SearchResultsWrapper.classList.contains('show');
 
-    makeInert(View, isOpen);
     makeInert(SearchResultsWrapper, !isOpen);
+    makeInert(View, isOpen);
     (SearchInput as any).onblur();
-    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
-  };
 
-  const callTransitionEndListener = () => {
-    addEventListenerOnce(SearchResultsWrapper, handleTransitionEnd);
+    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
   };
 
   let _task = () => {};
@@ -78,7 +74,7 @@ export default function nav() {
           Type.textContent = type as string;
 
           SearchResultsWrapper.classList.remove('show');
-          callTransitionEndListener();
+          toggleSearchView();
           window.history.pushState(
             {},
             '',
@@ -149,8 +145,8 @@ export default function nav() {
               : SearchResult({
                   latitude: +latt,
                   longitude: +longt,
-                  location: `${region || standard.city}, ${
-                    standard.countryname || prov || standard.prov
+                  location: `${region || standard?.city}, ${
+                    standard?.countryname || prov || standard?.prov
                   }`,
                   type: 'city'
                 }),
@@ -196,7 +192,7 @@ export default function nav() {
       );
     }
 
-    callTransitionEndListener();
+    toggleSearchView();
   };
 
   SearchInput.onkeyup = (e: KeyboardEvent) => {
@@ -210,7 +206,7 @@ export default function nav() {
   SearchInput.onfocus = ({ target }: Event) => {
     if ((target as HTMLInputElement).value) {
       SearchResultsWrapper.classList.add('show');
-      callTransitionEndListener();
+      toggleSearchView();
     } else {
       SearchButton.classList.add('turn-off');
     }
@@ -248,7 +244,7 @@ export default function nav() {
   SearchResultsWrapper.onclick = ({ target }: Event) => {
     if (target === SearchResultsWrapper) {
       SearchResultsWrapper.classList.remove('show');
-      callTransitionEndListener();
+      toggleSearchView();
     }
   };
   makeInert(SearchResultsWrapper, true);

@@ -449,15 +449,23 @@ body {
       &:focus {
         background-color: $hoverBg;
 
-        .icon span {
+        .icon {
+          border-color: $hoverBg;
+
+          span {
           background-color: $hoverBg;
         }
+        } 
       }
 
-      .icon span {
+      .icon {
+        border: 0.09rem dashed $bg;
+        
+        span {
         background-color: $bg;
-        transform: translate(0.1rem, 0.1rem);
+        transform: translate(0.09rem, 0.09rem);
       }
+      } 
     }
 
     .icon-container {

@@ -10,17 +10,24 @@ import {
   makeInert,
   addEventListenerOnce,
   getWeatherAndCityDataThenSetState,
-  task
+  task,
+  render
 } from './utils';
 import { WeatherResponseMain } from './types';
+import { Card } from './templates';
 
 export default function main() {
   const TabLinks = QAll('.Main .tab-link') as NodeListOf<HTMLAnchorElement>;
-  const HourliesWrapper = Q('.Main .hourlies-wrapper') as HTMLElement;
   const HourliesToggler = Q('.Main .hourlies-toggler') as HTMLButtonElement;
+  const HourliesWrapper = Q('.Main .hourlies-wrapper') as HTMLElement;
+  const HourliesList1 = Q('.hourlies-container-1 .list-view') as HTMLElement;
+  const HourliesList2 = Q('.hourlies-container-2 .list-view') as HTMLElement;
   const Nav = Q('.Nav') as HTMLElement;
+  const SideBarToggler = Q('.side-bar-toggler') as HTMLElement;
   const TabLinksContainer = Q('.Main nav') as HTMLElement;
   const Next7DaysSection = Q('.Main .daily-list-view') as HTMLElement;
+
+  makeInert(HourliesWrapper, true);
 
   const triggerGetWeatherData = () => {
     if (navigator.onLine && document.visibilityState === 'visible') {
@@ -49,17 +56,41 @@ export default function main() {
 
     const isOpen = HourliesToggler.classList.contains('toggle-close');
 
+    if (!isOpen) {
+      setState({ hourliesIsOpen: false });
+      render('', HourliesList1);
+      render('', HourliesList2);
+    }
+
     HourliesToggler.textContent = isOpen ? '✕' : 'hourly';
     HourliesWrapper.style.overflow = 'hidden';
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
-    makeInert(HourliesWrapper, !isOpen);
-    makeInert(Next7DaysSection, isOpen);
+
     makeInert(Nav, isOpen);
     makeInert(TabLinksContainer, isOpen);
-    addEventListenerOnce(HourliesWrapper, () => {
-      delay(400).then(() => {
-        HourliesWrapper.style.overflow = isOpen ? 'auto' : 'hidden';
-      });
+    makeInert(HourliesWrapper, !isOpen);
+    makeInert(Next7DaysSection, isOpen);
+    makeInert(SideBarToggler, isOpen);
+    addEventListenerOnce(HourliesWrapper, async () => {
+      await delay(400);
+      HourliesWrapper.style.overflow = isOpen ? 'auto' : 'hidden';
+
+      if (isOpen) {
+        const cardTemplates = Array(48).fill(
+          Card({
+            type: 'C',
+            temp: 0.0,
+            main: undefined,
+            hour: '00'
+          })
+        );
+
+        render(cardTemplates.slice(0, 24).join(''), HourliesList1, null, () => {
+          render(cardTemplates.slice(24).join(''), HourliesList2, null, () => {
+            setState({ hourliesIsOpen: true });
+          });
+        });
+      }
     });
   });
   HourliesWrapper.addEventListener('click', ({ target }: Event) => {
@@ -194,7 +225,7 @@ export const updateBody = (props: {
       Body.classList[nightMode ? 'add' : 'remove']('night-time');
     }
 
-    MetaTheme.content = nightMode ? 'rgb(0, 85, 149)' : metaColor;
+    MetaTheme.content = state.nightMode ? 'rgb(0, 85, 149)' : metaColor;
   });
 };
 

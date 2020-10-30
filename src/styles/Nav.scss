@@ -132,7 +132,6 @@
 .search-button {
   height: 3rem;
   width: 3rem;
-  // background: black !important;
 
   .icon {
     $color: $theme-tertiary-v1;
@@ -170,7 +169,7 @@
       span {
         width: 0.4rem;
         height: 105%;
-        border-color: #eee;
+        border-color: #ddd;
         transform: translate(-0.2rem, -0.55rem) rotateZ(0deg);
       }
     }

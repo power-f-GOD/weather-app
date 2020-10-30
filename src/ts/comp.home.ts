@@ -48,19 +48,6 @@ export default async function home() {
               })
             )
             .join('')
-        },
-        {
-          match: '%CardTypeC%',
-          value: Array(2)
-            .fill(
-              Card({
-                type: 'C',
-                temp: 0.0,
-                main: undefined,
-                hour: '00'
-              })
-            )
-            .join('')
         }
       ]).process();
 

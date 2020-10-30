@@ -18,11 +18,10 @@
     background-color: transparent;
     z-index: 6;
     max-width: unset;
-    // contain: strict;
-    transition: background-color 0.3s ease 0.1s;
+    contain: strict;
+    transition: background-color 0.3s;
 
     &.show {
-      transition: background-color 0.2s;
       background-color: rgba(0, 0, 0, 0.85);
     }
   }
@@ -37,8 +36,8 @@
     background: #eee;
     contain: strict;
     will-change: transform;
-    transform: translateX(-100%);
-    transition: transform 0.35s cubic-bezier(0.25, 0.75, 0.15, 1);
+    transform: translateX(-18rem);
+    transition: transform 0.5s cubic-bezier(0.25, 0.75, 0.15, 1);
 
     &.open {
       transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
@@ -150,13 +149,15 @@
 
     > * {
       border-radius: inherit;
+      border: 0.09rem solid inherit;
       background-color: white;
       height: 1.5rem;
       width: 1.5rem;
+      transition: 0.35s;
 
       span {
-        height: 87.5%;
-        width: 87.5%;
+        height: 86.5%;
+        width: 86.5%;
         display: inherit;
         border-radius: inherit;
         position: absolute;
@@ -252,7 +253,7 @@
   .last-synced-date {
     font-weight: bolder;
     font-size: 95%;
-    color: rgb(235, 152, 0);
+    color: rgb(228, 148, 0);
   }
 
   .online-status {
