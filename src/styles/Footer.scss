@@ -221,12 +221,48 @@
 
   .info-wrapper {
     // @include debugger();
-    padding: 1.45rem 0;
+    padding: 0.5rem 0 1.45rem 0;
     padding-bottom: 0.75rem;
     max-height: calc(100% - 12.25rem);
     max-width: calc(100% - 1rem);
     overflow: auto;
     margin: 0 0.5rem 0;
+  }
+
+  .install-wrapper {
+    height: 0;
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    margin-bottom: 1rem;
+    top: 0;
+    right: 0;
+  }
+
+  .install {
+    border-radius: 1.75rem;
+    color: white;
+    background-color: green;
+    border: none;
+    padding: 0 0.95rem;
+    margin-top: 0.125rem;
+    margin-right: 0.125rem;
+    min-height: 2rem;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
+
+    &:hover,
+    &:focus {
+      background-color: limegreen;
+      box-shadow: 0 0 0.5rem rgba(0, 198, 0, 0.5);
+    }
+
+    .icon {
+      display: inline-block;
+      transform: scaleX(1.9);
+      margin: 0 0.25rem 0 0.5rem;
+      font-size: 0.7rem;
+      opacity: 0.5;
+    }
   }
 
   .title {
