@@ -28,7 +28,6 @@ export default function main() {
         state.latitude as number,
         state.longitude as number
       ).then(({ current, daily, hourly }) => {
-        console.log('daily:', current, daily);
         setState({
           current,
           daily,
@@ -37,7 +36,8 @@ export default function main() {
             (day) => day.date_string === state.other?.date_string
           ),
           hourly,
-          lastSynced: Date.now()
+          lastSynced: Date.now(),
+          isOnline: true
         });
       });
     }
@@ -52,6 +52,7 @@ export default function main() {
     HourliesToggler.textContent = isOpen ? '✕' : 'hourly';
     HourliesWrapper.style.overflow = 'hidden';
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+    makeInert(HourliesWrapper, !isOpen);
     makeInert(Next7DaysSection, isOpen);
     makeInert(Nav, isOpen);
     makeInert(TabLinksContainer, isOpen);
@@ -72,7 +73,7 @@ export default function main() {
       const Card = Q<HTMLElement>('.card.type-a');
       const refOffset = Card?.offsetTop! + Card?.offsetHeight!;
 
-      transform(HourliesWrapper, `translateY(${refOffset - 16}px)`);
+      transform(HourliesToggler, `translateY(${refOffset - 16}px)`);
     }
   };
 
@@ -163,6 +164,8 @@ export const updateBody = (props: {
       : 100;
 
   delay(delayTimeout).then(() => {
+    let metaColor = 'rgb(0, 141, 205)';
+
     if (weatherMain) {
       let className: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
@@ -171,15 +174,14 @@ export const updateBody = (props: {
           weatherMain as WeatherResponseMain
         ):
           className = 'primary';
-          MetaTheme.content = 'rgb(0, 141, 205)';
           break;
         case /clear/i.test(weatherMain as WeatherResponseMain):
           className = 'secondary';
-          MetaTheme.content = 'rgb(154, 138, 0)';
+          metaColor = 'rgb(154, 138, 0)';
           break;
         default:
           className = 'tertiary';
-          MetaTheme.content = 'rgb(128, 128, 128)';
+          metaColor = 'rgb(128, 128, 128)';
       }
 
       Body.className = Body.className.replace(
@@ -190,11 +192,9 @@ export const updateBody = (props: {
 
     if (nightMode !== undefined) {
       Body.classList[nightMode ? 'add' : 'remove']('night-time');
-
-      if (nightMode) {
-        MetaTheme.content = 'rgb(0, 85, 149)';
-      }
     }
+
+    MetaTheme.content = nightMode ? 'rgb(0, 85, 149)' : metaColor;
   });
 };
 

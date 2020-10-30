@@ -156,7 +156,8 @@ export const getWeatherAndCityDataThenSetState = (
                 : state.location?.name,
             statusText: location === null ? 'Getting location name...' : null,
             err: false
-          }
+          },
+          isOnline: true
         });
       }
 

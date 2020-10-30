@@ -161,7 +161,7 @@
     }
 
     .weather-image {
-      $size: 8rem;
+      $size: 7.25rem;
 
       width: $size;
       height: $size;
@@ -278,7 +278,7 @@
 
     &.type-a {
       .weather-image {
-        bottom: -1.5rem !important;
+        bottom: -0.75rem !important;
       }
     }
 
@@ -332,7 +332,7 @@
 
     &.type-a {
       .weather-image {
-        bottom: -1.25em !important;
+        bottom: -0.25em !important;
       }
     }
 

@@ -364,7 +364,7 @@ body {
         &.condition--sunny--0 {
           &.type-a {
             .weather-image {
-              bottom: -1.75rem !important;
+              bottom: -0.75rem !important;
               animation: animateX 8s infinite;
             }
           }
@@ -376,7 +376,7 @@ body {
 
         &.condition--sunny--0 {
           .weather-image {
-            width: 9.5rem;
+            width: 7.5rem;
           }
         }
 

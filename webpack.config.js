@@ -7,8 +7,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlCriticalPlugin = require('html-critical-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
-const manifest = require('./manifest.json');
-
 module.exports = {
   mode: 'production',
   entry: './src/ts/index.ts',
@@ -26,19 +24,19 @@ module.exports = {
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: true }),
     new HtmlWebpackPlugin({ template: './src/index.html', minify: 'auto' }),
     new MiniCssExtractPlugin(),
-    new HtmlCriticalPlugin({
-      base: path.join(path.resolve(__dirname), 'public/'),
-      src: 'index.html',
-      dest: 'index.html',
-      inline: true,
-      minify: true,
-      extract: true,
-      width: 320,
-      height: 568,
-      penthouse: {
-        blockJSRequests: false
-      }
-    }),
+    // new HtmlCriticalPlugin({
+    //   base: path.join(path.resolve(__dirname), 'public/'),
+    //   src: 'index.html',
+    //   dest: 'index.html',
+    //   inline: true,
+    //   minify: true,
+    //   extract: true,
+    //   width: 320,
+    //   height: 568,
+    //   penthouse: {
+    //     blockJSRequests: false
+    //   }
+    // }),
     new WebpackPwaManifest({
       filename: 'manifest.json',
       fingerprints: false,

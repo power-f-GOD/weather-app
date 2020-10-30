@@ -37,7 +37,7 @@ export default function footer() {
     }
   });
 
-  ThemeToggler.addEventListener('click', async () => {
+  ThemeToggler.addEventListener('click', () => {
     setState({
       nightMode: state.nightMode !== undefined ? !state.nightMode : true
     });

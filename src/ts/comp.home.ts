@@ -51,7 +51,7 @@ export default async function home() {
         },
         {
           match: '%CardTypeC%',
-          value: Array(24)
+          value: Array(2)
             .fill(
               Card({
                 type: 'C',
@@ -162,15 +162,18 @@ export default async function home() {
       if (navigator.onLine) {
         getAndReturnWeatherData(state.latitude!, state.longitude!).then(
           ({ current, daily }) => {
-            setState({
-              current,
-              daily,
-              tomorrow: daily[0],
-              other: daily.find(
-                (day) => day.date_string === state.other?.date_string
-              ),
-              lastSynced: Date.now()
-            });
+            if (daily.length) {
+              setState({
+                current,
+                daily,
+                tomorrow: daily[0],
+                other: daily.find(
+                  (day) => day.date_string === state.other?.date_string
+                ),
+                lastSynced: Date.now(),
+                isOnline: true
+              });
+            }
           }
         );
       }

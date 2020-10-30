@@ -12,10 +12,10 @@
   background-color: #eee;
   border-bottom: 1px solid #ddd;
   will-change: transform;
-  transition: 0.25s ease, transform 0.35s ease 0.2s;
+  transition: transform 0.35s ease 0.2s;
 
   &::before {
-    @include before-or-after();
+    @include before-or-after($tr: unset);
     @include themeBg;
   }
 

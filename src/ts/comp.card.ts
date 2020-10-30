@@ -92,20 +92,23 @@ export async function updateCard(props: CardDataProps) {
           /(condition--).*(--0)/,
           `$1${weatherImage}$2`
         );
+
+        Card.onclick = (e: Event) => {
+          e.preventDefault();
+
+          if (index! > 0) {
+            setState({
+              other: { ...state.daily![index as number] },
+              activeTabLinkIndex: 2
+            });
+          } else {
+            setState({
+              activeTabLinkIndex: 1,
+              tomorrow: { ...state.tomorrow! }
+            });
+          }
+        };
       }
-
-      Card.onclick = (e: Event) => {
-        e.preventDefault();
-
-        if (index! > 0) {
-          setState({
-            other: { ...state.daily![index as number] },
-            activeTabLinkIndex: 2
-          });
-        } else {
-          setState({ activeTabLinkIndex: 1, tomorrow: { ...state.tomorrow! } });
-        }
-      };
 
       break;
     }
@@ -123,7 +126,7 @@ export async function updateCard(props: CardDataProps) {
         Hour.innerHTML = `${hour}<sup>${day}</sup>` ?? '...';
         Desc.textContent = description ?? '...';
         Degree.textContent = degree + '°';
-        TempMeter.style.height = `${degree}%`;
+        TempMeter.style.height = `${degree <= 0 ? 0 : degree}%`;
         TempMeter.className = TempMeter.className.replace(
           /(therm--).*(--0)/,
           `$1${degree < 20 ? 'cold' : degree < 40 ? 'warm' : 'hot'}$2`

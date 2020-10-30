@@ -1,8 +1,9 @@
 @import 'constants.scss';
 
 .Main {
-  animation: mainSlideIn 0.5s;
+  animation: mainSlideIn 0.6s;
   height: 100vh;
+  overflow-x: hidden;
 
   &::before {
     @include before-or-after($zi: -1, $tr: unset);
@@ -84,6 +85,51 @@
     }
   }
 
+  .hourlies-toggler {
+    border: 0.125rem solid transparent;
+    border-radius: 2rem;
+    color: white;
+    height: 2rem;
+    display: inline-block;
+    width: 6.25rem;
+    font-weight: bold;
+    position: absolute;
+    min-height: unset;
+    top: 0;
+    z-index: 4;
+    align-self: center;
+    box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.25);
+    background-color: $theme-primary-v5;
+    will-change: transform;
+    transform: translateY(25rem);
+    transition: 0.35s, font-size 0s;
+
+    &.toggle-close {
+      width: 3rem;
+      height: 3rem;
+      color: white;
+      position: fixed;
+      z-index: 7;
+      border-color: white;
+      background-color: transparent !important;
+      font-size: 1.5rem;
+      transition: 0.3s, transform cubic-bezier(0.645, 0.045, 0.355, 1) 0.7s;
+      transform: translate(calc(50vw - 2rem), calc(0.5rem)) !important;
+
+      &:hover,
+      &:focus {
+        background-color: white !important;
+        color: $theme-tertiary-v3;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      color: $theme-tertiary-v3 !important;
+      background-color: white;
+    }
+  }
+
   .hourlies-wrapper {
     // @include debugger();
     height: 2rem;
@@ -93,16 +139,17 @@
     overflow: hidden;
     background-color: transparent;
     display: flex;
-    z-index: 4;
+    z-index: 5;
     align-items: center;
     color: white;
     flex-direction: column;
-    border-radius: 12rem;
-    box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.25);
+    height: 100vh;
+    width: 100vw;
+    border-radius: 50%;
     will-change: transform;
     contain: strict;
-    transform: translateY(25rem);
-    transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transform: translateY(-140vh) scale(2.5);
+    transition: 0.4s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;
 
     &.open {
       $diff: -90;
@@ -113,13 +160,9 @@
         $prim-b + $diff,
         0.95
       );
-      z-index: 5;
-      transition: 0.35s cubic-bezier(0.645, 0.045, 0.355, 1),
-        width 0.35s ease 0.2s, border-radius 0.5s ease 0.2s,
-        background-color 0.2s;
-      transform: translateY(0) !important;
-      height: 100vh;
-      width: 100vw;
+      transition: transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1),
+        border-radius 0s ease 0.2s, background-color 0.25s;
+      transform: translateY(0);
       position: fixed;
       border-radius: 0;
 
@@ -148,50 +191,6 @@
     }
   }
 
-  .hourlies-toggler {
-    border: 0.125rem solid transparent;
-    border-radius: 2rem;
-    color: white;
-    height: 2rem;
-    display: inline-block;
-    width: 6.25rem;
-    font-weight: bold;
-    position: absolute;
-    min-height: unset;
-    align-self: flex-start;
-    background-color: $theme-primary-v5;
-    will-change: transform;
-    transform: translate(0);
-    transition: 0.3s ease, font-size 0s;
-
-    &.toggle-close {
-      width: 3rem;
-      height: 3rem;
-      color: white;
-      position: fixed;
-      z-index: 7;
-      top: 0;
-      left: 0;
-      border-color: white;
-      background-color: transparent !important;
-      font-size: 1.5rem;
-      transform: translate(calc(100vw - 3.75rem), calc(0.5rem));
-      transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-
-      &:hover,
-      &:focus {
-        background-color: white !important;
-        color: $theme-tertiary-v3;
-      }
-    }
-
-    &:hover,
-    &:focus {
-      color: $theme-tertiary-v3 !important;
-      background-color: white;
-    }
-  }
-
   .legend {
     padding: 0 0.5rem;
   }
@@ -204,6 +203,7 @@
     transition: transform 0.5s, opacity 0.6s;
 
     h2 {
+      margin-top: 2rem;
       font-size: 1.25rem;
       text-align: center;
     }

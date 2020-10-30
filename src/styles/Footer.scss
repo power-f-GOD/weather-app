@@ -18,7 +18,7 @@
     background-color: transparent;
     z-index: 6;
     max-width: unset;
-    contain: strict;
+    // contain: strict;
     transition: background-color 0.3s ease 0.1s;
 
     &.show {
@@ -35,7 +35,7 @@
     max-width: 18rem;
     min-width: 15rem;
     background: #eee;
-
+    contain: strict;
     will-change: transform;
     transform: translateX(-100%);
     transition: transform 0.35s cubic-bezier(0.25, 0.75, 0.15, 1);
@@ -67,7 +67,7 @@
     flex-direction: column;
     transform: translateX(calc(100% + 2rem));
     will-change: transform, background-color;
-    animation: sideBarTogglerSlideIn 0.5s forwards ease 0.5s;
+    animation: sideBarTogglerSlideIn 0.5s forwards ease 1.5s;
     transition: background-color 0.35s;
 
     &.is-open {
