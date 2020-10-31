@@ -1,11 +1,11 @@
 <footer class="Footer">
   <div class="container">
-    <section class="side-bar">
-      <button class="theme-toggler icon-button">
+    <section class="side-bar" role="menubar" ari>
+      <button class="theme-toggler icon-button" aria-label="toggle theme">
         <span class="icon"><span></span></span>
       </button>
       <div class="icon-container">
-        <div class='icon-image'></div>
+        <div class="icon-image" role="img" aria-label="weather icon"></div>
         <p class="icon-text">
           <span>Weather App</span>
           <span>by @Power'f GOD⚡️⚡️</span>
@@ -13,80 +13,104 @@
       </div>
       <div class="info-wrapper">
         <div class="install-wrapper">
-          <button class="install"><span>Install</span> <span class="icon">v</span>
+          <button class="install" aria-label="install app">
+            <span>Install</span> <span class="icon">v</span>
           </button>
         </div>
-        <p class="title">
-          App
-        </p>
+        <p class="title">App</p>
         <p class="details">
           last synced:
-          <small class="last-synced-date">...</small>
+          <small class="last-synced-date" aria-live="polite">...</small>
           <br />
           online status:
-          <small class="online-status">online</small>
+          <small class="online-status" aria-live="polite">online</small>
           <br />
           version: 1.0.0
           <br />
-          platform: Web
+          platform:
+          <span class="platform" aria-live="polite">Web</span>
         </p>
 
-        <p class="title">
-          APIs
-        </p>
+        <p class="title">APIs</p>
         <p class="details">
           location:
           <a href="https://geocode.xyz" target="_blank">Geocode.xyz</a>
           <br />
           weather:
-          <a href="https://openweathermap.org/api/" target="_blank">OpenWeather</a>
+          <a href="https://openweathermap.org/api/" target="_blank"
+            >OpenWeather</a
+          >
         </p>
 
-        <p class="title">
-          Images
-        </p>
+        <p class="title">Images</p>
         <p class="details">
-          icons: <a
+          icons:
+          <a
             href="https://www.gettyimages.com/detail/illustration/weather-icon-set-elegant-series-royalty-free-illustration/165729273"
-            target="_blank">GettyImages</a>
+            target="_blank"
+            >GettyImages</a
+          >
           <br />
-          snowflake pattern: <a
+          snowflake pattern:
+          <a
             href="https://favpng.com/png_view/snowflake-background-vector-material-aoxue-snowflake-pattern-png/527A3wX3"
-            target="_blank">Favpng</a>
+            target="_blank"
+            >Favpng</a
+          >
         </p>
 
-        <p class="title">
-          Libraries / Frameworks
-        </p>
-        <p class="details">
-          null
-        </p>
+        <p class="title">Libraries / Frameworks</p>
+        <p class="details">null</p>
 
         <p class="title">Developer</p>
         <p class="details">
           Power Inemesit Sunday:
           <br />
-          <a href="https://github.com/power-f-GOD/" class="social github" target="_blank">gitHub</a>
-          <a href="https://www.linkedin.com/in/power-sunday-b24204148" class="social linkedin"
-            target="_blank">linkedIn</a>
-          <a href="https://web.facebook.com/power.sunday3" class="social facebook" target="_blank">facebook</a>
-          <a href="https://twitter.com/_powerOfGod" class="social twitter" target="_blank">twitter</a>
+          <a
+            href="https://github.com/power-f-GOD/"
+            class="social github"
+            target="_blank"
+            >gitHub</a
+          >
+          <a
+            href="https://www.linkedin.com/in/power-sunday-b24204148"
+            class="social linkedin"
+            target="_blank"
+            >linkedIn</a
+          >
+          <a
+            href="https://web.facebook.com/power.sunday3"
+            class="social facebook"
+            target="_blank"
+            >facebook</a
+          >
+          <a
+            href="https://twitter.com/_powerOfGod"
+            class="social twitter"
+            target="_blank"
+            >twitter</a
+          >
         </p>
 
-        <p class="title">
-          Code
-        </p>
+        <p class="title">Code</p>
         <p class="details">
           source:
-          <a href="https://github.com/power-f-GOD/weather-app/" target="_blank">power-f-GOD</a><br />
-          language: <a href="https://www.typescriptlang.org/"
-            target="_blank">JavaScript/TypeScript</a><br /><br /><br />
+          <a href="https://github.com/power-f-GOD/weather-app/" target="_blank"
+            >power-f-GOD</a
+          ><br />
+          language:
+          <a href="https://www.typescriptlang.org/" target="_blank"
+            >JavaScript/TypeScript</a
+          ><br /><br /><br />
           copyright &copy; 2020
         </p>
       </div>
     </section>
   </div>
-  <button class="side-bar-toggler theme--primary--0">
+  <button
+    class="side-bar-toggler theme--primary--0"
+    aria-label="toggle side-bar"
+  >
     <span></span><span></span><span></span>
   </button>
 </footer>

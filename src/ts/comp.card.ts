@@ -33,6 +33,7 @@ export async function updateCard(props: CardDataProps) {
       const Desc = Card.querySelector('.desc')!;
       const HumidityDeg = Card.querySelector('.humidity-deg')!;
 
+      // addEventListenerOnce
       if (Body.classList.contains('animate-card-overlay')) {
         await delay(400);
         Body.classList.remove('animate-card-overlay');

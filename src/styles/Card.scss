@@ -14,7 +14,6 @@
       size: contain;
       position: center;
       repeat: no-repeat;
-      image: url('../images/cloudy-sun.png');
     }
     transition: background-image 0.35s;
   }
@@ -251,24 +250,6 @@
     );
   }
 
-  &.condition--cloudy-sun--0 {
-    .weather-image {
-      background-image: url('../images/cloudy-sun.png');
-    }
-  }
-
-  &.condition--cloud-storm--0 {
-    .weather-image {
-      background-image: url('../images/cloud-storm.png');
-    }
-  }
-
-  &.condition--clouds-sun-rain--0 {
-    .weather-image {
-      background-image: url('../images/clouds-sun-rain.png');
-    }
-  }
-
   &.condition--cloudy--0 {
     background-image: linear-gradient(
       to top,
@@ -281,10 +262,6 @@
         bottom: -0.75rem !important;
       }
     }
-
-    .weather-image {
-      background-image: url('../images/cloudy.png');
-    }
   }
 
   &.condition--atmosphere--0 {
@@ -293,10 +270,6 @@
       $theme-tertiary-v6,
       $theme-tertiary-v7
     );
-
-    .weather-image {
-      background-image: url('../images/atmosphere.png');
-    }
   }
 
   &.condition--rainy-cloud--0 {
@@ -305,10 +278,6 @@
       $theme-primary-v5,
       $theme-tertiary-v5
     );
-
-    .weather-image {
-      background-image: url('../images/rainy-cloud.png');
-    }
   }
 
   &.condition--snowy-cloud--0 {
@@ -317,10 +286,6 @@
       $theme-primary-v5,
       $theme-primary-v8
     );
-
-    .weather-image {
-      background-image: url('../images/snowy-cloud.png');
-    }
   }
 
   &.condition--sunny--0 {
@@ -338,7 +303,6 @@
 
     .weather-image {
       width: 8rem;
-      background-image: url('../images/sunny.png');
     }
   }
 
@@ -359,18 +323,6 @@
       $theme-tertiary-v4,
       $theme-tertiary-v6
     );
-  }
-
-  &.condition--thunder-cloud--0 {
-    .weather-image {
-      background-image: url('../images/thunder-cloud.png');
-    }
-  }
-
-  &.condition--thunder-storm--0 {
-    .weather-image {
-      background-image: url('../images/thunder-storm.png');
-    }
   }
 
   &[class*='-cloud'] {
@@ -400,7 +352,92 @@
   }
 }
 
+@mixin ext-render($ext: 'webp') {
+  .card {
+    .weather-image {
+      background: {
+        image: url('../images/cloudy-sun.#{$ext}');
+      }
+    }
+
+    &.condition--cloudy-sun--0 {
+      .weather-image {
+        background-image: url('../images/cloudy-sun.#{$ext}');
+      }
+    }
+
+    &.condition--cloud-storm--0 {
+      .weather-image {
+        background-image: url('../images/cloud-storm.#{$ext}');
+      }
+    }
+
+    &.condition--clouds-sun-rain--0 {
+      .weather-image {
+        background-image: url('../images/clouds-sun-rain.#{$ext}');
+      }
+    }
+
+    &.condition--cloudy--0 {
+      .weather-image {
+        background-image: url('../images/cloudy.#{$ext}');
+      }
+    }
+
+    &.condition--atmosphere--0 {
+      .weather-image {
+        background-image: url('../images/atmosphere.#{$ext}');
+      }
+    }
+
+    &.condition--rainy-cloud--0 {
+      .weather-image {
+        background-image: url('../images/rainy-cloud.#{$ext}');
+      }
+    }
+
+    &.condition--snowy-cloud--0 {
+      .weather-image {
+        background-image: url('../images/snowy-cloud.#{$ext}');
+      }
+    }
+
+    &.condition--sunny--0 {
+      .weather-image {
+        background-image: url('../images/sunny.#{$ext}');
+      }
+    }
+
+    &.condition--thunder-cloud--0 {
+      .weather-image {
+        background-image: url('../images/thunder-cloud.#{$ext}');
+      }
+    }
+
+    &.condition--thunder-storm--0 {
+      .weather-image {
+        background-image: url('../images/thunder-storm.#{$ext}');
+      }
+    }
+  }
+}
+
+@mixin image-ext($is-webp: false) {
+  @if $is-webp {
+    @include ext-render();
+  } @else {
+    @include ext-render('png');
+  }
+}
+
 body {
+  &.webp {
+    @include image-ext($is-webp: true);
+  }
+  &.no-webp {
+    @include image-ext($is-webp: false);
+  }
+
   &.animate-card-overlay {
     .card.type-a {
       &::before {

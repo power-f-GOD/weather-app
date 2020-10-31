@@ -20,7 +20,7 @@ export default function nav() {
   const SearchResultsContainer = Q(
     '.search-results-overlay .container'
   ) as HTMLElement;
-  const View = Q('.View') as HTMLElement;
+  const Main = Q('.Main') as HTMLElement;
 
   let inputTimeout: any;
 
@@ -37,7 +37,7 @@ export default function nav() {
     const isOpen = SearchResultsWrapper.classList.contains('show');
 
     makeInert(SearchResultsWrapper, !isOpen);
-    makeInert(View, isOpen);
+    makeInert(Main, isOpen);
     (SearchInput as any).onblur();
 
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
@@ -162,7 +162,7 @@ export default function nav() {
           let errMessage = '';
 
           switch (true) {
-            case error.code === '006':
+            case error?.code === '006':
               errMessage =
                 '😕 Something went wrong. Please, try again after some time.';
               break;
@@ -256,6 +256,8 @@ export default function nav() {
 export const updateLocation = (text: string, err?: boolean) => {
   const CityLocation = Q('.Nav .location') as HTMLElement;
 
-  CityLocation.classList[err ? 'add' : 'remove']('error');
-  CityLocation.textContent = text;
+  if (CityLocation) {
+    CityLocation.classList[err ? 'add' : 'remove']('error');
+    CityLocation.textContent = text;
+  }
 };

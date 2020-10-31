@@ -33,7 +33,6 @@
     width: $size;
     margin-bottom: -2rem;
     background: {
-      image: url('../images/cloudy-sun.png');
       size: contain;
       position: center;
       repeat: no-repeat;
@@ -77,5 +76,33 @@
       background-color: transparent;
       cursor: wait;
     }
+  }
+}
+
+@mixin ext-render($ext: 'webp') {
+  .Home {
+    .cloud-image {
+      background: {
+        image: url('../images/cloudy-sun.#{$ext}');
+      }
+    }
+  }
+}
+
+@mixin image-ext($is-webp: false) {
+  @if $is-webp {
+    @include ext-render();
+  } @else {
+    @include ext-render('png');
+  }
+}
+
+body {
+  &.webp {
+    @include image-ext(true);
+  }
+
+  &.no-webp {
+    @include image-ext(false);
   }
 }

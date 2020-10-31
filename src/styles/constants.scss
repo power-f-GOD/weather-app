@@ -138,10 +138,7 @@ $theme-tertiary-v9: rgb(
   $tert-b + (25 * 4)
 );
 
-$theme-bg: url('/src/images/theme-bg-image.png');
-
 @mixin themeBg($bg-color: #eee) {
-  background: $theme-bg;
   background-color: $bg-color;
   background-size: cover;
   opacity: 0.2;

@@ -79,6 +79,12 @@ button {
       background-color: rgba(0, 0, 0, 0.2);
     }
   }
+
+  &.inert {
+    transition-delay: unset;
+    background-color: grey !important;
+    opacity: 0.5;
+  }
 }
 
 h1,

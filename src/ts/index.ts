@@ -5,9 +5,16 @@ import Home from '../components/Home.html';
 
 import { setState } from './state';
 
-import { render, task } from './utils';
+import { render, task, Q } from './utils';
 
 import home from './comp.home';
+
+import img from '../images/cloudy-sun.webp';
+
+const webpSupportChecker = Q('.webp-support-checker') as HTMLImageElement;
+webpSupportChecker.src = img;
+webpSupportChecker.onload = () => document.body.classList.add('webp');
+webpSupportChecker.onerror = () => document.body.classList.add('no-webp');
 
 const App = () => {
   return `
@@ -30,8 +37,7 @@ window.onoffline = () => {
   setState({ isOnline: false });
 };
 
-//remove 0 in expression eventually
-if (0 && navigator.serviceWorker) {
+if (navigator.serviceWorker && process.env.NODE_ENV === 'production') {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/service-worker.js')

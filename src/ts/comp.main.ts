@@ -236,7 +236,7 @@ export const updateTabLink = (
   const TabLinks = QAll('.Main .tab-link') as NodeListOf<HTMLAnchorElement>;
   const TabIndicator = TabLinks[0].previousElementSibling as HTMLSpanElement;
 
-  TabLinks.forEach((TabLink, i) => {
+  TabLinks?.forEach((TabLink, i) => {
     if (activeTabLinkIndex < TabLinks.length) {
       if (activeTabLinkIndex === i) {
         if (activeTabLinkIndex === 2 && textContent) {

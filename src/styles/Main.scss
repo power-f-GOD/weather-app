@@ -147,7 +147,7 @@
     border-radius: 50%;
     will-change: transform;
     contain: strict;
-    transform: translateY(-150vh) scale(2.5);
+    transform: translateY(-150vh) scale(2.75);
     transition: 0.4s cubic-bezier(0.645, 0.045, 0.355, 1) 0.3s;
 
     &.open {
@@ -159,7 +159,7 @@
         $prim-b + $diff,
         0.95
       );
-      transition: transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1),
+      transition: transform 0.35s cubic-bezier(0.645, 0.045, 0.355, 1),
         border-radius 0s ease 0.2s, background-color 0.25s;
       transform: translateY(0);
       border-radius: 0;
@@ -301,5 +301,31 @@
     display: flex;
     overflow-x: auto;
     // @include debugger();
+  }
+}
+
+@mixin ext-render($ext: 'webp') {
+  .Main {
+    &::before {
+      background-image: url('/src/images/theme-bg-image.#{$ext}');
+    }
+  }
+}
+
+@mixin image-ext($is-webp: true) {
+  @if $is-webp {
+    @include ext-render();
+  } @else {
+    @include ext-render('png');
+  }
+}
+
+body {
+  &.webp {
+    @include image-ext(true);
+  }
+
+  &.no-webp {
+    @include image-ext(false);
   }
 }

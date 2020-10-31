@@ -6,7 +6,7 @@ export const Card = (props: CardDataProps) => {
   switch (type) {
     case 'A':
       return `
-      <div class="card type-a animate condition--cloudy-sun--0">
+      <div class="card type-a animate condition--cloudy-sun--0" aria-live="polite">
         <div class='top'>
           <p class='feels-like-container'>
             <span>feels like<span>
@@ -29,7 +29,7 @@ export const Card = (props: CardDataProps) => {
           <p class="desc">${description}</p>
           <p class="humidity">Humidity</p>
           <p class="humidity-deg">${humidity}%</p>
-          <div class="weather-image"></div>
+          <div class="weather-image" role="img"></div>
         </div>
       </div>
     `;
@@ -37,7 +37,7 @@ export const Card = (props: CardDataProps) => {
       return `
       <a href='/other' class="card type-b condition--cloudy-sun--0 animate" role='list-item'>
         <h3>...</h3>
-        <div class="weather-image"></div>
+        <div class="weather-image" role="img"></div>
         <p>${temp}&deg;</p>
       </a>`;
     case 'C':
@@ -45,7 +45,7 @@ export const Card = (props: CardDataProps) => {
       <div class='hourly-wrapper card condition--cloudy-sun--0 animate fade-in' role='list-item'>
         <div class="temp-meter therm--cold--0"></div>
         <div class="hour">${hour}:00</div>
-        <div class="weather-image"></div>
+        <div class="weather-image" role="img" aria-label="weather icon"></div>
         <p class="main">${main}</p>
         <div class="temp">${temp}&deg;</div>
       </div>`;
@@ -72,7 +72,8 @@ export const SearchResult = (props: {
     data-longitude='${longitude}' 
     data-latitude='${latitude}'
     data-location='${location}'
-    data-type='${type}'>
+    data-type='${type}'
+    arial-label='search result'>
     <p class="location">${location}</p>
     <p class="type">${type}</p>
   </a>`;

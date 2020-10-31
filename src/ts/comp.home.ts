@@ -81,7 +81,7 @@ export default async function home() {
     Explore.disabled = true;
     Explore.textContent = 'Starting...';
 
-    if (!window.fetch) {
+    if (!window.fetch || !window.Promise) {
       alert(
         "Sorry, your browser can't run this app as it is not supported.\n\nUpgrade to a newer version of your browser."
       );

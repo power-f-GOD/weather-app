@@ -368,21 +368,11 @@ body {
               animation: animateX 8s infinite;
             }
           }
-
-          .weather-image {
-            background-image: url('../images/cloudy.png');
-          }
         }
 
         &.condition--sunny--0 {
           .weather-image {
             width: 7.5rem;
-          }
-        }
-
-        &.condition--clouds-sun-rain--0 {
-          .weather-image {
-            background-image: url('../images/rainy-cloud.png');
           }
         }
 
@@ -453,19 +443,19 @@ body {
           border-color: $hoverBg;
 
           span {
-          background-color: $hoverBg;
+            background-color: $hoverBg;
+          }
         }
-        } 
       }
 
       .icon {
         border: 0.09rem dashed $bg;
-        
+
         span {
-        background-color: $bg;
-        transform: translate(0.09rem, 0.09rem);
+          background-color: $bg;
+          transform: translate(0.09rem, 0.09rem);
+        }
       }
-      } 
     }
 
     .icon-container {
@@ -501,5 +491,48 @@ body {
         }
       }
     }
+  }
+}
+
+@mixin ext-render(
+  $url1: '../images/cloudy.webp',
+  $url2: '../images/rainy-cloud.webp'
+) {
+  &.night-time {
+    // Card
+    .card {
+      &.type-a {
+        &.condition--cloudy-sun--0,
+        &.condition--sunny--0 {
+          .weather-image {
+            background-image: url($url1);
+          }
+        }
+
+        &.condition--clouds-sun-rain--0 {
+          .weather-image {
+            background-image: url($url2);
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin image-ext($is-webp: false) {
+  @if $is-webp {
+    @include ext-render();
+  } @else {
+    @include ext-render('../images/cloudy.png', '../images/rainy-cloud.png');
+  }
+}
+
+body {
+  &.webp {
+    @include image-ext(true);
+  }
+
+  &.no-webp {
+    @include image-ext(false);
   }
 }

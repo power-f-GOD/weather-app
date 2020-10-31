@@ -7,22 +7,34 @@
       <a href="/other-day" id="other" class="tab-link">...</a>
     </nav>
     %CardTypeA%
-    <button class='hourlies-toggler'>hourly</button>
-    <section class="hourlies-wrapper" role="presentation">
+    <button class="hourlies-toggler" aria-label="toggle hourly data">
+      hourly
+    </button>
+    <section class="hourlies-wrapper" role="presentation" aria-modal="true">
       <div class="legend container w-100">
         <div class="hourlies-container-1 w-100 text-center">
-          <h2>Next 0 - 24 hours</h2>
+          <h2 id="hr1">Next 0 - 24 hours</h2>
           <small>(24-hour hourly)</small>
-          <section class="list-view" role="list"></section>
+          <section
+            class="list-view"
+            role="list"
+            aria-labelledby="#hr1"
+          ></section>
         </div>
         <div class="hourlies-container-2 w-100 text-center">
-          <h2>Next 24 - 48 hours</h2>
+          <h2 id="hr2">Next 24 - 48 hours</h2>
           <small>(24-hour hourly)</small>
-          <section class="list-view" role="list"></section>
+          <section
+            class="list-view"
+            role="list"
+            aria-labelledby="#hr2"
+          ></section>
         </div>
       </div>
     </section>
-    <h2>Next 7 days</h2>
-    <section class="daily-list-view" role="list">%CardTypeB%</section>
+    <h2 id="next-7-days">Next 7 days</h2>
+    <section class="daily-list-view" role="list" aria-labelledby="#next-7-days">
+      %CardTypeB%
+    </section>
   </div>
 </main>

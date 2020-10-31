@@ -9,8 +9,16 @@ export default function footer() {
   const SideBar = Q('.side-bar') as HTMLElement;
   const SideBarToggler = Q('.side-bar-toggler') as HTMLElement;
   const ThemeToggler = Q('.theme-toggler') as HTMLElement;
+  const Install = Container.querySelector('.install') as HTMLElement;
 
   makeInert(Container, true);
+
+  let deferredPromptForInstall: any;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    console.log('will deferrr!');
+    deferredPromptForInstall = e;
+  });
 
   SideBarToggler.addEventListener('click', () => {
     SideBarToggler.classList.toggle('is-open');
@@ -22,7 +30,27 @@ export default function footer() {
     makeInert(Container, !isOpen);
     makeInert(Nav, isOpen);
     makeInert(Main, isOpen);
+    makeInert(Install, true);
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+
+    if (deferredPromptForInstall) {
+      makeInert(Install, false);
+
+      Install.addEventListener('click', () => {
+        deferredPromptForInstall.prompt();
+        deferredPromptForInstall.userChoice.then(
+          (choiceResult: { outcome: string }) => {
+            if (choiceResult.outcome == 'accepted') {
+              makeInert(Install, true);
+            }
+
+            deferredPromptForInstall = null;
+          }
+        );
+      });
+    } else {
+      Install.querySelector('span')!.textContent = 'Installed';
+    }
   });
 
   SideBar.addEventListener('click', ({ target }: Event) => {
@@ -51,14 +79,18 @@ export function updateLastSynced(lastSynced: number) {
     lastSynced
   );
 
-  LastSyncedDate.textContent = `${
-    date_is_today ? 'today' : `${day}, ${date_string}`
-  } at ${hour}`;
+  if (LastSyncedDate) {
+    LastSyncedDate.textContent = `${
+      date_is_today ? 'today' : `${day}, ${date_string}`
+    } at ${hour}`;
+  }
 }
 
 export function updateOnlineStatus(isOnline: boolean) {
   const OnlineStatus = Q('.online-status') as HTMLElement;
 
-  OnlineStatus.classList[!isOnline ? 'add' : 'remove']('offline');
-  OnlineStatus.textContent = isOnline ? 'online' : 'offline';
+  if (OnlineStatus) {
+    OnlineStatus.classList[!isOnline ? 'add' : 'remove']('offline');
+    OnlineStatus.textContent = isOnline ? 'online' : 'offline';
+  }
 }
