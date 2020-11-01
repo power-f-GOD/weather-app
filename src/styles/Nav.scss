@@ -24,6 +24,11 @@
     transform: translateY(-100%);
   }
 
+  &.inert {
+    transition: 0.2s;
+    filter: blur(0.2rem);
+  }
+
   .container {
     height: 100%;
     display: flex;
