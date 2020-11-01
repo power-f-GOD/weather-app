@@ -1,0 +1,5 @@
+@import 'image.extension';
+
+body.no-webp {
+  @include image-extension('png');
+}

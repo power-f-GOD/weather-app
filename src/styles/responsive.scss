@@ -1,0 +1,127 @@
+@media screen and (max-width: 767px) {
+  .Nav {
+    &::before {
+      background-size: 100vh auto;
+      background-position: top left;
+    }
+
+    .emblem {
+      font-size: 0.65rem;
+
+      .image {
+        $size: 2.25rem;
+
+        height: $size;
+        width: $size + 0.5rem;
+        margin: 0 0.25rem;
+      }
+    }
+
+    form {
+      max-width: unset;
+    }
+
+    .location {
+      padding-right: 0;
+      font-size: 0.85rem;
+      left: 6.75rem;
+      max-width: calc(100% - 10.25rem);
+
+      &.error {
+        font-size: 0.75rem;
+      }
+    }
+
+    .search-input {
+      max-width: unset;
+      top: 0.35rem;
+      height: calc(100% - 0.7rem);
+      position: absolute;
+      right: 3.5rem;
+      width: calc(100% - 4.5rem);
+    }
+  }
+
+  .Main {
+    &::before {
+      background-size: 100vh auto;
+      background-position: top left;
+    }
+  }
+
+  .tab-links-container {
+    background: transparent !important;
+  }
+
+  .Home {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .cloud-image {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+
+  .card {
+    &.type-a {
+      h1 {
+        font-size: 5.5rem;
+      }
+
+      .desc {
+        font-size: 0.95rem;
+      }
+
+      .weather-image {
+        bottom: -0.75rem;
+        width: 7.25rem !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .card {
+    &.type-a {
+      padding: {
+        top: 0.5rem;
+        left: 1rem;
+        right: 1rem;
+      }
+
+      h1 {
+        font-size: 4rem;
+      }
+
+      .top {
+        width: calc(100% - 2rem);
+      }
+
+      .desc-wrapper {
+        bottom: 0.75rem;
+      }
+
+      .desc {
+        font-size: 0.85rem;
+      }
+
+      .weather-image {
+        width: 6.5rem !important;
+        bottom: -1rem;
+        right: -1rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-height: 830px) {
+  .card {
+    &.type-a {
+      h1 {
+        font-size: 6.15rem;
+      }
+    }
+  }
+}

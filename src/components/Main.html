@@ -1,0 +1,40 @@
+<main class="Main">
+  <div class="container">
+    <nav class="tab-links-container">
+      <span class="tab-indicator"></span>
+      <a href="/today" id="current" class="tab-link active">Now</a>
+      <a href="/tomorrow" id="tomorrow" class="tab-link">Tomorrow</a>
+      <a href="/other-day" id="other" class="tab-link">...</a>
+    </nav>
+    %CardTypeA%
+    <button class="hourlies-toggler" aria-label="toggle hourly data">
+      hourly
+    </button>
+    <section class="hourlies-wrapper" role="presentation" aria-modal="true">
+      <div class="legend container w-100">
+        <div class="hourlies-container-1 w-100 text-center">
+          <h2 id="hr1">Next 0 - 24 hours</h2>
+          <small>(24-hour hourly)</small>
+          <section
+            class="list-view"
+            role="list"
+            aria-labelledby="#hr1"
+          ></section>
+        </div>
+        <div class="hourlies-container-2 w-100 text-center">
+          <h2 id="hr2">Next 24 - 48 hours</h2>
+          <small>(24-hour hourly)</small>
+          <section
+            class="list-view"
+            role="list"
+            aria-labelledby="#hr2"
+          ></section>
+        </div>
+      </div>
+    </section>
+    <h2 id="next-7-days">Next 7 days</h2>
+    <section class="daily-list-view" role="list" aria-labelledby="#next-7-days">
+      %CardTypeB%
+    </section>
+  </div>
+</main>

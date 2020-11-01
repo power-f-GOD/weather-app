@@ -1,0 +1,81 @@
+@import 'constants';
+
+.Home {
+  height: 100vh;
+  width: 100vw;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 6;
+  align-items: center;
+  justify-content: center;
+  background: {
+    image: linear-gradient(to top, $theme-primary-v3, $theme-primary-v8);
+    size: cover;
+    position: center;
+    repeat: no-repeat;
+  }
+  contain: strict;
+  will-change: transform;
+  transform: translateX(0);
+  transition: transform 0.4s;
+  animation: fadeIn 0.25s;
+
+  &.hide {
+    transform: translateX(-100%);
+  }
+
+  .cloud-image {
+    $size: 9rem;
+
+    height: $size;
+    width: $size;
+    margin-bottom: -2rem;
+    background: {
+      size: contain;
+      position: center;
+      repeat: no-repeat;
+    }
+  }
+
+  h1 {
+    color: white;
+    text-align: center;
+    margin: 1rem 0 0.5rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    color: $theme-primary-v8;
+  }
+
+  button {
+    margin-top: 15vh;
+    padding: 1.1rem 2rem;
+    border-radius: 3rem;
+    border: 0.125rem solid #ddd;
+    color: #eee;
+    background-color: transparent;
+    font-weight: bold;
+    max-width: 70%;
+    min-width: 11rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.35s;
+
+    &:hover,
+    &:focus {
+      background-color: #ddd;
+      color: $theme-primary-v5;
+    }
+
+    &:disabled {
+      border: 0.125rem solid #bbb;
+      color: #ccc;
+      background-color: transparent;
+      cursor: wait;
+    }
+  }
+}

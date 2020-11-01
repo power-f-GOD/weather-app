@@ -1,0 +1,496 @@
+@import 'constants';
+
+body {
+  //primary
+  /*
+    default style colours are all already primary
+  */
+
+  //secondary
+  &.theme--secondary--0 {
+    // Main
+    .tab-link {
+      $diff: 25;
+      color: $theme-secondary-v5;
+
+      &.active {
+        color: $theme-secondary-v4;
+      }
+
+      &:hover,
+      &:focus {
+        border-bottom-color: rgba(
+          $sec-r + $diff,
+          $sec-g + $diff,
+          $sec-b + $diff,
+          0.4
+        );
+      }
+    }
+
+    .tab-indicator {
+      $diff: 55;
+
+      background-color: rgba(
+        $sec-r + $diff,
+        $sec-g + $diff,
+        $sec-b + $diff,
+        0.35
+      );
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -90;
+
+      background-color: rgba(
+        $sec-r + $diff,
+        $sec-g + $diff,
+        $sec-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-secondary-v6;
+    }
+
+    // Footer
+    .side-bar-toggler {
+      background-color: $theme-secondary-v6;
+
+      &:hover,
+      &:focus {
+        span {
+          background-color: $theme-secondary-v6;
+        }
+      }
+    }
+
+    .theme-toggler {
+      $bg: $theme-secondary-v7;
+      $hoverBg: $theme-tertiary-v2;
+
+      background-color: $bg;
+
+      &:hover,
+      &:focus {
+        background-color: $hoverBg;
+
+        .icon span {
+          background-color: $hoverBg;
+        }
+      }
+
+      .icon span {
+        background-color: $bg;
+      }
+    }
+
+    .icon-container {
+      background: linear-gradient(
+        to top,
+        $theme-secondary-v4,
+        $theme-secondary-v7
+      );
+    }
+
+    .title {
+      border-color: $theme-secondary-v7;
+    }
+
+    .Footer {
+      a {
+        color: $theme-secondary-v6;
+
+        &:hover {
+          color: $theme-secondary-v4;
+        }
+      }
+    }
+  }
+
+  //tertiary
+  &.theme--tertiary--0 {
+    // Main
+    .tab-link {
+      $diff: 25;
+      color: $theme-tertiary-v4;
+
+      &.active {
+        color: $theme-tertiary-v3;
+      }
+
+      &:hover,
+      &:focus {
+        border-bottom-color: rgba(
+          $tert-r + $diff,
+          $tert-g + $diff,
+          $tert-b + $diff,
+          0.35
+        );
+      }
+    }
+
+    .tab-indicator {
+      $diff: 55;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.35
+      );
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -80;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-tertiary-v6;
+    }
+
+    // Footer
+    .side-bar-toggler {
+      background-color: $theme-tertiary-v6;
+
+      &:hover,
+      &:focus {
+        span {
+          background-color: $theme-tertiary-v6;
+        }
+      }
+    }
+
+    .theme-toggler {
+      $bg: $theme-tertiary-v7;
+      $hoverBg: $theme-tertiary-v2;
+
+      background-color: $bg;
+
+      &:hover,
+      &:focus {
+        background-color: $hoverBg;
+
+        .icon span {
+          background-color: $hoverBg;
+        }
+      }
+
+      .icon span {
+        background-color: $bg;
+      }
+    }
+
+    .icon-container {
+      background: linear-gradient(
+        to top,
+        $theme-tertiary-v4,
+        $theme-tertiary-v7
+      );
+    }
+
+    .title {
+      border-color: $theme-tertiary-v6;
+    }
+
+    .Footer {
+      a {
+        color: $theme-tertiary-v6;
+
+        &:hover {
+          color: $theme-tertiary-v4;
+        }
+      }
+    }
+  }
+
+  //night time
+  &.night-time {
+    color: white;
+    background: linear-gradient(
+      to bottom,
+      $theme-primary-v3,
+      $theme-tertiary-v1
+    );
+
+    // Nav
+    .Nav {
+      $diff: -56;
+      background: rgb($prim-r + $diff, $prim-g + $diff, $prim-b + $diff);
+      border-bottom-color: rgba(0, 0, 0, 0.15);
+
+      &::before {
+        background: unset !important;
+      }
+
+      .emblem {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .location {
+        color: #fff;
+      }
+    }
+
+    .search-input {
+      $diff: -62.5;
+      background-color: rgb($prim-r + $diff, $prim-g + $diff, $prim-b + $diff);
+      color: white;
+
+      &:hover,
+      &:focus {
+        background-color: rgb(
+          $prim-r + $diff - 5,
+          $prim-g + $diff - 5,
+          $prim-b + $diff - 5
+        );
+      }
+
+      &::placeholder {
+        color: white;
+        opacity: 0.3;
+      }
+    }
+
+    .search-result {
+      background-color: $theme-primary-v3;
+      border-color: transparent;
+      color: #f0f0f0;
+
+      &.fulfilled {
+        &:hover,
+        &:focus {
+          background-color: $theme-primary-v2;
+        }
+
+        .type {
+          color: #bbb;
+        }
+      }
+    }
+
+    .search-button {
+      .icon {
+        $color: #fff;
+        opacity: 1;
+
+        border-color: $color;
+
+        span {
+          background-color: $color;
+        }
+      }
+
+      &.turn-off {
+        .icon {
+          span {
+            border-color: $theme-primary-v3 !important;
+          }
+        }
+      }
+    }
+
+    // Main
+    .Main {
+      &::before {
+        background: inherit;
+        opacity: 0;
+        height: auto;
+      }
+    }
+
+    .tab-links-container {
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    .tab-link {
+      $diff: -80;
+      color: #fff !important;
+      opacity: 0.65;
+
+      &.active {
+        opacity: 1;
+      }
+
+      &:hover,
+      &:focus {
+        opacity: 1;
+        border-bottom-color: rgb(
+          $prim-r + $diff,
+          $prim-g + $diff,
+          $prim-b + $diff
+        );
+      }
+    }
+
+    .tab-indicator {
+      background-color: rgba($prim-r, $prim-g, $prim-b, 0.4);
+    }
+
+    .hourlies-wrapper.open {
+      $diff: -100;
+
+      background-color: rgba(
+        $tert-r + $diff,
+        $tert-g + $diff,
+        $tert-b + $diff,
+        0.95
+      );
+    }
+
+    .hourlies-toggler {
+      background-color: $theme-tertiary-v1;
+    }
+
+    // Card
+    .card {
+      &.type-a {
+        background-image: linear-gradient(
+          to bottom,
+          $theme-primary-v3,
+          $theme-tertiary-v1
+        ) !important;
+
+        &.condition--cloudy-sun--0,
+        &.condition--sunny--0 {
+          &.type-a {
+            .weather-image {
+              bottom: -0.75rem !important;
+              animation: animateX 8s infinite;
+            }
+          }
+        }
+
+        &.condition--sunny--0 {
+          .weather-image {
+            width: 7.5rem;
+          }
+        }
+
+        &.condition--thunder-storm--0,
+        &.condition--thunder-cloud--0 {
+          background-image: linear-gradient(
+            to bottom,
+            $theme-tertiary-v3,
+            $theme-tertiary-v1
+          );
+        }
+      }
+
+      &.type-b {
+        transition: 0.3s ease 0.25s;
+        border: 0.125rem solid transparent;
+        border-top: none;
+        border-bottom: none;
+
+        &:hover,
+        &:focus {
+          color: white;
+        }
+
+        &::before {
+          background-image: linear-gradient(
+            to bottom,
+            $theme-primary-v3,
+            $theme-tertiary-v1
+          ) !important;
+          opacity: 0.95;
+          border-radius: unset;
+        }
+      }
+    }
+
+    // Footer
+    .side-bar {
+      background-image: linear-gradient(
+        to top,
+        $theme-tertiary-v1,
+        $theme-primary-v3
+      );
+    }
+
+    .side-bar-toggler {
+      background-color: $theme-primary-v2;
+
+      &:hover,
+      &:focus {
+        span {
+          background-color: $theme-primary-v2;
+        }
+      }
+    }
+
+    .theme-toggler {
+      $bg: $theme-primary-v4;
+      $hoverBg: $theme-secondary-v7;
+
+      background-color: $bg;
+
+      &:hover,
+      &:focus {
+        background-color: $hoverBg;
+
+        .icon {
+          border-color: $hoverBg;
+
+          span {
+            background-color: $hoverBg;
+          }
+        }
+      }
+
+      .icon {
+        border: 0.09rem dashed $bg;
+
+        span {
+          background-color: $bg;
+          transform: translate(0.09rem, 0.09rem);
+        }
+      }
+    }
+
+    .icon-container {
+      background: transparent;
+      box-shadow: -0.25rem 0 1rem rgba(0, 0, 0, 0.5);
+    }
+
+    .title {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: #eee;
+      border-color: #ddd;
+    }
+
+    .details {
+      color: #bbb;
+    }
+
+    .Footer {
+      a {
+        color: $theme-primary-v6;
+
+        &:hover {
+          color: $theme-primary-v5;
+        }
+
+        &.social {
+          opacity: 0.8;
+
+          &:hover,
+          &:focus {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}
+

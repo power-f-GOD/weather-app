@@ -1,0 +1,343 @@
+@import 'constants';
+
+.Footer {
+  // @include debugger();
+  height: 0;
+  position: absolute;
+  bottom: 0;
+  padding: 0 !important;
+  left: 0;
+
+  .container {
+    // @include debugger();
+    height: inherit;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background-color: transparent;
+    z-index: 6;
+    max-width: unset;
+    contain: strict;
+    transition: background-color 0.3s;
+
+    &.show {
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+  }
+
+  .side-bar {
+    height: 100%;
+    width: 75%;
+    z-index: 6;
+    position: relative;
+    max-width: 18rem;
+    min-width: 15rem;
+    background: #eee;
+    contain: strict;
+    will-change: transform;
+    transform: translateX(-18rem);
+    transition: transform 0.5s cubic-bezier(0.25, 0.75, 0.15, 1);
+
+    &.open {
+      transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+      transition-duration: 0.25s;
+      transform: translateX(0);
+    }
+  }
+
+  .side-bar-toggler {
+    $size: 3.25rem;
+
+    border-radius: 50%;
+    padding: 0.65rem;
+    position: fixed;
+    height: 3.25rem;
+    width: 3.25rem;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 7;
+    overflow: hidden;
+    border: 0.125rem solid transparent;
+    background-color: $theme-primary-v5;
+    display: inline-flex;
+    justify-content: space-evenly;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    flex-direction: column;
+    transform: translateX(calc(100% + 2rem));
+    will-change: transform, background-color;
+    animation: sideBarTogglerSlideIn 0.5s forwards ease 1.5s;
+    transition: background-color 0.35s;
+
+    &.is-open {
+      span {
+        transition: 0.15s;
+
+        &:first-child {
+          transform: scaleX(0.75) translate(0, 0.1rem) rotateZ(-30deg);
+        }
+
+        &:nth-child(2) {
+          opacity: 0;
+          transform: scaleX(0);
+        }
+
+        &:last-child {
+          transform: scaleX(0.75) rotateZ(30deg);
+        }
+      }
+    }
+
+    &:hover,
+    &:focus {
+      background-color: white;
+
+      span {
+        background-color: $theme-primary-v5;
+      }
+    }
+
+    span {
+      display: inline-block;
+      border-radius: 2rem;
+      width: 1.65rem;
+      height: 0.15rem;
+      background-color: white;
+      transition: 0.35s ease;
+
+      &:nth-child(2) {
+        width: 1.15rem;
+      }
+    }
+  }
+
+  .theme-toggler {
+    $size: 2.5rem;
+    $bg: $theme-primary-v7;
+    $hoverBg: $theme-tertiary-v3;
+
+    height: $size;
+    width: $size;
+    position: absolute;
+    z-index: 2;
+    top: 0.5rem;
+    right: 0.5rem;
+    border-radius: 50%;
+    border: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+    background-color: $bg;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+
+    &:hover,
+    &:focus {
+      background-color: $hoverBg;
+
+      .icon span {
+        background-color: $hoverBg;
+      }
+    }
+
+    > * {
+      border-radius: inherit;
+      border: 0.09rem solid inherit;
+      background-color: white;
+      height: 1.5rem;
+      width: 1.5rem;
+      transition: 0.35s;
+
+      span {
+        height: 86.5%;
+        width: 86.5%;
+        display: inherit;
+        border-radius: inherit;
+        position: absolute;
+        background-color: $bg;
+        will-change: transform;
+        transform: translate(0.3rem, -0.1rem);
+        transition: 0.35s;
+      }
+    }
+  }
+
+  .icon-container {
+    // @include debugger();
+    padding: 1rem;
+    height: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+    color: white;
+    box-shadow: -0.85rem 0 1rem rgba(0, 0, 0, 0.5);
+    background: linear-gradient(to top, $theme-primary-v4, $theme-primary-v7);
+    transition: 0.35s;
+  }
+
+  .icon-image {
+    $size: 6rem;
+
+    height: $size;
+    width: $size;
+    margin-bottom: -1rem;
+    margin-left: -0.25rem;
+    background: {
+      size: contain;
+      position: center;
+      repeat: no-repeat;
+    }
+  }
+
+  .icon-text {
+    text-align: center;
+
+    span {
+      display: inline-block;
+    }
+
+    span:first-child {
+      font-size: 1.5rem;
+      font-weight: bolder;
+      margin-bottom: 0.35rem;
+    }
+
+    span:nth-child(2) {
+      font-size: 0.75rem;
+      opacity: 0.25;
+    }
+  }
+
+  .info-wrapper {
+    // @include debugger();
+    padding: 0.5rem 0 1.45rem 0;
+    padding-bottom: 0.75rem;
+    max-height: calc(100% - 12.25rem);
+    max-width: calc(100% - 1rem);
+    overflow: auto;
+    margin: 0 0.5rem 0;
+  }
+
+  .install-wrapper {
+    height: 0;
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    margin-bottom: 1rem;
+    top: 0;
+    right: 0;
+  }
+
+  .install {
+    border-radius: 1.75rem;
+    color: white;
+    background-color: green;
+    border: none;
+    padding: 0 0.95rem;
+    margin-top: 0.125rem;
+    margin-right: 0.125rem;
+    min-height: 2rem;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
+
+    &:hover,
+    &:focus {
+      background-color: limegreen;
+      box-shadow: 0 0 0.5rem rgba(0, 198, 0, 0.5);
+    }
+
+    .icon {
+      display: inline-block;
+      transform: scaleX(1.9);
+      margin: 0 0.25rem 0 0.5rem;
+      font-size: 0.7rem;
+      opacity: 0.5;
+    }
+  }
+
+  .title {
+    font-weight: bolder;
+    padding: 0.25rem 0.5rem;
+    background-color: #e4e4e4;
+    font-size: 90%;
+    color: #333;
+    margin-bottom: 0.5rem;
+    border-left: 0.125rem solid $theme-primary-v6;
+    border-radius: 0.25rem;
+  }
+
+  .details {
+    font-size: 80%;
+    margin-bottom: 1.5rem;
+    color: #666;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .last-synced-date {
+    font-weight: bolder;
+    font-size: 95%;
+    color: rgb(228, 148, 0);
+  }
+
+  .online-status {
+    font-size: 100%;
+    font-weight: bolder;
+    color: rgb(51, 194, 51);
+    transition: 0.3s;
+
+    &.offline {
+      color: rgb(220, 0, 0);
+    }
+  }
+
+  a {
+    color: $theme-primary-v5;
+
+    &:hover,
+    &:focus {
+      color: $theme-primary-v3;
+      text-decoration: underline dashed !important;
+    }
+  }
+
+  a.social {
+    padding: 0.35rem 0.4rem;
+    min-width: calc(50% - 0.25rem);
+    display: inline-block;
+    margin: 0.25rem 0.25rem 0.25rem 0;
+    border-radius: 0.25rem;
+    color: white !important;
+    opacity: 1;
+
+    &:nth-child(odd) {
+      margin-right: 0;
+    }
+
+    &:hover,
+    &:focus {
+      opacity: 0.85;
+    }
+  }
+
+  .github {
+    background-color: #333;
+  }
+
+  .linkedin {
+    background-color: rgb(0, 116, 177);
+  }
+
+  .facebook {
+    background-color: #0071e6;
+  }
+
+  .twitter {
+    background-color: #1ea1f2;
+  }
+}

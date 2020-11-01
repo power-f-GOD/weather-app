@@ -1,0 +1,37 @@
+<nav class="Nav hide">
+  <div class="container">
+    <div class="emblem" role="figure">
+      <span class="image" role="img"></span>
+      <div>
+        <span>Weather</span>
+        <span>App</span>
+      </div>
+    </div>
+
+    <span
+      class="location"
+      aria-label="location name or status"
+      aria-live="assertive"
+      ><span>Fetching weather data...</span>
+    </span>
+
+    <form
+      method="GET"
+      class="search-form d-flex justify-content-end align-content-center"
+      aria-label="search form"
+    >
+      <input
+        type="search"
+        class="search-input"
+        placeholder="Search location name or coordinates [e.g. 7.1, 5.3]..."
+        aria-label="input location name or coordinates"
+      />
+      <button class="search-button icon-button" aria-label="search location">
+        <span class="icon"><span></span></span>
+      </button>
+    </form>
+  </div>
+</nav>
+<div class="search-results-overlay" role="dialog" aria-modal="true">
+  <div class="container" role="list"></div>
+</div>

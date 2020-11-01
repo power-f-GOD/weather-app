@@ -1,0 +1,123 @@
+@mixin image-extension($ext: 'webp') {
+  .Nav {
+    &::before {
+      background-image: url('/src/images/theme-bg-image.#{$ext}');
+    }
+
+    .image {
+      background: {
+        image: url('../images/cloudy-sun.#{$ext}');
+      }
+    }
+  }
+
+  .Home {
+    .cloud-image {
+      background: {
+        image: url('../images/cloudy-sun.#{$ext}');
+      }
+    }
+  }
+
+  .Main {
+    &::before {
+      background-image: url('/src/images/theme-bg-image.#{$ext}');
+    }
+  }
+
+  .card {
+    .weather-image {
+      background: {
+        image: url('../images/cloudy-sun.#{$ext}');
+      }
+    }
+
+    &.condition--cloudy-sun--0 {
+      .weather-image {
+        background-image: url('../images/cloudy-sun.#{$ext}');
+      }
+    }
+
+    &.condition--cloud-storm--0 {
+      .weather-image {
+        background-image: url('../images/cloud-storm.#{$ext}');
+      }
+    }
+
+    &.condition--clouds-sun-rain--0 {
+      .weather-image {
+        background-image: url('../images/clouds-sun-rain.#{$ext}');
+      }
+    }
+
+    &.condition--cloudy--0 {
+      .weather-image {
+        background-image: url('../images/cloudy.#{$ext}');
+      }
+    }
+
+    &.condition--atmosphere--0 {
+      .weather-image {
+        background-image: url('../images/atmosphere.#{$ext}');
+      }
+    }
+
+    &.condition--rainy-cloud--0 {
+      .weather-image {
+        background-image: url('../images/rainy-cloud.#{$ext}');
+      }
+    }
+
+    &.condition--snowy-cloud--0 {
+      .weather-image {
+        background-image: url('../images/snowy-cloud.#{$ext}');
+      }
+    }
+
+    &.condition--sunny--0 {
+      .weather-image {
+        background-image: url('../images/sunny.#{$ext}');
+      }
+    }
+
+    &.condition--thunder-cloud--0 {
+      .weather-image {
+        background-image: url('../images/thunder-cloud.#{$ext}');
+      }
+    }
+
+    &.condition--thunder-storm--0 {
+      .weather-image {
+        background-image: url('../images/thunder-storm.#{$ext}');
+      }
+    }
+  }
+
+  .Footer {
+    .icon-image {
+      background: {
+        image: url('../images/cloudy-sun.#{$ext}');
+      }
+    }
+  }
+
+  &.night-time {
+    // Card
+    .card {
+      &.type-a {
+        &.condition--cloudy-sun--0,
+        &.condition--sunny--0 {
+          .weather-image {
+            background-image: url('../images/cloudy.#{$ext}');
+          }
+        }
+
+        &.condition--clouds-sun-rain--0 {
+          .weather-image {
+            background-image: url('../images/rainy-cloud.#{$ext}');
+          }
+        }
+      }
+    }
+  }
+}
