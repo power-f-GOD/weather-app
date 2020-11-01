@@ -10,7 +10,8 @@
     "sass": "node-sass -w --output-style=compressed src/styles/index.scss src/styles/index.min.css",
     "webpack": "npx webpack --config webpack.config.js",
     "build:w": "webpack --watch -p --mode=production",
-    "build": "webpack -p --mode=production"
+    "build": "webpack -p --mode=production",
+    "deploy": "npm run build && firebase deploy --only hosting"
   },
   "repository": {
     "type": "git",
@@ -41,7 +42,6 @@
     "html-webpack-plugin": "^4.4.1",
     "mini-css-extract-plugin": "^1.1.1",
     "node-sass": "^4.14.1",
-    "purgecss-webpack-plugin": "^3.0.0",
     "resolve-url-loader": "^3.1.2",
     "sass-loader": "^10.0.3",
     "style-loader": "^1.2.1",
@@ -60,5 +60,6 @@
         "modules": false
       }
     ]
-  ]
+  ],
+  "dependencies": {}
 }

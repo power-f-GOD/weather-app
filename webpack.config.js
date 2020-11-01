@@ -1,9 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const HtmlCriticalPlugin = require('html-critical-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
