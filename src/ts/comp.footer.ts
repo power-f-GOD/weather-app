@@ -19,6 +19,11 @@ export default function footer() {
     deferredPromptForInstall = e;
   });
 
+  window.addEventListener('appinstalled', () => {
+    makeInert(Install, true);
+    Install.textContent = 'Installed';
+  });
+
   SideBarToggler.addEventListener('click', () => {
     SideBarToggler.classList.toggle('is-open');
 
@@ -29,7 +34,7 @@ export default function footer() {
     makeInert(Container, !isOpen);
     makeInert(Nav, isOpen);
     makeInert(Main, isOpen);
-    makeInert(Install, true);
+
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
 
     if (deferredPromptForInstall) {
@@ -47,8 +52,6 @@ export default function footer() {
           }
         );
       });
-    } else {
-      Install.querySelector('span')!.textContent = 'Installed';
     }
   });
 
@@ -69,6 +72,18 @@ export default function footer() {
       nightMode: state.nightMode !== undefined ? !state.nightMode : true
     });
   });
+
+  let displayMode = 'browser tab';
+  if (
+    (navigator as any).standalone ||
+    window.matchMedia('(display-mode: standalone)').matches
+  ) {
+    displayMode = 'standalone(-ios)';
+  }
+
+  if (/standalone/.test(displayMode)) {
+    Install.style.display = 'none';
+  }
 }
 
 export function updateLastSynced(lastSynced: number) {
