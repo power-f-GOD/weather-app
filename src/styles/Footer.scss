@@ -341,31 +341,3 @@
     background-color: #1ea1f2;
   }
 }
-
-@mixin ext-render($ext: 'webp') {
-  .Footer {
-    .icon-image {
-      background: {
-        image: url('../images/cloudy-sun.#{$ext}');
-      }
-    }
-  }
-}
-
-@mixin image-ext($is-webp: false) {
-  @if $is-webp {
-    @include ext-render();
-  } @else {
-    @include ext-render('png');
-  }
-}
-
-body {
-  &.webp {
-    @include image-ext(true);
-  }
-
-  &.no-webp {
-    @include image-ext(false);
-  }
-}

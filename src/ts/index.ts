@@ -9,12 +9,18 @@ import { render, task, Q } from './utils';
 
 import home from './comp.home';
 
-import img from '../images/cloudy-sun.webp';
+import webpImage from '../images/cloudy-sun.webp';
 
 const webpSupportChecker = Q('.webp-support-checker') as HTMLImageElement;
-webpSupportChecker.src = img;
-webpSupportChecker.onload = () => document.body.classList.add('webp');
-webpSupportChecker.onerror = () => document.body.classList.add('no-webp');
+webpSupportChecker.src = webpImage;
+webpSupportChecker.onload = async () => {
+  import(/* webpackPreload: true */ `../styles/format.webp.scss`);
+  document.body.classList.add('webp');
+};
+webpSupportChecker.onerror = () => {
+  import(/* webpackPreload: true */ `../styles/format.png.scss`);
+  document.body.classList.add('no-webp');
+};
 
 const App = () => {
   return `

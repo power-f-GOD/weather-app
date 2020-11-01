@@ -81,10 +81,13 @@ export default async function home() {
     Explore.disabled = true;
     Explore.textContent = 'Starting...';
 
-    if (!window.fetch || !window.Promise) {
+    if (!window.fetch || !window.Promise || !navigator.onLine) {
       alert(
-        "Sorry, your browser can't run this app as it is not supported.\n\nUpgrade to a newer version of your browser."
+        navigator.onLine
+          ? "Sorry, your browser can't run this app as it is not supported.\n\nUpgrade to a newer version or a supported one."
+          : "You're offline."
       );
+
       Explore.disabled = false;
       Explore.textContent = 'Explore';
       return;

@@ -274,7 +274,7 @@
     }
 
     .temp-meter {
-      height: 100%;
+      height: 0%;
       width: 100%;
       background-color: skyblue;
       position: absolute;
@@ -301,31 +301,5 @@
     display: flex;
     overflow-x: auto;
     // @include debugger();
-  }
-}
-
-@mixin ext-render($ext: 'webp') {
-  .Main {
-    &::before {
-      background-image: url('/src/images/theme-bg-image.#{$ext}');
-    }
-  }
-}
-
-@mixin image-ext($is-webp: true) {
-  @if $is-webp {
-    @include ext-render();
-  } @else {
-    @include ext-render('png');
-  }
-}
-
-body {
-  &.webp {
-    @include image-ext(true);
-  }
-
-  &.no-webp {
-    @include image-ext(false);
   }
 }

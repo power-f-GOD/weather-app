@@ -61,6 +61,7 @@
     font-weight: bold;
     max-width: 70%;
     min-width: 11rem;
+    cursor: pointer;
     text-transform: uppercase;
     transition: background-color 0.35s;
 
@@ -76,33 +77,5 @@
       background-color: transparent;
       cursor: wait;
     }
-  }
-}
-
-@mixin ext-render($ext: 'webp') {
-  .Home {
-    .cloud-image {
-      background: {
-        image: url('../images/cloudy-sun.#{$ext}');
-      }
-    }
-  }
-}
-
-@mixin image-ext($is-webp: false) {
-  @if $is-webp {
-    @include ext-render();
-  } @else {
-    @include ext-render('png');
-  }
-}
-
-body {
-  &.webp {
-    @include image-ext(true);
-  }
-
-  &.no-webp {
-    @include image-ext(false);
   }
 }

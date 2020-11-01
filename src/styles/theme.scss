@@ -228,7 +228,7 @@ body {
       border-bottom-color: rgba(0, 0, 0, 0.15);
 
       &::before {
-        background: unset;
+        background: unset !important;
       }
 
       .emblem {
@@ -494,45 +494,3 @@ body {
   }
 }
 
-@mixin ext-render(
-  $url1: '../images/cloudy.webp',
-  $url2: '../images/rainy-cloud.webp'
-) {
-  &.night-time {
-    // Card
-    .card {
-      &.type-a {
-        &.condition--cloudy-sun--0,
-        &.condition--sunny--0 {
-          .weather-image {
-            background-image: url($url1);
-          }
-        }
-
-        &.condition--clouds-sun-rain--0 {
-          .weather-image {
-            background-image: url($url2);
-          }
-        }
-      }
-    }
-  }
-}
-
-@mixin image-ext($is-webp: false) {
-  @if $is-webp {
-    @include ext-render();
-  } @else {
-    @include ext-render('../images/cloudy.png', '../images/rainy-cloud.png');
-  }
-}
-
-body {
-  &.webp {
-    @include image-ext(true);
-  }
-
-  &.no-webp {
-    @include image-ext(false);
-  }
-}

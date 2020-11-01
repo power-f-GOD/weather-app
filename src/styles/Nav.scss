@@ -248,35 +248,3 @@ span.search-result {
   background-color: #eee;
   transform: unset !important;
 }
-
-@mixin ext-render($ext: 'webp') {
-  .Nav {
-    &::before {
-      background-image: url('/src/images/theme-bg-image.#{$ext}');
-    }
-
-    .image {
-      background: {
-        image: url('../images/cloudy-sun.#{$ext}');
-      }
-    }
-  }
-}
-
-@mixin image-ext($is-webp: false) {
-  @if $is-webp {
-    @include ext-render();
-  } @else {
-    @include ext-render('png');
-  }
-}
-
-body {
-  &.webp {
-    @include image-ext(true);
-  }
-
-  &.no-webp {
-    @include image-ext(false);
-  }
-}

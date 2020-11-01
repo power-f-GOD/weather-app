@@ -26,12 +26,12 @@ export async function updateCard(props: CardDataProps) {
     case 'A': {
       const Body = document.body;
       const Card = Q('.card.type-a') as HTMLElement;
-      const FeelsLike = Card.querySelector('.feels-like')!;
-      const WindSpeed = Card.querySelector('.wind-speed')!;
-      const Degree = Card.querySelector('h1')!;
-      const Thermometer = Card.querySelector('.thermometer') as HTMLElement;
-      const Desc = Card.querySelector('.desc')!;
-      const HumidityDeg = Card.querySelector('.humidity-deg')!;
+      const FeelsLike = Card?.querySelector('.feels-like')!;
+      const WindSpeed = Card?.querySelector('.wind-speed')!;
+      const Degree = Card?.querySelector('h1')!;
+      const Thermometer = Card?.querySelector('.thermometer') as HTMLElement;
+      const Desc = Card?.querySelector('.desc')!;
+      const HumidityDeg = Card?.querySelector('.humidity-deg')!;
 
       // addEventListenerOnce
       if (Body.classList.contains('animate-card-overlay')) {
@@ -66,6 +66,7 @@ export async function updateCard(props: CardDataProps) {
           /(therm--).*(--0)/,
           `$1${feel}$2`
         );
+        Card.classList.add('animate');
         Card.className = Card.className.replace(
           /(condition--).*(--0)/,
           `$1${weatherImage}$2`
@@ -83,12 +84,13 @@ export async function updateCard(props: CardDataProps) {
     }
     case 'B': {
       const Card = QAll('.card.type-b')[index ?? 0] as HTMLElement;
-      const Day = Card.querySelector('h3')!;
-      const Degree = Card.querySelector('p')!;
+      const Day = Card?.querySelector('h3')!;
+      const Degree = Card?.querySelector('p')!;
 
       if (!isNaN(+temp!) && Card) {
         Day.textContent = date_string ?? 'Monday';
         Degree.textContent = round(temp as number) + '°';
+        Card.classList.add('animate');
         Card.className = Card.className.replace(
           /(condition--).*(--0)/,
           `$1${weatherImage}$2`
@@ -115,23 +117,24 @@ export async function updateCard(props: CardDataProps) {
     }
     case 'C': {
       const Card = QAll('.hourly-wrapper')[index ?? 0] as HTMLElement;
-      const Hour = Card.querySelector('.hour')!;
-      const Desc = Card.querySelector('.main')!;
-      const Degree = Card.querySelector('.temp')!;
-      const TempMeter = Card.querySelector('.temp-meter') as HTMLElement;
+      const Hour = Card?.querySelector('.hour')!;
+      const Desc = Card?.querySelector('.main')!;
+      const Degree = Card?.querySelector('.temp')!;
+      const TempMeter = Card?.querySelector('.temp-meter') as HTMLElement;
 
       const { hour, day } = requireDateChunk(dt, true);
       const degree = round(temp as number);
 
       if (!isNaN(degree) && Card) {
-        Hour.innerHTML = `${hour}<sup>${day}</sup>` ?? '...';
-        Desc.textContent = description ?? '...';
-        Degree.textContent = degree + '°';
-        TempMeter.style.height = `${degree <= 0 ? 0 : degree}%`;
+        Hour.innerHTML = `${hour}<sup>${day}</sup>`;
+        Desc.textContent = description || '...';
+        Degree.textContent = (degree ?? 0) + '°';
+        TempMeter.style.height = `${degree <= 0 || !degree ? 0 : degree}%`;
         TempMeter.className = TempMeter.className.replace(
           /(therm--).*(--0)/,
           `$1${degree < 20 ? 'cold' : degree < 40 ? 'warm' : 'hot'}$2`
         );
+        Card.classList.add('animate');
         Card.className = Card.className.replace(
           /(condition--).*(--0)/,
           `$1${weatherImage}$2`
