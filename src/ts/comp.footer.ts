@@ -16,7 +16,6 @@ export default function footer() {
   let deferredPromptForInstall: any;
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
-    console.log('will deferrr!');
     deferredPromptForInstall = e;
   });
 
