@@ -113,7 +113,7 @@ module.exports = (env, argv) => {
           blockJSRequests: false
         }
       }),
-      //add this only in production as due to some manifest/service-worker ish: https://github.com/GoogleChrome/workbox/issues/1790
+      //add this only in production due to some manifest/service-worker ish: https://github.com/GoogleChrome/workbox/issues/1790
       new WorkboxPlugin.GenerateSW({
         clientsClaim: true,
         skipWaiting: true
