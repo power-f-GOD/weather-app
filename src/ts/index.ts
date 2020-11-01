@@ -13,12 +13,12 @@ import webpImage from '../images/cloudy-sun.webp';
 
 const webpSupportChecker = Q('.webp-support-checker') as HTMLImageElement;
 webpSupportChecker.src = webpImage;
-webpSupportChecker.onload = async () => {
-  import(/* webpackPreload: true */ `../styles/format.webp.scss`);
+webpSupportChecker.onload = () => {
+  import(`../styles/format.webp.scss`);
   document.body.classList.add('webp');
 };
 webpSupportChecker.onerror = () => {
-  import(/* webpackPreload: true */ `../styles/format.png.scss`);
+  import(`../styles/format.png.scss`);
   document.body.classList.add('no-webp');
 };
 

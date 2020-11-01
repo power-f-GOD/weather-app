@@ -21,6 +21,7 @@ export default function nav() {
     '.search-results-overlay .container'
   ) as HTMLElement;
   const Main = Q('.Main') as HTMLElement;
+  const SideBarToggler = Q('.side-bar-toggler') as HTMLElement;
 
   let inputTimeout: any;
 
@@ -38,6 +39,7 @@ export default function nav() {
 
     makeInert(SearchResultsWrapper, !isOpen);
     makeInert(Main, isOpen);
+    makeInert(SideBarToggler, isOpen);
     (SearchInput as any).onblur();
 
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';

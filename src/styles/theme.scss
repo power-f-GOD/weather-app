@@ -223,9 +223,9 @@ body {
 
     // Nav
     .Nav {
-      $diff: -56;
+      $diff: -55;
       background: rgb($prim-r + $diff, $prim-g + $diff, $prim-b + $diff);
-      border-bottom-color: rgba(0, 0, 0, 0.15);
+      border-bottom-color: rgba(0, 0, 0, 0.1);
 
       &::before {
         background: unset !important;
