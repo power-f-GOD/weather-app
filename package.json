@@ -11,7 +11,7 @@
     "webpack": "npx webpack --config webpack.config.js",
     "build:w": "webpack --watch -p --mode=production",
     "build": "webpack -p --mode=production",
-    "add": "git stash && git checkout dev && git stash apply && git add .",
+    "add": "git stash && git checkout dev && git stash apply && git add .;",
     "deploy": "git checkout master && git pull && git merge dev && git push"
   },
   "repository": {
