@@ -19,7 +19,7 @@
     z-index: 6;
     max-width: unset;
     contain: strict;
-    transition: background-color 0.2s;
+    transition: background-color 0.25s;
 
     &.show {
       background-color: rgba(0, 0, 0, 0.85);
@@ -41,7 +41,7 @@
 
     &.open {
       transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-      transition-duration: 0.25s;
+      transition-duration: 0.35s;
       transform: translateX(0);
     }
   }

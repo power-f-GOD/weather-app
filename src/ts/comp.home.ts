@@ -131,7 +131,7 @@ export default async function home() {
       localStorage.weatherAppState ?? '{}'
     );
 
-    if (weatherAppState.location) {
+    if (weatherAppState.current) {
       await delay(1000);
       mountMain();
       await delay(1200);

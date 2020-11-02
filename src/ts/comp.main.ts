@@ -195,7 +195,7 @@ export const updateBody = (props: {
       : 100;
 
   delay(delayTimeout).then(() => {
-    let metaColor = 'rgb(0, 141, 205)';
+    let metaColor = 'rgb(25, 166, 230)';
 
     if (weatherMain) {
       let className: 'primary' | 'secondary' | 'tertiary' = 'primary';
@@ -208,7 +208,7 @@ export const updateBody = (props: {
           break;
         case /clear/i.test(weatherMain as WeatherResponseMain):
           className = 'secondary';
-          metaColor = 'rgb(154, 138, 0)';
+          metaColor = 'rgb(179, 163, 25)';
           break;
         default:
           className = 'tertiary';

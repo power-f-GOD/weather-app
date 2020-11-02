@@ -8,6 +8,7 @@ import {
   WeatherInfoProps
 } from './types';
 import state, { setState } from './state';
+import { userDeviceIsMobile } from './index';
 
 export const Q = document.querySelector.bind(document);
 export const QAll = document.querySelectorAll.bind(document);
@@ -220,7 +221,8 @@ export const catchGetRequest = (e?: any) => {
     location: {
       statusText: '⚠ An error occurred. Tap here to retry.',
       err: true
-    }
+    },
+    isOnline: navigator.onLine
   });
 
   console.error('E042:', e);
@@ -282,53 +284,57 @@ export const makeInert = (
   targetIsInTabOrder?: boolean
 ) => {
   target.style.pointerEvents = inert ? 'none' : 'unset';
-  target.setAttribute('aria-hidden', inert ? 'true' : 'false');
-  target.classList[inert ? 'add' : 'remove']('inert');
+  (target as any).ariaHidden = inert ? 'true' : 'false';
 
   if (targetIsInTabOrder || /^(a|button|input)$/i.test(target.tagName)) {
     target.tabIndex = inert ? -1 : 0;
   }
 
-  if (!excludeChildrenInTabOrder) {
-    const childrenAnchorTag = target.querySelectorAll('a') as NodeListOf<
-      HTMLElement
-    >;
-    const childrenButtonTag = target.querySelectorAll('button') as NodeListOf<
-      HTMLElement
-    >;
-    const childrenInputTag = target.querySelectorAll('input') as NodeListOf<
-      HTMLElement
-    >;
-    const childrenWithTabIndex = target.querySelectorAll(
-      '[tabindex]'
-    ) as NodeListOf<HTMLElement>;
-    let length = childrenAnchorTag.length;
+  if (!userDeviceIsMobile) {
+    target.classList[inert ? 'add' : 'remove']('inert');
 
-    if (length < childrenButtonTag.length) {
-      length = childrenButtonTag.length;
-    }
+    if (!excludeChildrenInTabOrder) {
+      const _inert = (tag: HTMLElement | null) => {
+        if (tag) {
+          tag.style.pointerEvents = inert ? 'none' : 'unset';
+          tag.setAttribute('aria-hidden', inert ? 'true' : 'false');
+          tag.tabIndex = inert ? -1 : 0;
+        }
+      };
 
-    if (length < childrenInputTag.length) {
-      length = childrenInputTag.length;
-    }
+      const childrenAnchorTag = target.querySelectorAll('a') as NodeListOf<
+        HTMLElement
+      >;
 
-    if (length < childrenWithTabIndex.length) {
-      length = childrenWithTabIndex.length;
-    }
+      const childrenButtonTag = target.querySelectorAll('button') as NodeListOf<
+        HTMLElement
+      >;
+      const childrenInputTag = target.querySelectorAll('input') as NodeListOf<
+        HTMLElement
+      >;
+      const childrenWithTabIndex = target.querySelectorAll(
+        '[tabindex]'
+      ) as NodeListOf<HTMLElement>;
+      let length = childrenAnchorTag.length;
 
-    for (let i = 0; i < length; i++) {
-      _inert(childrenAnchorTag[i]);
-      _inert(childrenButtonTag[i]);
-      _inert(childrenInputTag[i]);
-      _inert(childrenWithTabIndex[i]);
-    }
-  }
+      if (length < childrenButtonTag.length) {
+        length = childrenButtonTag.length;
+      }
 
-  function _inert(tag: HTMLElement | null) {
-    if (tag) {
-      tag.style.pointerEvents = inert ? 'none' : 'unset';
-      tag.setAttribute('aria-hidden', inert ? 'true' : 'false');
-      tag.tabIndex = inert ? -1 : 0;
+      if (length < childrenInputTag.length) {
+        length = childrenInputTag.length;
+      }
+
+      if (length < childrenWithTabIndex.length) {
+        length = childrenWithTabIndex.length;
+      }
+
+      for (let i = 0; i < length; i++) {
+        _inert(childrenAnchorTag[i]);
+        _inert(childrenButtonTag[i]);
+        _inert(childrenInputTag[i]);
+        _inert(childrenWithTabIndex[i]);
+      }
     }
   }
 };

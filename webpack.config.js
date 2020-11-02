@@ -20,8 +20,8 @@ const plugins = [
     lang: 'en-US',
     start_url: '/',
     display: 'standalone',
-    theme_color: 'rgb(0, 141, 205)',
-    background_color: 'rgb(0, 141, 205)',
+    theme_color: 'rgb(25, 166, 230)',
+    background_color: 'rgb(25, 166, 230)',
     icons: [
       {
         src: path.resolve('src/icons/icon-256x256.png'),

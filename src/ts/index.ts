@@ -11,6 +11,11 @@ import home from './comp.home';
 
 import webpImage from '../images/cloudy-sun.webp';
 
+export const userDeviceIsMobile = /(Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone)/i.test(
+  window.navigator.userAgent
+);
+export const isMac = /Mac( OS)?/i.test(window.navigator.userAgent);
+
 const webpSupportChecker = Q('.webp-support-checker') as HTMLImageElement;
 webpSupportChecker.src = webpImage;
 webpSupportChecker.onload = () => {

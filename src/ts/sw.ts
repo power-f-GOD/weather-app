@@ -46,5 +46,5 @@ registerRoute(
 
 registerRoute(
   ({ request }) => !!request && request.destination === 'image',
-  new CacheFirst({ cacheName: 'icons-cache' })
+  new StaleWhileRevalidate({ cacheName: 'icons-cache' })
 );

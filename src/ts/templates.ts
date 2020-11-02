@@ -40,7 +40,7 @@ export const Card = (props: CardDataProps) => {
     `;
     case 'B':
       return `
-      <a href='/other' class="card type-b condition--cloudy-sun--0" role='list-item'>
+      <a href='#!' class="card type-b condition--cloudy-sun--0" role='list-item'>
         <h3>...</h3>
         <div class="weather-image" role="img"></div>
         <p>${temp}&deg;</p>
