@@ -52,6 +52,8 @@ export default function footer() {
           }
         );
       });
+    } else {
+      Install.style.display = 'none';
     }
   });
 
