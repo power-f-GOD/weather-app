@@ -233,7 +233,7 @@ export default function nav() {
 
     if (hasFocus) {
       if (SearchInput.value) {
-        (SearchInput as any).onkeyup();
+        (SearchInput as any).onkeyup({ target: SearchInput });
         SearchInput.focus();
       } else {
         SearchResultsWrapper.click();
