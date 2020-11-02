@@ -114,9 +114,9 @@ module.exports = (env, argv) => {
         }
       }),
       //add this only in production due to some manifest/service-worker ish: https://github.com/GoogleChrome/workbox/issues/1790
-      new WorkboxPlugin.GenerateSW({
-        clientsClaim: true,
-        skipWaiting: true
+      new WorkboxPlugin.InjectManifest({
+        swSrc: './src/ts/sw.ts',
+        swDest: 'sw.js'
       })
     );
   }

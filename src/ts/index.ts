@@ -46,7 +46,7 @@ window.onoffline = () => {
 if (navigator.serviceWorker && process.env.NODE_ENV === 'production') {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('/service-worker.js')
+      .register('/sw.js')
       .then(() => {
         console.log('SW registered.');
       })

@@ -19,7 +19,7 @@
     z-index: 6;
     max-width: unset;
     contain: strict;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
 
     &.show {
       background-color: rgba(0, 0, 0, 0.85);
@@ -64,9 +64,10 @@
     justify-content: space-evenly;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
     flex-direction: column;
-    transform: translateX(calc(100% + 2rem));
+    transform: translateX(calc(10rem));
     will-change: transform, background-color;
-    animation: sideBarTogglerSlideIn 0.5s forwards ease 1.5s;
+    animation: sideBarTogglerSlideIn 0.35s forwards
+       2.25s;
     transition: background-color 0.35s;
 
     &.is-open {

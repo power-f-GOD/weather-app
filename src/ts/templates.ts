@@ -13,6 +13,11 @@ export const Card = (props: CardDataProps) => {
             <br />
             <span class='feels-like'>0&deg;<span>
           </p>
+          <p class='uvi-container'>
+            <a href='https://www.epa.gov/sunsafety/uv-index-scale-0' target='_blank'>uvi</a>
+            <br />
+            <span class='uvi i--safe--0'>...<span>
+          </p>
           <p class='wind-speed-container'>
             <span>wind speed<span>
             <br />
