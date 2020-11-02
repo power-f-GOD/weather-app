@@ -86,7 +86,7 @@ const state: Readonly<Pick<State, 'setState'>> & Omit<State, 'setState'> = {
         });
       }
 
-      if (state.hourliesIsOpen) {
+      if (state.hourliesMounted) {
         (hourly || state.hourly)?.map(
           (data: WeatherInfoProps, index: number) => {
             updateCard({

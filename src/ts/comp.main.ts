@@ -57,7 +57,7 @@ export default function main() {
     const isOpen = HourliesToggler.classList.contains('toggle-close');
 
     if (!isOpen) {
-      setState({ hourliesIsOpen: false });
+      setState({ hourliesMounted: false });
       render('', HourliesList1);
       render('', HourliesList2);
     }
@@ -87,7 +87,7 @@ export default function main() {
 
         render(cardTemplates.slice(0, 24).join(''), HourliesList1, null, () => {
           render(cardTemplates.slice(24).join(''), HourliesList2, null, () => {
-            setState({ hourliesIsOpen: true });
+            setState({ hourliesMounted: true });
           });
         });
       }

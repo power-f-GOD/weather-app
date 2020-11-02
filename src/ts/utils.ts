@@ -11,8 +11,6 @@ import state, { setState } from './state';
 
 export const Q = document.querySelector.bind(document);
 export const QAll = document.querySelectorAll.bind(document);
-export const getByClass = document.getElementsByClassName.bind(document);
-export const getById = document.getElementsByClassName.bind(document);
 
 //used for caching failed tasks (mainly failed network requests) so they can be 'retried/re-executed' e.g. when an API call is made and there's no internet connection, the task is cached/stored then executed when internet connection is regained
 export const task: Readonly<Omit<Task, 'task'>> & { task(): any } = {
@@ -28,6 +26,7 @@ export const task: Readonly<Omit<Task, 'task'>> & { task(): any } = {
   }
 };
 
+// used in processing html string imports
 export class Processor {
   helper: ProcessorProps['helper'];
   processed: string;
@@ -51,7 +50,7 @@ export class Processor {
 
 export const getData = async (baseUrl: string, query: string) => {
   const response = await fetch(`${baseUrl}?${query}`);
-  return await response.json();
+  return response.json();
 };
 
 export const getAndReturnWeatherData = async (
