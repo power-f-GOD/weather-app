@@ -81,11 +81,9 @@ export default async function home() {
     Explore.disabled = true;
     Explore.textContent = 'Starting...';
 
-    if (!window.fetch || !window.Promise || !navigator.onLine) {
+    if (!window.fetch || !window.Promise) {
       alert(
-        navigator.onLine
-          ? "Sorry, your browser can't run this app as it is not supported.\n\nUpgrade to a newer version or a supported one."
-          : "You're offline."
+        "Sorry, your browser can't run this app as it is not supported.\n\nUpgrade to a newer version or a supported one."
       );
 
       Explore.disabled = false;
@@ -161,7 +159,7 @@ export default async function home() {
                   (day) => day.date_string === state.other?.date_string
                 ),
                 lastSynced: Date.now(),
-                isOnline: true
+                isOnline: navigator.onLine
               });
             }
           }

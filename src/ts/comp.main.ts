@@ -44,7 +44,7 @@ export default function main() {
           ),
           hourly,
           lastSynced: Date.now(),
-          isOnline: true
+          isOnline: navigator.onLine
         });
       });
     }
@@ -125,7 +125,7 @@ export default function main() {
   //update app weather data every 2 minutes
   interval(() => {
     triggerGetWeatherData();
-  }, 300000);
+  }, 900000);
 
   let getDataTimeout: any = null;
   document.addEventListener('visibilitychange', () => {

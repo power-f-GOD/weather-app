@@ -14,7 +14,7 @@ export default function footer() {
   makeInert(Container, true);
 
   let deferredPromptForInstall: any;
-  window.addEventListener('beforeinstallprompt', (e) => {
+  window.addEventListener('beforeinstallprompt', (e: Event) => {
     e.preventDefault();
     deferredPromptForInstall = e;
   });
@@ -84,6 +84,10 @@ export default function footer() {
   if (/standalone/.test(displayMode)) {
     Install.style.display = 'none';
   }
+
+  setState({
+    isOnline: navigator.onLine
+  });
 }
 
 export function updateLastSynced(lastSynced: number) {

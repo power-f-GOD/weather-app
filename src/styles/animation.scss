@@ -70,9 +70,9 @@
 // Footer animation(s)
 @keyframes sideBarTogglerSlideIn {
   from {
-    transform: translateX(200%);
+    transform: translateX(15rem) scale(10);
   }
   to {
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
   }
 }

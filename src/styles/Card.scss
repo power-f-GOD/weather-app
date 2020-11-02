@@ -65,6 +65,44 @@
       font-size: 0.65rem;
     }
 
+    .uvi-container {
+      margin-top: -0.1rem;
+      font-size: 0.85rem;
+
+      font-weight: bold;
+    }
+
+    .uvi {
+      font-size: 0.8rem;
+      opacity: 0.85;
+
+      &.i--safe--0 {
+        color: white;
+      }
+
+      &.i--moderate--0 {
+        color: yellow;
+      }
+
+      &.i--not-safe--0 {
+        color: rgb(220, 0, 0);
+      }
+    }
+
+    a {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      color: white;
+      transition: 0.2s;
+      display: inline-block;
+
+      &:hover,
+      &:focus {
+        text-decoration-style: solid;
+        transform: scale(1.3);
+      }
+    }
+
     .wind-speed-container {
       text-align: right;
       font-size: 0.65rem;
@@ -73,13 +111,13 @@
     .feels-like,
     .wind-speed {
       font-size: 0.85rem;
-      opacity: 0.6;
+      opacity: 0.75;
     }
 
     h1 {
       font-size: 6.25rem;
       font-weight: lighter;
-      margin: -2rem 0 0 0.5rem;
+      margin: -1.5rem 0 0 0.5rem;
     }
 
     .thermometer-wrapper {
@@ -140,7 +178,7 @@
     }
 
     .desc {
-      opacity: 0.65;
+      opacity: 0.75;
       font-size: 0.95rem;
       width: 70%;
       z-index: 1;
@@ -155,7 +193,7 @@
 
     .humidity-deg {
       font-weight: 900;
-      opacity: 0.45;
+      opacity: 0.55;
       margin: 0;
     }
 

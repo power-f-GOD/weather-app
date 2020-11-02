@@ -72,7 +72,8 @@ export const getAndReturnWeatherData = async (
       description: '',
       date_string: '',
       dt: 0,
-      humidity: 0
+      humidity: 0,
+      uvi: 0
     } as WeatherInfoProps & { [key: string]: any };
 
     let _value: any = 0;
@@ -157,7 +158,7 @@ export const getWeatherAndCityDataThenSetState = (
             statusText: location === null ? 'Getting location name...' : null,
             err: false
           },
-          isOnline: true
+          isOnline: navigator.onLine
         });
       }
 
