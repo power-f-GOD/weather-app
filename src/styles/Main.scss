@@ -13,7 +13,7 @@
   }
 
   &.inert {
-    transition: 0.2s;
+    transition: filter 0.2s;
     filter: blur(0.2rem);
   }
 
@@ -107,7 +107,7 @@
     background-color: $theme-primary-v5;
     will-change: transform;
     transform: translateY(25rem);
-    transition: 0.5s, font-size 0s;
+    transition: 0.5s, background-color 0.3s, font-size 0s;
 
     &.toggle-close {
       width: 3rem;
@@ -149,7 +149,7 @@
     flex-direction: column;
     height: 100vh;
     width: 100vw;
-    border-radius: 50%;
+    border-radius: 0 0 50% 50%;
     will-change: transform;
     contain: strict;
     transform: translateY(-150vh) scale(3);

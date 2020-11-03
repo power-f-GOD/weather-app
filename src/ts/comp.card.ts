@@ -78,6 +78,9 @@ export async function updateCard(props: CardDataProps) {
           /(condition--).*(--0)/,
           `$1${weatherImage}$2`
         );
+        (Uvi.parentNode as HTMLElement).style.display = isNightTime
+          ? 'none'
+          : 'block';
         Uvi.className = Uvi.className.replace(
           /(i--).*(--0)/,
           `$1${uviSafety}$2`

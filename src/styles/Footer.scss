@@ -68,7 +68,7 @@
     will-change: transform, background-color;
     animation: sideBarTogglerSlideIn 0.35s forwards
        2.25s;
-    transition: background-color 0.35s;
+    transition: background-color 0.3s;
 
     &.is-open {
       span {
@@ -148,7 +148,7 @@
       background-color: white;
       height: 1.5rem;
       width: 1.5rem;
-      transition: 0.35s;
+      transition: 0.3s;
 
       span {
         height: 86.5%;
@@ -159,7 +159,7 @@
         background-color: $bg;
         will-change: transform;
         transform: translate(0.3rem, -0.1rem);
-        transition: 0.35s;
+        transition: 0.3s;
       }
     }
   }
