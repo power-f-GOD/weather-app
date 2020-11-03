@@ -28,10 +28,11 @@ export default function footer() {
     SideBarToggler.classList.toggle('is-open');
 
     const isOpen = SideBarToggler.classList.contains('is-open');
-    
+
     makeInert(Container, !isOpen);
     makeInert(Nav, isOpen);
     makeInert(Main, isOpen);
+    makeInert(Install, true);
     SideBar.classList[isOpen ? 'add' : 'remove']('open');
     Container.classList[isOpen ? 'add' : 'remove']('show');
 

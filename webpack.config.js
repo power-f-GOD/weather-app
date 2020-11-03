@@ -43,7 +43,7 @@ const plugins = [
 const config = {
   entry: './src/ts/index.ts',
   output: {
-    filename: '[name].[contenthash].bundle.js',
+    filename: '[name].[hash].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
   // devtool: 'inline-source-map',
