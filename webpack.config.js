@@ -11,7 +11,10 @@ const plugins = [
   new webpack.optimize.ModuleConcatenationPlugin(),
   new CleanWebpackPlugin({ cleanStaleWebpackAssets: true }),
   new HtmlWebpackPlugin({ template: './src/index.html', minify: 'auto' }),
-  new MiniCssExtractPlugin(),
+  new MiniCssExtractPlugin({
+    filename: '[name].[contenthash].css',
+    chunkFilename: '[id].[contenthash].css'
+  }),
   new WebpackPwaManifest({
     filename: 'manifest.json',
     fingerprints: false,
@@ -40,7 +43,7 @@ const plugins = [
 const config = {
   entry: './src/ts/index.ts',
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
   // devtool: 'inline-source-map',
@@ -89,7 +92,16 @@ const config = {
     extensions: ['.tsx', '.ts', '.js']
   },
   optimization: {
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
     splitChunks: {
+      // cacheGroups: {
+      //   vendor: {
+      //     test: /[\\/]node_modules[\\/]/,
+      //     name: 'vendors',
+      //     chunks: 'all'
+      //   }
+      // }
       chunks: 'all'
     }
   }

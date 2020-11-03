@@ -1,6 +1,6 @@
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
+import { CacheFirst } from 'workbox-strategies';
 
 declare var self: ServiceWorkerGlobalScope & typeof globalThis;
 
@@ -21,7 +21,7 @@ precacheAndRoute((self as any).__WB_MANIFEST);
 
 registerRoute(
   ({ request }) => !!request && request.destination === 'document',
-  new StaleWhileRevalidate({ cacheName: 'document-cache' })
+  new CacheFirst({ cacheName: 'document-cache' })
 );
 
 registerRoute(
@@ -46,5 +46,5 @@ registerRoute(
 
 registerRoute(
   ({ request }) => !!request && request.destination === 'image',
-  new StaleWhileRevalidate({ cacheName: 'icons-cache' })
+  new CacheFirst({ cacheName: 'icons-cache' })
 );
