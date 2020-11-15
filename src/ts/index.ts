@@ -48,15 +48,15 @@ window.onoffline = () => {
   setState({ isOnline: false });
 };
 
-if (navigator.serviceWorker && process.env.NODE_ENV === 'production') {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then(() => {
-        console.log('SW registered.');
-      })
-      .catch(() => {
-        console.error('SW registration failed.');
-      });
-  });
-}
+// if (navigator.serviceWorker && process.env.NODE_ENV === 'production') {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker
+//       .register('/sw.js')
+//       .then(() => {
+//         console.log('SW registered.');
+//       })
+//       .catch(() => {
+//         console.error('SW registration failed.');
+//       });
+//   });
+// }
