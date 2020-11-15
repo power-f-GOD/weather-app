@@ -1,6 +1,6 @@
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { CacheFirst } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 
 declare var self: ServiceWorkerGlobalScope & typeof globalThis;
 
@@ -21,7 +21,7 @@ precacheAndRoute((self as any).__WB_MANIFEST);
 
 registerRoute(
   ({ request }) => !!request && request.destination === 'document',
-  new CacheFirst({ cacheName: 'document-cache' })
+  new NetworkFirst({ cacheName: 'document-cache' })
 );
 
 registerRoute(
@@ -31,12 +31,12 @@ registerRoute(
 
 registerRoute(
   ({ request }) => !!request && request.destination === 'style',
-  new CacheFirst({ cacheName: 'styles-cache' })
+  new NetworkFirst({ cacheName: 'styles-cache' })
 );
 
 registerRoute(
   ({ request }) => !!request && /script|worker/.test(request.destination),
-  new CacheFirst({ cacheName: 'scripts-cache' })
+  new NetworkFirst({ cacheName: 'scripts-cache' })
 );
 
 registerRoute(
@@ -46,5 +46,5 @@ registerRoute(
 
 registerRoute(
   ({ request }) => !!request && request.destination === 'image',
-  new CacheFirst({ cacheName: 'icons-cache' })
+  new NetworkFirst({ cacheName: 'icons-cache' })
 );

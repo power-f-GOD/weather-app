@@ -30,7 +30,7 @@ export default async function home() {
     await import(/* webpackPreload: true */ './templates').then(({ Card }) => {
       const processedMain: string = new Processor(Main, [
         {
-          match: '%CardTypeA%',
+          match: '%CardTypeA%', 
           value: Card({
             type: 'A',
             temp: 0.0,
