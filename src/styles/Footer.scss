@@ -42,11 +42,10 @@
     contain: strict;
     will-change: transform;
     transform: translateX(-18rem);
-    transition: transform 0.5s cubic-bezier(0.25, 0.75, 0.15, 1);
+    transition: transform 0.6s cubic-bezier(0.25, 0.75, 0.15, 1) 0.1s;
 
     &.open {
       transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-      transition-duration: 0.35s;
       transform: translateX(0);
     }
   }
@@ -76,7 +75,7 @@
 
     &.is-open {
       span {
-        transition: 0.15s;
+        transition: 0.3s;
 
         &:first-child {
           transform: scaleX(0.75) translate(0, 0.1rem) rotateZ(-30deg);
@@ -108,7 +107,7 @@
       width: 1.65rem;
       height: 0.15rem;
       background-color: white;
-      transition: 0.35s ease;
+      transition: 0.5s ease;
 
       &:nth-child(2) {
         width: 1.15rem;
