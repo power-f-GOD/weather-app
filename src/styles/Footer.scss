@@ -24,7 +24,7 @@
     z-index: 6;
     max-width: unset;
     contain: strict;
-    transition: background-color 0.25s;
+    transition: background-color 0.35s;
 
     &.show {
       background-color: rgba(0, 0, 0, 0.85);
@@ -42,7 +42,7 @@
     contain: strict;
     will-change: transform;
     transform: translateX(-18rem);
-    transition: transform 0.6s cubic-bezier(0.25, 0.75, 0.15, 1) 0.1s;
+    transition: transform 0.5s cubic-bezier(0.25, 0.75, 0.15, 1) 0.1s;
 
     &.open {
       transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
